@@ -47,4 +47,16 @@ public class TreeNodeTests {
         org.junit.Assert.assertSame("left child's parent should be \"parent\"", parent, leftChild.getParent());
         org.junit.Assert.assertSame("right child's parent should be \"parent\"", parent, leftChild.getParent());
     }
+
+    //TODO
+    @Test
+    public void testSplitAttr() {
+
+    }
+
+    //TODO
+    @Test
+    public void testSplitVar() {
+
+    }
 }
