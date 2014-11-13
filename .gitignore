@@ -1,0 +1,6 @@
+bin/*
+data/*
+.runtime/*
+.classpath/*
+.project/*
+project.conf
