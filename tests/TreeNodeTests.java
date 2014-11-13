@@ -4,9 +4,6 @@ import org.junit.matchers.JUnitMatchers.*;
 
 import static org.hamcrest.CoreMatchers.hasItems;
 
-/**
- * Created by Linoor on 2014-11-07.
- */
 public class TreeNodeTests {
 
     private TreeNode parent;
