@@ -20,6 +20,7 @@ public @interface HOG  extends Sample {
 
     @objid ("cdef89ff-5d7d-463b-9e97-66e1ad90a707")
     public void globalNormalization() {
+    	System.out.println("globalNormalization!");
     }
 
     @objid ("09490b81-fd8d-4de9-83c8-633b011221dd")
