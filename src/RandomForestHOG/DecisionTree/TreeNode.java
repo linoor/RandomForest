@@ -7,15 +7,21 @@ public class TreeNode  {
     private TreeNode leftChild;
     private TreeNode rightChild;
     private TreeNode parent;
+    private int level;
+
+    @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
+    public TreeNode() {
+        level = 0;
+    }
 
     @objid("2299517a-7564-4108-ab5c-71ec87dc0b77")
     public boolean isLeaf() {
-        return false;
+        return parent != null;
     }
 
     @objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
     public int getLevel() {
-        return 0;
+        return level;
     }
 
     @objid("4f2aede1-a0e6-4376-8945-3f234d7973ed")
@@ -29,41 +35,37 @@ public class TreeNode  {
     }
 
     @objid("d790bcf1-f79e-4f49-be58-cb0de2cd71fe")
-    TreeNode leftChild() {
-        return null;
-    }
-
-    @objid("f49884cb-a796-455c-89d2-3049637325cd")
-    TreeNode rightChild() {
-        return null;
-    }
-
-    @objid("f30ffbce-5ef9-47c6-9c47-d8546919c4db")
-    TreeNode parent() {
-        return null;
-    }
-
-    @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
-    public TreeNode() {
-    }
-
-    public void setLeftChild(TreeNode leftChild) {
-        this.leftChild = leftChild;
-    }
-
-    public void setRightChild(TreeNode rightChild) {
-        this.rightChild = rightChild;
-    }
-
     public TreeNode getLeftChild() {
         return leftChild;
     }
 
+    @objid("f49884cb-a796-455c-89d2-3049637325cd")
     public TreeNode getRightChild() {
         return rightChild;
     }
 
+    @objid("f30ffbce-5ef9-47c6-9c47-d8546919c4db")
     public TreeNode getParent() {
         return parent;
+    }
+
+    public void setLeftChild(TreeNode leftChild) {
+        this.leftChild = leftChild;
+        leftChild.setParent(this);
+        leftChild.incrementLevel();
+    }
+
+    private void incrementLevel() {
+        level++;
+    }
+
+    public void setRightChild(TreeNode rightChild) {
+        this.rightChild = rightChild;
+        rightChild.setParent(this);
+        rightChild.incrementLevel();
+    }
+
+    public void setParent(TreeNode parent) {
+        this.parent = parent;
     }
 }

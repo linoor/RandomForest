@@ -33,8 +33,8 @@ public class TreeNodeTests {
     @Test
     public void testLevel() {
         org.junit.Assert.assertSame("The level of the parent should be equal to 0", 0, parent.getLevel());
-        org.junit.Assert.assertSame("The level of the left child should be equal to 1", 1, parent.getLevel());
-        org.junit.Assert.assertSame("The level of the right child should be equal to 1", 1, parent.getLevel());
+        org.junit.Assert.assertSame("The level of the left child should be equal to 1", 1, leftChild.getLevel());
+        org.junit.Assert.assertSame("The level of the right child should be equal to 1", 1, rightChild.getLevel());
     }
 
     @Test
