@@ -51,8 +51,7 @@ public class TreeNode  {
 
     public void setLeftChild(TreeNode leftChild) {
         this.leftChild = leftChild;
-        leftChild.setParent(this);
-        leftChild.incrementLevel();
+        setupChild(leftChild);
     }
 
     private void incrementLevel() {
@@ -61,6 +60,10 @@ public class TreeNode  {
 
     public void setRightChild(TreeNode rightChild) {
         this.rightChild = rightChild;
+        setupChild(rightChild);
+    }
+
+    private void setupChild(TreeNode rightChild) {
         rightChild.setParent(this);
         rightChild.incrementLevel();
     }
