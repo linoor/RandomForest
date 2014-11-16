@@ -25,6 +25,7 @@ public @interface HOG  extends Sample {
 
     @objid ("09490b81-fd8d-4de9-83c8-633b011221dd")
     public void calGradient() {
+    	System.out.println("calGradient!");
     }
 
     @objid ("80f5b195-3530-44da-9c12-1018076aaabc")
