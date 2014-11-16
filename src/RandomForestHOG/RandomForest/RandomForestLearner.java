@@ -1,20 +1,26 @@
 package RandomForestHOG.RandomForest;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import levis.classifier.Classifier;
-import levis.learner.Learner;
-import levis.sample.DataBase;
+import fr.ensmp.caor.levis.classifier.Classifier;
+import fr.ensmp.caor.levis.learner.Learner;
+import fr.ensmp.caor.levis.sample.DataBase;
 
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
-public @interface RandomForestLearner  extends Learner {
-    @objid ("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
-    int _attrN();
+public class RandomForestLearner  extends Learner {
+    @objid("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
+    int _attrN() {
+        return 0;
+    }
 
-    @objid ("462886f4-e68d-48c1-b2dd-1b27d8dc39a2")
-    int _trainN();
+    @objid("462886f4-e68d-48c1-b2dd-1b27d8dc39a2")
+    int _trainN() {
+        return 0;
+    }
 
-    @objid ("89e7d33d-e15d-4fd6-b44f-324059a4e1f8")
-    RandomForest _model();
+    @objid("89e7d33d-e15d-4fd6-b44f-324059a4e1f8")
+    RandomForest _model() {
+        return null;
+    }
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
     public RandomForestLearner() {
@@ -34,10 +40,12 @@ public @interface RandomForestLearner  extends Learner {
 
     @objid ("09f39372-e4c2-40ef-be1d-63f4a85ee741")
     protected String[] getLearnerParameters() {
+        return new String[0];
     }
 
     @objid ("ed4da577-e9c1-44db-b292-1ddb4aeab813")
     protected Object[] getLearnerPossibleValues(String p0) {
+        return new Object[0];
     }
 
     @objid ("84799113-d630-4eef-bd4d-a074581d5b7f")

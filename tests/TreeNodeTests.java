@@ -1,8 +1,6 @@
+import RandomForestHOG.DecisionTree.TreeNode;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.matchers.JUnitMatchers.*;
-
-import static org.hamcrest.CoreMatchers.hasItems;
 
 public class TreeNodeTests {
 
