@@ -4,13 +4,17 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
 public class TreeNode  {
+    private TreeNode leftChild;
+    private TreeNode rightChild;
+    private TreeNode parent;
+
     @objid("2299517a-7564-4108-ab5c-71ec87dc0b77")
-    boolean isLeaf() {
+    public boolean isLeaf() {
         return false;
     }
 
     @objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
-    int level() {
+    public int getLevel() {
         return 0;
     }
 
@@ -43,4 +47,23 @@ public class TreeNode  {
     public TreeNode() {
     }
 
+    public void setLeftChild(TreeNode leftChild) {
+        this.leftChild = leftChild;
+    }
+
+    public void setRightChild(TreeNode rightChild) {
+        this.rightChild = rightChild;
+    }
+
+    public TreeNode getLeftChild() {
+        return leftChild;
+    }
+
+    public TreeNode getRightChild() {
+        return rightChild;
+    }
+
+    public TreeNode getParent() {
+        return parent;
+    }
 }
