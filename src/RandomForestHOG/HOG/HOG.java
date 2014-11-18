@@ -8,6 +8,14 @@ import fr.ensmp.caor.levis.sample.Sample;
 
 @objid ("77b78d4d-6afc-4bc3-b438-316a59622fd8")
 public class HOG extends Sample {
+    private HOGParam.BlockType blockType;
+    private int binNumber;
+    private int cellWidth;
+    private int cellHeight;
+    private int blockWidth;
+    private int blockHeight;
+    private int maskType;
+
     @objid ("bbea47d8-6f43-4ae3-b718-68a8765253c7")
     float[] _histogram() {
         return null;
@@ -78,4 +86,39 @@ public class HOG extends Sample {
         return new ArrayList<Float>();
     }
 
+    public HOGParam.BlockType getBlockType() {
+        return blockType;
+    }
+
+    public int getBinNumber() {
+        return binNumber;
+    }
+
+    public int cellWidth() {
+        return 0;
+    }
+
+    public int cellHeight() {
+        return 0;
+    }
+
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public int getCellHeight() {
+        return cellHeight;
+    }
+
+    public int getBlockWidth() {
+        return blockWidth;
+    }
+
+    public int getBlockHeight() {
+        return blockHeight;
+    }
+
+    public int getMaskType() {
+        return maskType;
+    }
 }
