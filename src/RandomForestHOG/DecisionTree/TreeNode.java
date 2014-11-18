@@ -2,12 +2,15 @@ package RandomForestHOG.DecisionTree;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+import java.util.ArrayList;
+
 @objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
-public class TreeNode  {
+public class TreeNode {
     private TreeNode leftChild;
     private TreeNode rightChild;
     private TreeNode parent;
     private int level;
+    private ArrayList<Double> data;
 
     @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
