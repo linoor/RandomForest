@@ -15,45 +15,9 @@ public class HOGParam  {
     private int blockHeight;
     private int maskType;
 
-    @objid ("b88524b1-694a-4bc3-898b-a62d0300bb85")
-    BlockType blockType() {
-        return BlockType.RADIAL;
-    }
-
-    @objid ("b7c62ec1-a509-4fc4-be44-666546be5c62")
-    int nBin() {
-        return 0;
-    }
-
-    @objid ("681f3204-c6bd-47af-8682-b4ad2bd1b0e6")
-    int cellWidth() {
-
-        return 0;
-    }
-
-    @objid ("1a3830ea-46ea-4e57-ace4-07b3adb5ca1e")
-    int cellHeight() {
-        return 0;
-    }
-
-    @objid ("5bce7051-7d4e-4695-aee9-e0af3a111261")
-    int blockWidth() {
-        return 0;
-    }
-
-    @objid ("454dbf0a-1c3a-4f4d-b874-366c4c0aff83")
-    int blockHeight() {
-        return 0;
-    }
-
-    @objid ("694ef3cb-17fa-4a08-8ab6-0222c2e41029")
-    int maskType() {
-
-        return 0;
-    }
-
     @objid ("42d1c597-8275-42c0-8496-5d17a36fd6a3")
     public HOGParam() {
+        // TODO empty constructor?
     }
 
     @objid ("d2e76ede-7957-415b-a548-bb88abaab29a")
@@ -67,30 +31,37 @@ public class HOGParam  {
         this.maskType = maskType;
     }
 
+    @objid ("b88524b1-694a-4bc3-898b-a62d0300bb85")
     public BlockType getBlockType() {
         return blockType;
     }
 
+    @objid ("b7c62ec1-a509-4fc4-be44-666546be5c62")
     public int getBinNumber() {
         return binNumber;
     }
 
+    @objid ("681f3204-c6bd-47af-8682-b4ad2bd1b0e6")
     public int getCellWidth() {
         return cellWidth;
     }
 
+    @objid ("1a3830ea-46ea-4e57-ace4-07b3adb5ca1e")
     public int getCellHeight() {
         return cellHeight;
     }
 
+    @objid ("5bce7051-7d4e-4695-aee9-e0af3a111261")
     public int getBlockWidth() {
         return blockWidth;
     }
 
+    @objid ("454dbf0a-1c3a-4f4d-b874-366c4c0aff83")
     public int getBlockHeight() {
         return blockHeight;
     }
 
+    @objid ("694ef3cb-17fa-4a08-8ab6-0222c2e41029")
     public int getMaskType() {
         return maskType;
     }
