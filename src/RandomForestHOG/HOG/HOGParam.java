@@ -7,6 +7,14 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 @objid ("b30f2d3b-3dd3-4928-8c2e-210cde6bac4c")
 public class HOGParam  {
 
+    private HOGParam.BlockType blockType;
+    private int binNumber;
+    private int cellWidth;
+    private int cellHeight;
+    private int blockWidth;
+    private int blockHeight;
+    private int maskType;
+
     @objid ("b88524b1-694a-4bc3-898b-a62d0300bb85")
     BlockType blockType() {
         return BlockType.RADIAL;
@@ -49,7 +57,42 @@ public class HOGParam  {
     }
 
     @objid ("d2e76ede-7957-415b-a548-bb88abaab29a")
-    public HOGParam(final BlockType blockType, final int nBin, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType) {
+    public HOGParam(final BlockType blockType, final int binNumber, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType) {
+        this.blockType = blockType;
+        this.binNumber = binNumber;
+        this.cellWidth = cellWidth;
+        this.cellHeight = cellHeight;
+        this.blockWidth = blockWidth;
+        this.blockHeight = blockHeight;
+        this.maskType = maskType;
+    }
+
+    public BlockType getBlockType() {
+        return blockType;
+    }
+
+    public int getBinNumber() {
+        return binNumber;
+    }
+
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public int getCellHeight() {
+        return cellHeight;
+    }
+
+    public int getBlockWidth() {
+        return blockWidth;
+    }
+
+    public int getBlockHeight() {
+        return blockHeight;
+    }
+
+    public int getMaskType() {
+        return maskType;
     }
 
     public enum BlockType {

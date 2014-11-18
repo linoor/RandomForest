@@ -1,6 +1,6 @@
 package RandomForestHOG.HOG;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
@@ -8,13 +8,8 @@ import fr.ensmp.caor.levis.sample.Sample;
 
 @objid ("77b78d4d-6afc-4bc3-b438-316a59622fd8")
 public class HOG extends Sample {
-    private HOGParam.BlockType blockType;
-    private int binNumber;
-    private int cellWidth;
-    private int cellHeight;
-    private int blockWidth;
-    private int blockHeight;
-    private int maskType;
+
+    private HOGParam hogParam;
 
     @objid ("bbea47d8-6f43-4ae3-b718-68a8765253c7")
     float[] _histogram() {
@@ -64,8 +59,9 @@ public class HOG extends Sample {
     }
 
     @objid ("3a55e97d-ae30-433e-b3cd-9ccecda51f65")
-    public HOG(final HOGParam initHogParam) throws IOException {
-        super(null, null, 0);
+    public HOG(final HOGParam initHogParam, File file) throws Exception {
+        super(0, 0, "", "", true, 5);
+        this.hogParam = initHogParam;
     }
 
     @objid ("03255d6c-46ed-478f-b835-efa132d60bac")
@@ -87,38 +83,30 @@ public class HOG extends Sample {
     }
 
     public HOGParam.BlockType getBlockType() {
-        return blockType;
+        return hogParam.getBlockType();
     }
 
     public int getBinNumber() {
-        return binNumber;
-    }
-
-    public int cellWidth() {
-        return 0;
-    }
-
-    public int cellHeight() {
-        return 0;
+        return hogParam.getBinNumber();
     }
 
     public int getCellWidth() {
-        return cellWidth;
+        return hogParam.getCellWidth();
     }
 
     public int getCellHeight() {
-        return cellHeight;
+        return hogParam.getCellHeight();
     }
 
     public int getBlockWidth() {
-        return blockWidth;
+        return hogParam.getBlockWidth();
     }
 
     public int getBlockHeight() {
-        return blockHeight;
+        return hogParam.getBlockHeight();
     }
 
     public int getMaskType() {
-        return maskType;
+        return hogParam.getMaskType();
     }
 }
