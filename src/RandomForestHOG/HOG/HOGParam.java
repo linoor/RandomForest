@@ -2,11 +2,14 @@ package RandomForestHOG.HOG;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
+// TODO are parameters cellWidth, cellHeight needed?
+
 @objid ("b30f2d3b-3dd3-4928-8c2e-210cde6bac4c")
 public class HOGParam  {
+
     @objid ("b88524b1-694a-4bc3-898b-a62d0300bb85")
-    int blockType() {
-        return 0;
+    BlockType blockType() {
+        return BlockType.RADIAL;
     }
 
     @objid ("b7c62ec1-a509-4fc4-be44-666546be5c62")
@@ -46,7 +49,11 @@ public class HOGParam  {
     }
 
     @objid ("d2e76ede-7957-415b-a548-bb88abaab29a")
-    public HOGParam(final int blockType, final int nBin, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType) {
+    public HOGParam(final BlockType blockType, final int nBin, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType) {
+    }
+
+    public enum BlockType {
+        RADIAL, RECTANGULAR
     }
 
 }
