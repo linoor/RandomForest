@@ -14,20 +14,21 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 
-/**
- * Created by Linoor on 2014-11-18.
- */
 public class HOGTests {
 
     private TemporaryFolder tmpFolder;
     private File tmpFile;
+    private HOG exampleHOG;
 
     @Before
     public void setup() {
         tmpFolder = new TemporaryFolder();
         try {
             tmpFile = tmpFolder.newFile("input.txt");
+            exampleHOG = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1), tmpFile);
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -59,6 +60,8 @@ public class HOGTests {
             assertThat("blockType should be rectangular", hog.getBlockType(), equalTo(RECTANGULAR));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         }
     }
 }
+
