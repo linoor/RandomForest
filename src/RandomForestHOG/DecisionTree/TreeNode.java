@@ -3,6 +3,7 @@ package RandomForestHOG.DecisionTree;
 //import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 import java.util.ArrayList;
+import java.util.List;
 
 ////@objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
 public class TreeNode implements Cloneable {
@@ -10,11 +11,11 @@ public class TreeNode implements Cloneable {
     private TreeNode leftChild;
     private TreeNode rightChild;
     private TreeNode parent;
-    private ArrayList<Double> data;
 
     public boolean isLeaf;
     public int splitAttr;
     public double splitVal;
+    public List<List<Double>> data;
     
 //    //@objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
