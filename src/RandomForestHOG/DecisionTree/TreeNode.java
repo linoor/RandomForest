@@ -5,7 +5,7 @@ package RandomForestHOG.DecisionTree;
 import java.util.ArrayList;
 
 ////@objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
-public class TreeNode {
+public class TreeNode implements Cloneable {
 	private int level;
     private TreeNode leftChild;
     private TreeNode rightChild;
@@ -24,6 +24,18 @@ public class TreeNode {
         splitVal = -99;
     }
     
+    public TreeNode clone() {
+    	TreeNode copy = new TreeNode();
+    	copy.isLeaf = isLeaf;
+    	copy.splitAttr = splitAttr;
+    	copy.splitVal = splitVal;
+    	copy.setLevel(level);
+    	copy.setLeftChild(leftChild);
+    	copy.setRightChild(rightChild);
+    	copy.setParent(parent);
+    	return copy;
+    }
+    
     public boolean isLeaf() {
     	return isLeaf;
     }
@@ -31,6 +43,10 @@ public class TreeNode {
   //@objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
     public int getLevel() {
         return level;
+    }
+    
+    public void setLevel(int lvl) {
+    	level = lvl;
     }
 
     //@objid("d790bcf1-f79e-4f49-be58-cb0de2cd71fe")

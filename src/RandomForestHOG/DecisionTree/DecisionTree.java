@@ -39,7 +39,7 @@ public class DecisionTree  {
     }
 
     // @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
-    public DecisionTree(final List<Double> data) {
+    public DecisionTree(final List<Double> data, final int treeNum) {
     	dataN = data.size();
     	
     	ArrayList<Double> train = new ArrayList(dataN);
@@ -49,8 +49,7 @@ public class DecisionTree  {
     	trainN = train.size();
     	testN = test.size();
     	
-    	
-    	
+    	rootNode = createTree(train, treeNum);
     }
 
     // @objid ("bd35c418-14d7-4599-891b-34837487a39c")
@@ -64,7 +63,11 @@ public class DecisionTree  {
     }
 
     // @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
-    private void createTree(final List<Double> train, final int nTree) {
+    private TreeNode createTree(final List<Double> train, final int nTree) {
+		
+    	
+    	return null;
+    	
     }
 
     // @objid ("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
