@@ -1,35 +1,17 @@
 package RandomForestHOG.DecisionTree;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 //import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 // @objid ("61261918-d6ad-4d4d-a19f-e6c7088f5dd6")
-public class DecisionTree  {
-    // @objid("ebb8f3f9-dd89-4d5b-b771-a57032b21977")
-    /*int dataN() {
-        return 0;
-    }
-
-    // @objid("0e6e5a8a-cb9a-426f-99dd-bbc8cd785220")
-    int trainN() {
-        return 0;
-    }
-
-    // @objid("c8d51bcf-a123-439a-a3af-27758281545f")
-    int attrN() {
-        return 0;
-    }
-
-    // @objid("bd717090-214d-4987-9ab8-8616e6eb28ed")
-    TreeNode rootNode() {
-        return null;
-    }*/
-	
+public class DecisionTree  {	
 	private int dataN;
 	private int trainN;
 	private int testN;
 	private int attrN;
+	private int attrSampleN;
 	private TreeNode rootNode;
 
     // @objid ("92a699ab-b86a-40cc-8fdb-4eca568fa8a6")
@@ -38,39 +20,71 @@ public class DecisionTree  {
     }
 
     // @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
-    public DecisionTree(final List<Double> data, final int treeNum) {
+    public DecisionTree(final List<List<Double>> data, final int treeNum) {
     	dataN = data.size();
+    	if (0 >= dataN) {
+    		System.out.println("DecisionTree: data empty...");
+    		return;
+    	}
     	
-    	ArrayList<Double> train = new ArrayList(dataN);
-    	ArrayList<Double> test = new ArrayList();
+    	trainN = dataN * 2 / 3; // TODO should discuss how to determine the size of training set
+    	testN = dataN - trainN;
+    	attrN = data.get(0).size() - 1; // -1 for the first element being class (undetermined)
+    	attrSampleN = attrN / 2;  // TODO should discuss how many bootstrapped attributes
+    	
+    	List<List<Double>> train, test;
+    	train = new ArrayList<List<Double>>(trainN);
+    	test = new ArrayList<List<Double>>(testN);
+    	for (List<Double> d : train) {
+    		d = new ArrayList<Double>();
+    	}
+    	for (List<Double> d : test) {
+    		d = new ArrayList<Double>();
+    	}
+    	List<Integer> attr = new ArrayList(attrSampleN);
     	
     	bootstrapSample(data, train, test);
-    	trainN = train.size();
-    	testN = test.size();
+    	bootstrapAttr(attr);
     	
-    	rootNode = createTree(train, treeNum);
+    	rootNode = createTree(train, attr, treeNum);
     }
 
     // @objid ("bd35c418-14d7-4599-891b-34837487a39c")
-    private void bootstrapSample(final List<Double> data, List<Double> train, List<Double> test) {
+    private void bootstrapSample(final List<List<Double>> data, List<List<Double>> train, List<List<Double>> test) {
+    	ArrayList<Integer> rand = new ArrayList<Integer>(dataN);
+    	for (int i = 0; i < dataN; i++) {
+    		rand.set(i, i);
+    	}
+    	Collections.shuffle(rand);
+    	for (int i = 0; i < dataN*2/3; i++) {
+    		train.set(i, data.get(rand.get(i)));
+    	}
+    	for (int i = dataN*2/3+1; i < dataN; i++) {
+    		test.set(i, data.get(rand.get(i)));
+    	}
     }
 
     // @objid ("22963c8e-9140-49f2-beb7-3b2458a06c51")
-    private List<Integer> bootStrapAttr() {
-        // TODO Auto-generated return
-        return new ArrayList<Integer>();
+    private void bootstrapAttr(List<Integer> attr) {
+    	ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
+    	for (int i = 0; i < attrN; i++) {
+    		rand.set(i, i);
+    	}
+    	Collections.shuffle(rand);
+        attr = rand.subList(0, attrSampleN);
     }
 
     // @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
-    private TreeNode createTree(final List<Double> train, final int nTree) {
-		
-    	
-    	return null;
-    	
+    private TreeNode createTree(final List<List<Double>> train, List<Integer> attr, final int nTree) {
+    	TreeNode root = new TreeNode();
+    	root.data = train;
+    	recursiveSplit(root, attr);
+    	return root;
     }
 
     // @objid ("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
-    private void recursiveSplit(final TreeNode parent) {
+    private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
+    	// TODO 
     }
 
     // @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
