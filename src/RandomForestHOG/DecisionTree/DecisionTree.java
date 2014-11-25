@@ -32,6 +32,7 @@ public class DecisionTree  {
     	attrN = data.get(0).size() - 1; // -1 for the first element being class (undetermined)
     	attrSampleN = attrN / 2;  // TODO should discuss how many bootstrapped attributes
     	
+    	/* Initialize training, testing data set */
     	List<List<Double>> train, test;
     	train = new ArrayList<List<Double>>(trainN);
     	test = new ArrayList<List<Double>>(testN);
@@ -41,7 +42,7 @@ public class DecisionTree  {
     	for (List<Double> d : test) {
     		d = new ArrayList<Double>();
     	}
-    	List<Integer> attr = new ArrayList(attrSampleN);
+    	List<Integer> attr = new ArrayList<Integer>(attrSampleN);
     	
     	bootstrapSample(data, train, test);
     	bootstrapAttr(attr);
@@ -67,7 +68,9 @@ public class DecisionTree  {
     // @objid ("22963c8e-9140-49f2-beb7-3b2458a06c51")
     private void bootstrapAttr(List<Integer> attr) {
     	ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
-    	for (int i = 0; i < attrN; i++) {
+    	
+    	// start from 1 because the first entry of a record is class value
+    	for (int i = 1; i < attrN+1; i++) {
     		rand.set(i, i);
     	}
     	Collections.shuffle(rand);
@@ -84,10 +87,55 @@ public class DecisionTree  {
 
     // @objid ("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
     private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
-    	// TODO 
+    	double curClass = parent.checkIfSameClass(); 
+    	if (-1 == curClass) {
+
+    		// Step A
+    		int minAt = -1;
+    		double minAtVal = -1;
+    		findSplitPosition(parent.getData(), attr, minAt, minAtVal);
+    		
+    		// Step B
+    		// TODO
+
+    		// Step C
+    		// TODO
+    		
+    	} else {
+    		parent.setClassVal(curClass);
+    		parent.setLeftChild(null);
+    		parent.setRightChild(null);
+    		return;
+    	}
     }
 
-    // @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
+    /**
+     * Find the splitting attribute and value that create minimum entropy
+     * @param data
+     * @param attr
+     * @param minAt
+     * @param minAtVal
+     */
+    private void findSplitPosition(List<List<Double>> data, List<Integer> attr, int minAt, double minAtVal) {
+    	double minEntropy = Double.MAX_VALUE;
+    	for (int at : attr) {
+    		for (int i = 0, len = data.size(); i < len; i++) {
+    			double ent = calEntropy(data, at, data.get(i).get(at));
+    			if (ent < minEntropy) {
+    				minEntropy = ent;
+    				minAt = at;
+    				minAtVal = data.get(i).get(at);
+    			}
+    		}
+		}
+	}
+
+	private double calEntropy(List<List<Double>> data, int attr, double val) {
+		// TODO Auto-generated method stub
+		return 0.0;
+	}
+
+	// @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
     public List<Integer> classify(final List<Double> testData) {
         // TODO Auto-generated return
         return new ArrayList<Integer>();
@@ -101,6 +149,7 @@ public class DecisionTree  {
 
     // @objid ("359fef83-1f91-4226-b4e6-33118900cb50")
     public void loadFromString(final String tree) {
+    	// TODO
     }
 
 }
