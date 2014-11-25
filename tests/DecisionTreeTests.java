@@ -3,12 +3,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class DecisionTreeTests {
-	
-	@Before
-	public void setup() {
-		
-	}
-	
-	
-	
+
+    @Before
+    public void setup() {
+
+    }
+
 }
