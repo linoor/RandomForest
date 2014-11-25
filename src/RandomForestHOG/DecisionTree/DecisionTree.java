@@ -77,7 +77,7 @@ public class DecisionTree  {
     // @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
     private TreeNode createTree(final List<List<Double>> train, List<Integer> attr, final int nTree) {
     	TreeNode root = new TreeNode();
-    	root.data = train;
+    	root.setData(train);
     	recursiveSplit(root, attr);
     	return root;
     }

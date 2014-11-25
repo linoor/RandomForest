@@ -2,7 +2,6 @@ package RandomForestHOG.DecisionTree;
 
 //import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-import java.util.ArrayList;
 import java.util.List;
 
 ////@objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
@@ -12,24 +11,21 @@ public class TreeNode implements Cloneable {
     private TreeNode rightChild;
     private TreeNode parent;
 
-    public boolean isLeaf;
-    public int splitAttr;
-    public double splitVal;
-    public List<List<Double>> data;
+    private int splitAttr;
+    private double splitVal;
+    private List<List<Double>> data;
     
 //    //@objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
-    	isLeaf = false;
         level = 0;
-        splitAttr = -99;
-        splitVal = -99;
+        setSplitAttr(-99);
+        setSplitVal(-99);
     }
     
     public TreeNode clone() {
     	TreeNode copy = new TreeNode();
-    	copy.isLeaf = isLeaf;
-    	copy.splitAttr = splitAttr;
-    	copy.splitVal = splitVal;
+    	copy.setSplitAttr(this.getSplitAttr());
+    	copy.setSplitVal(this.getSplitVal());
     	copy.setLevel(level);
     	copy.setLeftChild(leftChild);
     	copy.setRightChild(rightChild);
@@ -38,7 +34,7 @@ public class TreeNode implements Cloneable {
     }
     
     public boolean isLeaf() {
-    	return isLeaf;
+        return getLeftChild() == null && getRightChild() == null;
     }
 
   //@objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
@@ -86,5 +82,29 @@ public class TreeNode implements Cloneable {
 
     public void setParent(TreeNode parent) {
         this.parent = parent;
+    }
+
+    public int getSplitAttr() {
+        return splitAttr;
+    }
+
+    public void setSplitAttr(int splitAttr) {
+        this.splitAttr = splitAttr;
+    }
+
+    public double getSplitVal() {
+        return splitVal;
+    }
+
+    public void setSplitVal(double splitVal) {
+        this.splitVal = splitVal;
+    }
+
+    public List<List<Double>> getData() {
+        return data;
+    }
+
+    public void setData(List<List<Double>> data) {
+        this.data = data;
     }
 }
