@@ -14,7 +14,7 @@ public class HOG extends Sample {
 
     private HOGParam hogParam;
     private BufferedImage img;
-    private int[][] pixelArray;
+    private Object[] pixelArray;
 
     @objid ("bbea47d8-6f43-4ae3-b718-68a8765253c7")
     float[] _histogram() {
@@ -130,37 +130,11 @@ public class HOG extends Sample {
         return hogParam.getWidth();
     }
 
-    public int[] getPixelGradient(int i, int j) {
-        int[][] pixels = getPixelArray();
-
-//      compute gradient vector for a given pixel
-        int[] result = new int[] {
-                pixels[i][j+1] - pixels[i][j-1],
-                pixels[i+1][j] - pixels[i-1][j]
-        };
-
-
-        for (int k = 0; k < result.length; k++) {
-            if (result[k] < 0) {
-                result[k] = 0;
-            }
-        }
-
-       return result;
+    public int[][] getPixelArray() {
+        return new int[0][];
     }
 
-    private void initPixelArray(int w, int h) {
-        pixelArray = new int[h][w];
-        for (int k = 0; k < w; k++) {
-            for (int l = 0; l < h; l++)
-                pixelArray[k][l] = img.getRGB(k, l);
-            }
-        }
-
-    public int[][] getPixelArray() {
-        if (pixelArray == null) {
-            initPixelArray(getWidth(), getHeight());
-        }
-        return pixelArray;
+    public int[] getPixelGradient(int i, int i1) {
+        return new int[0];
     }
 }
