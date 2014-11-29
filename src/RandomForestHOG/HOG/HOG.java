@@ -1,6 +1,9 @@
 package RandomForestHOG.HOG;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.awt.image.PixelGrabber;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,10 +134,19 @@ public class HOG extends Sample {
     }
 
     public int[][] getPixelArray() {
-        return new int[0][];
+        int[][] pixels = new int[getHeight()][getWidth()];
+
+        for( int i = 0; i < getWidth(); i++ ) {
+            for (int j = 0; j < getHeight(); j++) {
+                Color c = new Color(img.getRGB(j, i));
+                pixels[i][j] = c.getRed();
+            }
+        }
+
+        return pixels;
     }
 
-    public int[] getPixelGradient(int i, int i1) {
+    public int[] getPixelGradient(int i, int j) {
         return new int[0];
     }
 }
