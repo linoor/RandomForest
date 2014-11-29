@@ -1,15 +1,20 @@
 package RandomForestHOG.HOG;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.sample.Sample;
 
+import javax.imageio.ImageIO;
+
 @objid ("77b78d4d-6afc-4bc3-b438-316a59622fd8")
 public class HOG extends Sample {
 
     private HOGParam hogParam;
+    private BufferedImage img;
+    private int[][] pixelArray;
 
     @objid ("bbea47d8-6f43-4ae3-b718-68a8765253c7")
     float[] _histogram() {
@@ -60,7 +65,14 @@ public class HOG extends Sample {
 
     @objid ("3a55e97d-ae30-433e-b3cd-9ccecda51f65")
     public HOG(final HOGParam initHogParam, File file) throws Exception {
-        super(0, 0, "", "", true, 5);
+        super(initHogParam.getWidth(), initHogParam.getHeight(), "pre", "C", false, 0);
+        setSource(file);
+        try {
+            this.img = ImageIO.read(file);
+        } catch(IOException e) {
+            e.printStackTrace();
+            System.out.println(file.toString());
+        }
         this.hogParam = initHogParam;
     }
 
@@ -71,9 +83,9 @@ public class HOG extends Sample {
     }
 
     @objid ("379e73c3-44a1-422b-a1ac-cf037cad6713")
-    public List<Float> getGradient() {
+    public List<List<Float>> getGradient() {
         // TODO Auto-generated return
-        return new ArrayList<Float>();
+        return new ArrayList<>();
     }
 
     @objid ("edccfe92-5ff2-4f94-ab89-bcf050cd60b0")
@@ -108,5 +120,47 @@ public class HOG extends Sample {
 
     public int getMaskType() {
         return hogParam.getMaskType();
+    }
+
+    public int getHeight() {
+        return hogParam.getHeight();
+    }
+
+    public int getWidth() {
+        return hogParam.getWidth();
+    }
+
+    public int[] getPixelGradient(int i, int j) {
+        int[][] pixels = getPixelArray();
+
+//      compute gradient vector for a given pixel
+        int[] result = new int[] {
+                pixels[i][j+1] - pixels[i][j-1],
+                pixels[i+1][j] - pixels[i-1][j]
+        };
+
+
+        for (int k = 0; k < result.length; k++) {
+            if (result[k] < 0) {
+                result[k] = 0;
+            }
+        }
+
+       return result;
+    }
+
+    private void initPixelArray(int w, int h) {
+        pixelArray = new int[h][w];
+        for (int k = 0; k < w; k++) {
+            for (int l = 0; l < h; l++)
+                pixelArray[k][l] = img.getRGB(k, l);
+            }
+        }
+
+    public int[][] getPixelArray() {
+        if (pixelArray == null) {
+            initPixelArray(getWidth(), getHeight());
+        }
+        return pixelArray;
     }
 }

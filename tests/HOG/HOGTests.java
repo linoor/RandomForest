@@ -1,5 +1,6 @@
 package HOG;
 
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import RandomForestHOG.HOG.HOG;
@@ -8,6 +9,7 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import static RandomForestHOG.HOG.HOGParam.BlockType.RADIAL;
 import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
@@ -20,32 +22,56 @@ public class HOGTests {
     private File tmpFile;
     private HOG exampleHOG;
 
-    @Before
-    public void setup() {
-        tmpFolder = new TemporaryFolder();
-        try {
-            tmpFile = tmpFolder.newFile("input.txt");
-            exampleHOG = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1), tmpFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    @Before
+//    public void setup() {
+//        tmpFolder = new TemporaryFolder();
+//        try {
+//            tmpFile = tmpFolder.newFile("input.png");
+//            exampleHOG = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1, 3, 3), tmpFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Test
+//    public void testCreation() {
+//        HOG hog = null;
+//        try {
+//            hog = new HOG(new HOGParam(RADIAL, 10, 2, 4, 10, 5, 1, 3, 3), tmpFile);
+//            assertNotNull(hog);
+//            assertThat("blockType should be radial", hog.getBlockType(), equalTo(RADIAL));
+//            assertEquals(hog.getBinNumber(), 10);
+//            assertEquals(hog.getCellWidth(), 2);
+//            assertEquals(hog.getCellHeight(), 4);
+//            assertEquals(hog.getBlockWidth(), 10);
+//            assertEquals(hog.getBlockHeight(), 5);
+//            assertEquals(hog.getMaskType(), 1);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            fail();
+//        }
+//    }
+//
+//    @Test
+//    public void testCreationRectangular() {
+//        HOG hog;
+//        try {
+//            hog = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1, 3, 3), tmpFile);
+//            assertThat("blockType should be rectangular", hog.getBlockType(), equalTo(RECTANGULAR));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            fail();
+//        }
+//    }
 
     @Test
-    public void testCreation() {
-        HOG hog = null;
+    public void testGetPixelArray() {
+        HOG hog;
         try {
-            hog = new HOG(new HOGParam(RADIAL, 10, 2, 4, 10, 5, 1), tmpFile);
-            assertNotNull(hog);
-            assertThat("blockType should be radial", hog.getBlockType(), equalTo(RADIAL));
-            assertEquals(hog.getBinNumber(), 10);
-            assertEquals(hog.getCellWidth(), 2);
-            assertEquals(hog.getCellHeight(), 4);
-            assertEquals(hog.getBlockWidth(), 10);
-            assertEquals(hog.getBlockHeight(), 5);
-            assertEquals(hog.getMaskType(), 1);
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile());
+            assertArrayEquals("testing getting array of pixels", new int[][] { {48, 148, 154}, {163, 252, 30}, {108, 216, 21} }, hog.getPixelArray());
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -53,11 +79,12 @@ public class HOGTests {
     }
 
     @Test
-    public void testCreationRectangular() {
+    public void testComputingGradientVector() {
         HOG hog;
         try {
-            hog = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1), tmpFile);
-            assertThat("blockType should be rectangular", hog.getBlockType(), equalTo(RECTANGULAR));
+          hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile());
+            assertArrayEquals("the vector gradient for the middle vector should be equal to the expected value",
+                    new int[] {0, 68}, hog.getPixelGradient(1,1));
         } catch (Exception e) {
             e.printStackTrace();
             fail();

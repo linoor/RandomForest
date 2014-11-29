@@ -14,6 +14,8 @@ public class HOGParam  {
     private int blockWidth;
     private int blockHeight;
     private int maskType;
+    private int width;
+    private int height;
 
     @objid ("42d1c597-8275-42c0-8496-5d17a36fd6a3")
     public HOGParam() {
@@ -21,7 +23,9 @@ public class HOGParam  {
     }
 
     @objid ("d2e76ede-7957-415b-a548-bb88abaab29a")
-    public HOGParam(final BlockType blockType, final int binNumber, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType) {
+    public HOGParam(final BlockType blockType, final int binNumber, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType,
+                    int width,
+                    int height) {
         this.blockType = blockType;
         this.binNumber = binNumber;
         this.cellWidth = cellWidth;
@@ -29,6 +33,8 @@ public class HOGParam  {
         this.blockWidth = blockWidth;
         this.blockHeight = blockHeight;
         this.maskType = maskType;
+        this.width = width;
+        this.height = height;
     }
 
     @objid ("b88524b1-694a-4bc3-898b-a62d0300bb85")
@@ -66,8 +72,15 @@ public class HOGParam  {
         return maskType;
     }
 
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
     public enum BlockType {
         RADIAL, RECTANGULAR
     }
-
 }
