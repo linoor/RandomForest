@@ -148,11 +148,13 @@ public class HOG extends Sample {
 
     public int[] getPixelGradient(int i, int j) {
         int[][] pixels = getPixelArray();
+
         int[] result = new int[]{
                 pixels[i][j + 1] - pixels[i][j - 1],
                 pixels[i + 1][j] - pixels[i - 1][j]
         };
 
+//      if a gradient for x or y is < 0, then we set it to 0
         for (int k = 0; k < result.length; k++) {
             if (result[k] < 0) {
                 result[k] = 0;
