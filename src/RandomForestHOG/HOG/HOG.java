@@ -17,7 +17,7 @@ public class HOG extends Sample {
 
     private HOGParam hogParam;
     private BufferedImage img;
-    private Object[] pixelArray;
+    private int[][] pixelArray;
 
     @objid ("bbea47d8-6f43-4ae3-b718-68a8765253c7")
     float[] _histogram() {
@@ -147,6 +147,18 @@ public class HOG extends Sample {
     }
 
     public int[] getPixelGradient(int i, int j) {
-        return new int[0];
+        int[][] pixels = getPixelArray();
+        int[] result = new int[]{
+                pixels[i][j + 1] - pixels[i][j - 1],
+                pixels[i + 1][j] - pixels[i - 1][j]
+        };
+
+        for (int k = 0; k < result.length; k++) {
+            if (result[k] < 0) {
+                result[k] = 0;
+            }
+        }
+
+        return result;
     }
 }
