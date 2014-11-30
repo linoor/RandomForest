@@ -115,5 +115,28 @@ public class HOGTests {
             fail();
         }
     }
+
+    @Test
+    public void testComputeAngle() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            assertEquals("Angle should be equal to the expected value",
+                    0.785,
+                    HOG.computeAngle(new int[]{38, 38}),
+                    0.001);
+            Assert.assertEquals("Angle should be equal to the expected value",
+                    0.00,
+                    HOG.computeAngle(hog.getGradientVector(1,1)),
+                    0.001);
+            Assert.assertEquals("Angle should be equal to 0 if one of the values is 0",
+                    0.00,
+                    HOG.computeAngle(new int[] { 0, 0 }),
+                    0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 }
 

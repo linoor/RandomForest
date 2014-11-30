@@ -176,8 +176,16 @@ public class HOG extends Sample {
         return result;
     }
 
-    public static double computeMagnitude(int[] ints) {
-        return Math.sqrt(Math.pow((double)ints[0], 2) + Math.pow((double)ints[1], 2));
+    public static double computeMagnitude(int[] vec) {
+        return Math.sqrt(Math.pow((double)vec[0], 2) + Math.pow((double)vec[1], 2));
+    }
+
+    public static double computeAngle(int[] vec) {
+//      TODO not sure if this should work like this
+        if (vec[1] == 0) {
+            return 0;
+        }
+        return Math.atan(vec[0] / vec[1]);
     }
 
     private class PixelHelper {
