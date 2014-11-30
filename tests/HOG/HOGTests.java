@@ -71,7 +71,7 @@ public class HOGTests {
         try {
           hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the middle vector should be equal to the expected value",
-                    new int[] {0, 68}, hog.getPixelGradientVector(1, 1));
+                    new int[] {0, 68}, hog.getGradientVector(1, 1));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -84,13 +84,13 @@ public class HOGTests {
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the upper left vector should be equal to the expected value",
-                    new int[] {148, 163}, hog.getPixelGradientVector(0, 0));
+                    new int[] {148, 163}, hog.getGradientVector(0, 0));
             assertArrayEquals("the vector gradient for the lower right vector should be equal to the expected value",
-                    new int[] {0, 0}, hog.getPixelGradientVector(2, 2));
+                    new int[] {0, 0}, hog.getGradientVector(2, 2));
             assertArrayEquals("the vector gradient for the upper right vector should be equal to the expected value",
-                    new int[] {0, 30}, hog.getPixelGradientVector(0, 2));
+                    new int[] {0, 30}, hog.getGradientVector(0, 2));
             assertArrayEquals("the vector gradient for the upper middle vector should be equal to the expected value",
-                    new int[] {106, 252}, hog.getPixelGradientVector(0, 1));
+                    new int[] {106, 252}, hog.getGradientVector(0, 1));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -105,6 +105,10 @@ public class HOGTests {
             Assert.assertEquals("Magnitude of a vector gradient should be equal the expected value",
                     53.74,
                     HOG.computeMagnitude(new int[] {38, 38}),
+                    0.01);
+            Assert.assertEquals("Magnitude of a vector gradient should be equal the expected value",
+                    68.00,
+                    HOG.computeMagnitude(hog.getGradientVector(1,1)),
                     0.01);
         } catch (Exception e) {
             e.printStackTrace();

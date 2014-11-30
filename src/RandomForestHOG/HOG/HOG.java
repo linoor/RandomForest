@@ -146,7 +146,7 @@ public class HOG extends Sample {
         return pixels;
     }
 
-    public int[] getPixelGradientVector(int i, int j) {
+    public int[] getGradientVector(int i, int j) {
         int[][] pixels = getPixelArray();
 
 //        boolean inBounds = (index >= 0) && (index < array.length);
