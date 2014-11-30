@@ -2,8 +2,6 @@ package RandomForestHOG.HOG;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.PixelGrabber;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +78,45 @@ public class HOG extends Sample {
     }
 
     @objid ("03255d6c-46ed-478f-b835-efa132d60bac")
-    public List<Float> getHistogram() {
-        // TODO Auto-generated return
-        return new ArrayList<Float>();
+    public double[] getHistogram(int i_start, int j_start, int end_i, int end_j) {
+        double[] histogram = new double[getBinNumber()];
+
+        for (int i = i_start; i < end_i; i++) {
+            for (int j = j_start; j < end_j; j++) {
+               final int[] vec = getGradientVector(i, j);
+
+               final double magnitude = HOG.computeMagnitude(vec);
+               final double angle = Math.toDegrees(HOG.computeAngle(vec));
+               final double step = 180 / getBinNumber();
+
+               final double start = step / 2.0;
+
+               final int rightContributionIndex = (int) (angle / step) + 1;
+               final int leftContributionIndex = rightContributionIndex - 1;
+
+               double rightContributionAngle = (rightContributionIndex * step) + 10;
+               double leftContributionAngle = ((rightContributionIndex - 1) * step) + 10;
+
+               double rightContributionPercentage = Math.abs(angle - rightContributionAngle) / step;
+               double leftContributionPercentage = Math.abs(angle - leftContributionAngle) / step;
+
+//             if angle < 10 then contribute to the first index
+                if (angle <= 10.0) {
+                    leftContributionPercentage = 1.0;
+                    rightContributionPercentage = 0.0;
+                } else if (angle >= 180 - 10.0) {
+                    leftContributionPercentage = 0.0;
+                    rightContributionPercentage = 1.0;
+                }
+
+
+//             contributing to expected bins
+               histogram[leftContributionIndex] += leftContributionPercentage * magnitude;
+               histogram[rightContributionIndex] += rightContributionPercentage * magnitude;
+            }
+        }
+
+        return histogram;
     }
 
     @objid ("379e73c3-44a1-422b-a1ac-cf037cad6713")
@@ -185,7 +219,7 @@ public class HOG extends Sample {
         if (vec[1] == 0) {
             return 0;
         }
-        return Math.atan(vec[0] / vec[1]);
+        return Math.atan((double)vec[0] / (double)vec[1]);
     }
 
     private class PixelHelper {

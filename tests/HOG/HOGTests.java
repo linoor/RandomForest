@@ -138,5 +138,20 @@ public class HOGTests {
             fail();
         }
     }
+
+    @Test
+    public void testHistogram() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            Assert.assertEquals("Histogram at zero degrees (first part of the histogram) should be equal expected value",
+                    314.0,
+                    hog.getHistogram(0,0,3,3)[0],
+                    0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 }
 
