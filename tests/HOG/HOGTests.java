@@ -152,6 +152,7 @@ public class HOGTests {
                     260.585,
                     hog.getHistogram(0,0,3,3)[1],
                     0.01);
+            // TODO needs more tests probably, especially edge cases
         } catch (Exception e) {
             e.printStackTrace();
             fail();
