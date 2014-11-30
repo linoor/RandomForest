@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 public class HOGTests {
 
+    private final File simpleImg = Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile();
     private HOG exampleHOG;
 
     @Before
@@ -27,7 +28,7 @@ public class HOGTests {
     public void testCreation() {
         HOG hog = null;
         try {
-            hog = new HOG(new HOGParam(RADIAL, 10, 2, 4, 10, 5, 1, 3, 3), Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile());
+            hog = new HOG(new HOGParam(RADIAL, 10, 2, 4, 10, 5, 1, 3, 3), simpleImg);
             assertNotNull(hog);
             assertThat("blockType should be radial", hog.getBlockType(), equalTo(RADIAL));
             assertEquals(hog.getBinNumber(), 10);
@@ -46,7 +47,7 @@ public class HOGTests {
     public void testCreationRectangular() {
         HOG hog;
         try {
-            hog = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1, 3, 3), Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile());
+            hog = new HOG(new HOGParam(RECTANGULAR, 10, 2, 4, 10, 5, 1, 3, 3), simpleImg);
             assertThat("blockType should be rectangular", hog.getBlockType(), equalTo(RECTANGULAR));
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,7 +59,7 @@ public class HOGTests {
     public void testGetPixelArray() {
         HOG hog;
         try {
-            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile());
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("testing getting array of pixels", new int[][] { {48, 148, 154}, {163, 252, 30}, {108, 216, 21} }, hog.getPixelArray());
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,7 +71,7 @@ public class HOGTests {
     public void testComputingGradientVector() {
         HOG hog;
         try {
-          hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile());
+          hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the middle vector should be equal to the expected value",
                     new int[] {0, 68}, hog.getPixelGradient(1,1));
         } catch (Exception e) {
