@@ -2,6 +2,7 @@ package HOG;
 
 import RandomForestHOG.HOG.HOG;
 import RandomForestHOG.HOG.HOGParam;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -70,7 +71,7 @@ public class HOGTests {
         try {
           hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the middle vector should be equal to the expected value",
-                    new int[] {0, 68}, hog.getPixelGradient(1,1));
+                    new int[] {0, 68}, hog.getGradientVector(1, 1));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -83,13 +84,55 @@ public class HOGTests {
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the upper left vector should be equal to the expected value",
-                    new int[] {148, 163}, hog.getPixelGradient(0,0));
+                    new int[] {148, 163}, hog.getGradientVector(0, 0));
             assertArrayEquals("the vector gradient for the lower right vector should be equal to the expected value",
-                    new int[] {0, 0}, hog.getPixelGradient(2,2));
+                    new int[] {0, 0}, hog.getGradientVector(2, 2));
             assertArrayEquals("the vector gradient for the upper right vector should be equal to the expected value",
-                    new int[] {0, 30}, hog.getPixelGradient(0,2));
+                    new int[] {0, 30}, hog.getGradientVector(0, 2));
             assertArrayEquals("the vector gradient for the upper middle vector should be equal to the expected value",
-                    new int[] {106, 252}, hog.getPixelGradient(0,1));
+                    new int[] {106, 252}, hog.getGradientVector(0, 1));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testGradientVectorMagnitude() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            Assert.assertEquals("Magnitude of a vector gradient should be equal the expected value",
+                    53.74,
+                    HOG.computeMagnitude(new int[] {38, 38}),
+                    0.01);
+            Assert.assertEquals("Magnitude of a vector gradient should be equal the expected value",
+                    68.00,
+                    HOG.computeMagnitude(hog.getGradientVector(1,1)),
+                    0.01);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
+    public void testComputeAngle() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            assertEquals("Angle should be equal to the expected value",
+                    0.785,
+                    HOG.computeAngle(new int[]{38, 38}),
+                    0.001);
+            Assert.assertEquals("Angle should be equal to the expected value",
+                    0.00,
+                    HOG.computeAngle(hog.getGradientVector(1,1)),
+                    0.001);
+            Assert.assertEquals("Angle should be equal to 0 if one of the values is 0",
+                    0.00,
+                    HOG.computeAngle(new int[] { 0, 0 }),
+                    0.001);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
