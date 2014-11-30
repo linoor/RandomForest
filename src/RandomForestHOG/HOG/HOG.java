@@ -93,24 +93,14 @@ public class HOG extends Sample {
 
                final double start = step / 2.0;
 
-               final int rightContributionIndex = (int) (angle / step) + 1;
-               final int leftContributionIndex = rightContributionIndex - 1;
+               final int rightContributionIndex = (int) (angle / step);
+               final int leftContributionIndex = rightContributionIndex == 0 ? 0 : rightContributionIndex - 1;
 
                double rightContributionAngle = (rightContributionIndex * step) + start;
-               double leftContributionAngle = ((rightContributionIndex - 1) * step) + start;
+               double leftContributionAngle = rightContributionIndex == 0 ? start : ((rightContributionIndex - 1) * step) + start;
 
-               double rightContributionPercentage = Math.abs(angle - rightContributionAngle) / step;
-               double leftContributionPercentage = Math.abs(angle - leftContributionAngle) / step;
-
-//             if angle < 10 then contribute to the first index
-                if (angle <= start) {
-                    leftContributionPercentage = 1.0;
-                    rightContributionPercentage = 0.0;
-                } else if (angle >= degreesUpperLimit - start) {
-                    leftContributionPercentage = 0.0;
-                    rightContributionPercentage = 1.0;
-                }
-
+               double leftContributionPercentage = Math.abs(angle - rightContributionAngle) / step;
+               double rightContributionPercentage = Math.abs(angle - leftContributionAngle) / step;
 
 //             contributing to expected bins
                histogram[leftContributionIndex] += leftContributionPercentage * magnitude;
