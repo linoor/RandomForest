@@ -146,7 +146,7 @@ public class HOG extends Sample {
         return pixels;
     }
 
-    public int[] getPixelGradient(int i, int j) {
+    public int[] getPixelGradientVector(int i, int j) {
         int[][] pixels = getPixelArray();
 
 //        boolean inBounds = (index >= 0) && (index < array.length);
@@ -174,6 +174,10 @@ public class HOG extends Sample {
         }
 
         return result;
+    }
+
+    public static double computeMagnitude(int[] ints) {
+        return Math.sqrt(Math.pow((double)ints[0], 2) + Math.pow((double)ints[1], 2));
     }
 
     private class PixelHelper {
