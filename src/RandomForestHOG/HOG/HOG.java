@@ -149,9 +149,21 @@ public class HOG extends Sample {
     public int[] getPixelGradient(int i, int j) {
         int[][] pixels = getPixelArray();
 
+//        boolean inBounds = (index >= 0) && (index < array.length);
+        int xdiff, ydiff, leftx, rightx, uppery, lowery;
+
+        PixelHelper pixelHelper = new PixelHelper(pixels);
+        leftx = pixelHelper.getLeft(i, j);
+        rightx = pixelHelper.getRight(i, j);
+        uppery = pixelHelper.getUp(i, j);
+        lowery = pixelHelper.getBot(i, j);
+
+        xdiff = rightx - leftx;
+        ydiff = lowery - uppery;
+
         int[] result = new int[]{
-                pixels[i][j + 1] - pixels[i][j - 1],
-                pixels[i + 1][j] - pixels[i - 1][j]
+                xdiff,
+                ydiff
         };
 
 //      if a gradient for x or y is < 0, then we set it to 0
@@ -162,5 +174,31 @@ public class HOG extends Sample {
         }
 
         return result;
+    }
+
+    private class PixelHelper {
+        int[][] pixels;
+
+        public boolean checkBounds(int i, int j) {
+            return (i >= 0) && (i < pixels.length) &&
+                    (j >= 0) && (j < pixels[0].length);
+        }
+
+        public PixelHelper(int[][] pixels) {
+            this.pixels = pixels;
+        }
+
+        public int getPixel(int i, int j) {
+            if (checkBounds(i, j)) {
+                return pixels[i][j];
+            } else {
+                return 0;
+            }
+        }
+
+        public int getLeft(int i, int j) { return getPixel(i, j-1); }
+        public int getRight(int i, int j) { return getPixel(i, j+1); }
+        public int getUp(int i, int j) { return getPixel(i-1, j); }
+        public int getBot(int i, int j) { return getPixel(i+1, j); }
     }
 }

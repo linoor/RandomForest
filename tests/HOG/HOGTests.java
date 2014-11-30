@@ -79,5 +79,24 @@ public class HOGTests {
             fail();
         }
     }
+
+    @Test
+    public void computingAGradientVectorForEdgePixel() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            assertArrayEquals("the vector gradient for the upper left vector should be equal to the expected value",
+                    new int[] {148, 163}, hog.getPixelGradient(0,0));
+            assertArrayEquals("the vector gradient for the lower right vector should be equal to the expected value",
+                    new int[] {0, 0}, hog.getPixelGradient(2,2));
+            assertArrayEquals("the vector gradient for the upper right vector should be equal to the expected value",
+                    new int[] {0, 30}, hog.getPixelGradient(0,2));
+            assertArrayEquals("the vector gradient for the upper middle vector should be equal to the expected value",
+                    new int[] {106, 252}, hog.getPixelGradient(0,1));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 }
 
