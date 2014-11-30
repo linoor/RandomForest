@@ -1,11 +1,9 @@
 package HOG;
 
-import junit.framework.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import RandomForestHOG.HOG.HOG;
 import RandomForestHOG.HOG.HOGParam;
-import org.junit.rules.TemporaryFolder;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -18,7 +16,6 @@ import static org.junit.Assert.*;
 public class HOGTests {
 
     private final File simpleImg = Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile();
-    private HOG exampleHOG;
 
     @Before
     public void setup() {
