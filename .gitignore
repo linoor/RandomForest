@@ -2,6 +2,7 @@ bin/*
 data/*
 .runtime/*
 .classpath/*
-.project/*
+.project
 project.conf
 *.class
+/bin/
