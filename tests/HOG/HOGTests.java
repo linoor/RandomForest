@@ -138,5 +138,25 @@ public class HOGTests {
             fail();
         }
     }
+
+    @Test
+    public void testHistogram() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            Assert.assertEquals("Histogram at zero degrees (first part of the histogram) should be equal expected value",
+                    412.237,
+                    hog.getHistogram(0,0,3,3)[0],
+                    0.001);
+            Assert.assertEquals("Histogram at zero degrees (30 degrees) should be equal expected value",
+                    260.585,
+                    hog.getHistogram(0,0,3,3)[1],
+                    0.01);
+            // TODO needs more tests probably, especially edge cases
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 }
 

@@ -2,8 +2,6 @@ package RandomForestHOG.HOG;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.PixelGrabber;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +78,37 @@ public class HOG extends Sample {
     }
 
     @objid ("03255d6c-46ed-478f-b835-efa132d60bac")
-    public List<Float> getHistogram() {
-        // TODO Auto-generated return
-        return new ArrayList<Float>();
+    public double[] getHistogram(int i_start, int j_start, int end_i, int end_j) {
+        double[] histogram = new double[getBinNumber()];
+
+        for (int i = i_start; i < end_i; i++) {
+            for (int j = j_start; j < end_j; j++) {
+               final int[] vec = getGradientVector(i, j);
+
+               final int degreesUpperLimit = 180;
+
+               final double magnitude = HOG.computeMagnitude(vec);
+               final double angle = Math.toDegrees(HOG.computeAngle(vec));
+               final double step = degreesUpperLimit / getBinNumber();
+
+               final double start = step / 2.0;
+
+               final int rightContributionIndex = (int) (angle / step);
+               final int leftContributionIndex = rightContributionIndex == 0 ? 0 : rightContributionIndex - 1;
+
+               final double rightContributionAngle = (rightContributionIndex * step) + start;
+               final double leftContributionAngle = rightContributionIndex == 0 ? start : ((rightContributionIndex - 1) * step) + start;
+
+               final double leftContributionPercentage = Math.abs(angle - rightContributionAngle) / step;
+               final double rightContributionPercentage = Math.abs(angle - leftContributionAngle) / step;
+
+//             contributing to expected bins
+               histogram[leftContributionIndex] += leftContributionPercentage * magnitude;
+               histogram[rightContributionIndex] += rightContributionPercentage * magnitude;
+            }
+        }
+
+        return histogram;
     }
 
     @objid ("379e73c3-44a1-422b-a1ac-cf037cad6713")
@@ -185,7 +211,7 @@ public class HOG extends Sample {
         if (vec[1] == 0) {
             return 0;
         }
-        return Math.atan(vec[0] / vec[1]);
+        return Math.atan((double)vec[0] / (double)vec[1]);
     }
 
     private class PixelHelper {
