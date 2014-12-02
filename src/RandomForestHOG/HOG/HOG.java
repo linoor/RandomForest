@@ -5,6 +5,10 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.sample.Sample;
 
@@ -206,8 +210,23 @@ public class HOG extends Sample {
         return result;
     }
 
+    public static double[] intToDouble(int[] vec) {
+        double[] result = new double[vec.length];
+        for (int i = 0; i < vec.length; i++) {
+           result[i] = (double)vec[i];
+        }
+        return result;
+    }
+
     public static double computeMagnitude(int[] vec) {
-        return Math.sqrt(Math.pow((double)vec[0], 2) + Math.pow((double)vec[1], 2));
+        return computeMagnitude(intToDouble(vec));
+    }
+
+    public static double computeMagnitude(double[] vec) {
+        double sum = DoubleStream.of(vec)
+                .map(x -> Math.pow(x, 2))
+                .sum();
+        return Math.sqrt(sum);
     }
 
     public static double computeAngle(int[] vec) {
@@ -216,6 +235,18 @@ public class HOG extends Sample {
             return 0;
         }
         return Math.atan((double)vec[0] / (double)vec[1]);
+    }
+
+    public static double[] normalizeVector(double[] doubles) {
+        double magnitude = HOG.computeMagnitude(doubles);
+
+        double[] result = new double[doubles.length];
+
+        for (int i = 0; i < doubles.length; i++) {
+            result[i] = doubles[i] / magnitude;
+        }
+
+        return result;
     }
 
     private class PixelHelper {
