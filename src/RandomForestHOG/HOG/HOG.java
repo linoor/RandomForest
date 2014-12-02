@@ -160,6 +160,10 @@ public class HOG extends Sample {
     }
 
     public int[][] getPixelArray() {
+        if (pixelArray != null) {
+            return pixelArray;
+        }
+
         int[][] pixels = new int[getHeight()][getWidth()];
 
         for( int i = 0; i < getWidth(); i++ ) {
