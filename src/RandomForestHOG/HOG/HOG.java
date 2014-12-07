@@ -4,6 +4,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -249,8 +251,31 @@ public class HOG extends Sample {
         return result;
     }
 
-    public double[] getBlock(int i) {
-        return new double[0];
+    public static Double[] toDoubleArray(double[] array) {
+        Double[] result = new Double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            result[i] = Double.valueOf(array[i]);
+        }
+        return result;
+    }
+
+    public double[] getBlock(int starti, int startj) {
+        List<List<Double>> histograms = new ArrayList<>();
+
+        for (int i = starti; i <= getBlockHeight()*getCellHeight()-getCellHeight(); i += getCellHeight()) {
+            for (int j = startj; j <= getBlockWidth()*getCellWidth()-getCellWidth(); j += getCellWidth()) {
+               List<Double> histogram = Arrays.asList(toDoubleArray(getHistogram(i, j, i+getCellHeight(), j+getCellWidth())));
+               histograms.add(histogram);
+            }
+        }
+
+        // concatenating normalized blocks
+        List<Double> result = new ArrayList<>();
+        for (int i = 0; i < histograms.size(); i++) {
+            result.addAll(histograms.get(i));
+        }
+
+        return result.stream().mapToDouble(i->i).toArray();
     }
 
     private class PixelHelper {

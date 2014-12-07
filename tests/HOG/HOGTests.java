@@ -173,12 +173,12 @@ public class HOGTests {
        try {
            hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
            // TODO normalize
-           final double[] result = hog.getBlock(0);
+           final double[] result = hog.getBlock(0,0);
            assertEquals(36, result.length);
            assertArrayEquals("first result normalized histogram should be equal expected value", new double[] {
                    0.0, 85.439, 134.727, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                   0.0, 98.237, 175.149, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                   0.0, 85.582, 344.626, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                   98.237, 175.149, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                   0.0, 0.0, 85.582, 344.626, 0.0, 0.0, 0.0, 0.0, 0.0,
                    68.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
            }, result, 0.001);
        } catch (Exception e) {
