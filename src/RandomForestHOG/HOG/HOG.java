@@ -4,7 +4,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.DoubleStream;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.sample.Sample;
 
@@ -160,6 +163,10 @@ public class HOG extends Sample {
     }
 
     public int[][] getPixelArray() {
+        if (pixelArray != null) {
+            return pixelArray;
+        }
+
         int[][] pixels = new int[getHeight()][getWidth()];
 
         for( int i = 0; i < getWidth(); i++ ) {
@@ -202,8 +209,23 @@ public class HOG extends Sample {
         return result;
     }
 
+    public static double[] intToDouble(int[] vec) {
+        double[] result = new double[vec.length];
+        for (int i = 0; i < vec.length; i++) {
+           result[i] = (double)vec[i];
+        }
+        return result;
+    }
+
     public static double computeMagnitude(int[] vec) {
-        return Math.sqrt(Math.pow((double)vec[0], 2) + Math.pow((double)vec[1], 2));
+        return computeMagnitude(intToDouble(vec));
+    }
+
+    public static double computeMagnitude(double[] vec) {
+        double sum = DoubleStream.of(vec)
+                .map(x -> Math.pow(x, 2))
+                .sum();
+        return Math.sqrt(sum);
     }
 
     public static double computeAngle(int[] vec) {
@@ -211,7 +233,70 @@ public class HOG extends Sample {
         if (vec[1] == 0) {
             return 0;
         }
-        return Math.atan((double)vec[0] / (double)vec[1]);
+        return Math.atan((double) vec[0] / (double) vec[1]);
+    }
+
+    public static double[] normalizeVector(double[] doubles) {
+        double magnitude = HOG.computeMagnitude(doubles);
+
+        double[] result = new double[doubles.length];
+
+        for (int i = 0; i < doubles.length; i++) {
+            result[i] = doubles[i] / magnitude;
+        }
+
+        return result;
+    }
+
+    public static Double[] toDoubleArray(double[] array) {
+        Double[] result = new Double[array.length];
+        for (int i = 0; i < array.length; i++) {
+            result[i] = Double.valueOf(array[i]);
+        }
+        return result;
+    }
+
+    public double[] getBlock(int starti, int startj) {
+        List<List<Double>> histograms = new ArrayList<>();
+
+        // getting histograms from each cell in a block
+        for (int i = starti; i <= starti + getBlockHeight()*getCellHeight()-getCellHeight(); i += getCellHeight()) {
+            for (int j = startj; j <= startj + getBlockWidth()*getCellWidth()-getCellWidth(); j += getCellWidth()) {
+               List<Double> histogram = Arrays.asList(toDoubleArray(getHistogram(i, j, i+getCellHeight(), j+getCellWidth())));
+               histograms.add(histogram);
+            }
+        }
+
+        // concatenating normalized blocks
+        List<Double> result = concat(histograms);
+
+        // returning vector after normalization
+        return HOG.normalizeVector(toPrimitiveDoubleArray(result));
+    }
+
+    private static List<Double> concat(List<List<Double>> histograms) {
+        List<Double> result = new ArrayList<>();
+        for (int i = 0; i < histograms.size(); i++) {
+            result.addAll(histograms.get(i));
+        }
+        return result;
+    }
+
+    private static double[] toPrimitiveDoubleArray(List<Double> result) {
+        return result.stream().mapToDouble(i -> i).toArray();
+    }
+
+    public double[] getDescriptor() {
+        int[][] pixels = getPixelArray();
+        List<List<Double>> results = new ArrayList<>();
+        for (int i = 0; i < pixels.length; i += getBlockHeight()*getCellHeight()) {
+            for (int j = 0; j < pixels[0].length; j += getBlockWidth()*getCellWidth()) {
+                double[] block = getBlock(i,j);
+                results.add(Arrays.asList(toDoubleArray(block)));
+            }
+        }
+
+        return toPrimitiveDoubleArray(concat(results));
     }
 
     private class PixelHelper {
