@@ -234,7 +234,7 @@ public class HOG extends Sample {
         if (vec[1] == 0) {
             return 0;
         }
-        return Math.atan((double)vec[0] / (double)vec[1]);
+        return Math.atan((double) vec[0] / (double) vec[1]);
     }
 
     public static double[] normalizeVector(double[] doubles) {
@@ -247,6 +247,10 @@ public class HOG extends Sample {
         }
 
         return result;
+    }
+
+    public double[] getBlock(int i) {
+        return new double[0];
     }
 
     private class PixelHelper {

@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.concurrent.ExecutionException;
 
 import static RandomForestHOG.HOG.HOGParam.BlockType.RADIAL;
 import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
@@ -59,7 +60,7 @@ public class HOGTests {
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("testing getting array of pixels",
-                    new int[][] { {48, 148, 154}, {163, 252, 30}, {108, 216, 21} },
+                    new int[][]{{48, 148, 154}, {163, 252, 30}, {108, 216, 21}},
                     hog.getPixelArray());
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,11 +130,11 @@ public class HOGTests {
                     0.001);
             Assert.assertEquals("Angle should be equal to the expected value",
                     0.00,
-                    HOG.computeAngle(hog.getGradientVector(1,1)),
+                    HOG.computeAngle(hog.getGradientVector(1, 1)),
                     0.001);
             Assert.assertEquals("Angle should be equal to 0 if one of the values is 0",
                     0.00,
-                    HOG.computeAngle(new int[] { 0, 0 }),
+                    HOG.computeAngle(new int[]{0, 0}),
                     0.001);
         } catch (Exception e) {
             e.printStackTrace();
@@ -148,7 +149,7 @@ public class HOGTests {
             hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             Assert.assertEquals("Histogram at zero degrees (first part of the histogram) should be equal expected value",
                     412.237,
-                    hog.getHistogram(0,0,3,3)[0],
+                    hog.getHistogram(0, 0, 3, 3)[0],
                     0.001);
             Assert.assertEquals("Histogram at zero degrees (30 degrees) should be equal expected value",
                     260.585,
@@ -164,6 +165,26 @@ public class HOGTests {
     @Test
     public void testVectorNormalization() {
         assertArrayEquals(new double[] {0.801784, 0.534522, 0.267261}, HOG.normalizeVector(new double[] {3, 2, 1}), 0.001);
+    }
+
+    @Test
+    public void testBlockNormalization() {
+       HOG hog;
+       try {
+           hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
+           // TODO normalize
+           final double[] result = hog.getBlock(0);
+           assertEquals(36, result.length);
+           assertArrayEquals("first result normalized histogram should be equal expected value", new double[] {
+                   0.0, 85.439, 134.727, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                   0.0, 98.237, 175.149, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                   0.0, 85.582, 344.626, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                   68.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+           }, result, 0.001);
+       } catch (Exception e) {
+           e.printStackTrace();
+           fail();
+       }
     }
 }
 
