@@ -3,9 +3,10 @@ package RandomForestHOG.DecisionTree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-//import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
-// @objid ("61261918-d6ad-4d4d-a19f-e6c7088f5dd6")
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
+@objid ("61261918-d6ad-4d4d-a19f-e6c7088f5dd6")
 public class DecisionTree  {
     private int dataN;
     private int trainN;
@@ -14,12 +15,12 @@ public class DecisionTree  {
     private int attrSampleN;
     private TreeNode rootNode;
 
-    // @objid ("92a699ab-b86a-40cc-8fdb-4eca568fa8a6")
+    @objid ("92a699ab-b86a-40cc-8fdb-4eca568fa8a6")
     public DecisionTree() {
         // TODO
     }
 
-    // @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
+    @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
     public DecisionTree(final List<List<Double>> data, final int treeNum) {
         dataN = data.size();
         if (0 >= dataN) {
@@ -50,7 +51,7 @@ public class DecisionTree  {
         rootNode = createTree(train, attr, treeNum);
     }
 
-    // @objid ("bd35c418-14d7-4599-891b-34837487a39c")
+    @objid ("bd35c418-14d7-4599-891b-34837487a39c")
     private void bootstrapSample(final List<List<Double>> data, List<List<Double>> train, List<List<Double>> test) {
         ArrayList<Integer> rand = new ArrayList<Integer>(dataN);
         for (int i = 0; i < dataN; i++) {
@@ -65,7 +66,7 @@ public class DecisionTree  {
         }
     }
 
-    // @objid ("22963c8e-9140-49f2-beb7-3b2458a06c51")
+    @objid ("22963c8e-9140-49f2-beb7-3b2458a06c51")
     private void bootstrapAttr(List<Integer> attr) {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
@@ -77,7 +78,7 @@ public class DecisionTree  {
         attr = rand.subList(0, attrSampleN);
     }
 
-    // @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
+    @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
     private TreeNode createTree(final List<List<Double>> train, List<Integer> attr, final int nTree) {
         TreeNode root = new TreeNode();
         root.setData(train);
@@ -85,21 +86,28 @@ public class DecisionTree  {
         return root;
     }
 
-    // @objid ("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
+    @objid ("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
     private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
         double curClass = parent.checkIfSameClass();
         if (-1 == curClass) {
 
             // Step A
+            // find the split attribute and its value based on minimum entropy
             int minAt = -1;
             double minAtVal = -1;
             findSplitPosition(parent.getData(), attr, minAt, minAtVal);
 
             // Step B
-            // TODO
+            // Split data of parent for its two children
+            // Set up children and do recursive call
+            List<List<Double>>[] childData;
+            childData = splitData(parent.getData(), minAt, minAtVal);
+            
+            parent.setLeftChild(new TreeNode(childData[0]));
+            parent.setRightChild(new TreeNode(childData[1]));
 
-            // Step C
-            // TODO
+            recursiveSplit(parent.getLeftChild(), attr);
+            recursiveSplit(parent.getRightChild(), attr);
 
         } else {
             parent.setClassVal(curClass);
@@ -134,20 +142,34 @@ public class DecisionTree  {
         // TODO Auto-generated method stub
         return 0.0;
     }
+    
+    private List<List<Double>>[] splitData(List<List<Double>> data, int minAt, double minAtVal) {
+        @SuppressWarnings("unchecked")
+        List<List<Double>>[] childData = (List<List<Double>>[]) new List[2];
+        for (List<Double> record : data) {
+            if (record.get(minAt) < minAtVal) {
+                childData[0].add(record);
+            }
+            else {
+                childData[1].add(record);
+            }
+        }
+        return childData;
+    }
 
-    // @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
+    @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
     public List<Integer> classify(final List<Double> testData) {
         // TODO Auto-generated return
         return new ArrayList<Integer>();
     }
 
-    // @objid ("76d43c96-c471-4b7d-a417-d0a16d9c295c")
+    @objid ("76d43c96-c471-4b7d-a417-d0a16d9c295c")
     public String saveToString() {
         // TODO Auto-generated return
         return null;
     }
 
-    // @objid ("359fef83-1f91-4226-b4e6-33118900cb50")
+    @objid ("359fef83-1f91-4226-b4e6-33118900cb50")
     public void loadFromString(final String tree) {
         // TODO
     }

@@ -1,10 +1,9 @@
 package RandomForestHOG.DecisionTree;
 
-//import com.modeliosoft.modelio.javadesigner.annotations.objid;
-
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import java.util.List;
 
-////@objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
+@objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
 public class TreeNode implements Cloneable {
     private int level;
     private TreeNode leftChild;
@@ -16,11 +15,20 @@ public class TreeNode implements Cloneable {
     private double classVal;
     private List<List<Double>> data;
 
-//    //@objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
+    @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
-        level = 0;
-        setSplitAttr(-99);
-        setSplitVal(-99);
+        this(null, 0, -99, -99);
+    }
+    
+    public TreeNode(List<List<Double>> data) {
+        this(data, 0, -99, -99);
+    }
+    
+    public TreeNode(List<List<Double>> data, int level, int splitAttr, double splitVal) {
+        setData(data);
+        setLevel(level);
+        setSplitAttr(splitAttr);
+        setSplitVal(splitVal);
         setClassVal(-1);
     }
 
@@ -65,22 +73,22 @@ public class TreeNode implements Cloneable {
         return curClass;
     }
 
-  //@objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
+    @objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
     public int getLevel() {
         return level;
     }
 
-    //@objid("d790bcf1-f79e-4f49-be58-cb0de2cd71fe")
+    @objid("d790bcf1-f79e-4f49-be58-cb0de2cd71fe")
     public TreeNode getLeftChild() {
         return leftChild;
     }
 
-    //@objid("f49884cb-a796-455c-89d2-3049637325cd")
+    @objid("f49884cb-a796-455c-89d2-3049637325cd")
     public TreeNode getRightChild() {
         return rightChild;
     }
 
-    //@objid("f30ffbce-5ef9-47c6-9c47-d8546919c4db")
+    @objid("f30ffbce-5ef9-47c6-9c47-d8546919c4db")
     public TreeNode getParent() {
         return parent;
     }

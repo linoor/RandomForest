@@ -1,7 +1,8 @@
 bin/*
 data/*
 .runtime/*
-.classpath/*
-.project/*
+.classpath
+.project
 project.conf
 *.class
+/bin/
