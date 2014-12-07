@@ -5,11 +5,8 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.DoubleStream;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.sample.Sample;
@@ -263,21 +260,43 @@ public class HOG extends Sample {
         List<List<Double>> histograms = new ArrayList<>();
 
         // getting histograms from each cell in a block
-        for (int i = starti; i <= getBlockHeight()*getCellHeight()-getCellHeight(); i += getCellHeight()) {
-            for (int j = startj; j <= getBlockWidth()*getCellWidth()-getCellWidth(); j += getCellWidth()) {
+        for (int i = starti; i <= starti + getBlockHeight()*getCellHeight()-getCellHeight(); i += getCellHeight()) {
+            for (int j = startj; j <= startj + getBlockWidth()*getCellWidth()-getCellWidth(); j += getCellWidth()) {
                List<Double> histogram = Arrays.asList(toDoubleArray(getHistogram(i, j, i+getCellHeight(), j+getCellWidth())));
                histograms.add(histogram);
             }
         }
 
         // concatenating normalized blocks
+        List<Double> result = concat(histograms);
+
+        // returning vector after normalization
+        return HOG.normalizeVector(toPrimitiveDoubleArray(result));
+    }
+
+    private static List<Double> concat(List<List<Double>> histograms) {
         List<Double> result = new ArrayList<>();
         for (int i = 0; i < histograms.size(); i++) {
             result.addAll(histograms.get(i));
         }
+        return result;
+    }
 
-        // returning vector after normalization
-        return HOG.normalizeVector(result.stream().mapToDouble(i->i).toArray());
+    private static double[] toPrimitiveDoubleArray(List<Double> result) {
+        return result.stream().mapToDouble(i -> i).toArray();
+    }
+
+    public double[] getDescriptor() {
+        int[][] pixels = getPixelArray();
+        List<List<Double>> results = new ArrayList<>();
+        for (int i = 0; i < pixels.length; i += getBlockHeight()*getCellHeight()) {
+            for (int j = 0; j < pixels[0].length; j += getBlockWidth()*getCellWidth()) {
+                double[] block = getBlock(i,j);
+                results.add(Arrays.asList(toDoubleArray(block)));
+            }
+        }
+
+        return toPrimitiveDoubleArray(concat(results));
     }
 
     private class PixelHelper {

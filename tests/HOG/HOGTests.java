@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.concurrent.ExecutionException;
 
 import static RandomForestHOG.HOG.HOGParam.BlockType.RADIAL;
 import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
@@ -172,7 +171,6 @@ public class HOGTests {
        HOG hog;
        try {
            hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
-           // TODO normalize
            final double[] result = hog.getBlock(0,0);
            assertEquals(36, result.length);
            assertArrayEquals("first result normalized histogram should be equal expected value",
@@ -186,6 +184,19 @@ public class HOGTests {
            e.printStackTrace();
            fail();
        }
+    }
+
+    @Test
+    public void testFinalDescriptor() {
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
+            final double[] result = hog.getBlock(0,0);
+            assertEquals("description size should be equal expected value", 144, hog.getDescriptor().length);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 }
 
