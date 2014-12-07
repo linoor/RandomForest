@@ -275,7 +275,7 @@ public class HOG extends Sample {
             result.addAll(histograms.get(i));
         }
 
-        return result.stream().mapToDouble(i->i).toArray();
+        return HOG.normalizeVector(result.stream().mapToDouble(i->i).toArray());
     }
 
     private class PixelHelper {
