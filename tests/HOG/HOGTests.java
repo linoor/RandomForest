@@ -58,7 +58,9 @@ public class HOGTests {
         HOG hog;
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
-            assertArrayEquals("testing getting array of pixels", new int[][] { {48, 148, 154}, {163, 252, 30}, {108, 216, 21} }, hog.getPixelArray());
+            assertArrayEquals("testing getting array of pixels",
+                    new int[][] { {48, 148, 154}, {163, 252, 30}, {108, 216, 21} },
+                    hog.getPixelArray());
         } catch (Exception e) {
             e.printStackTrace();
             fail();
