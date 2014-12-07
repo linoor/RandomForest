@@ -262,6 +262,7 @@ public class HOG extends Sample {
     public double[] getBlock(int starti, int startj) {
         List<List<Double>> histograms = new ArrayList<>();
 
+        // getting histograms from each cell in a block
         for (int i = starti; i <= getBlockHeight()*getCellHeight()-getCellHeight(); i += getCellHeight()) {
             for (int j = startj; j <= getBlockWidth()*getCellWidth()-getCellWidth(); j += getCellWidth()) {
                List<Double> histogram = Arrays.asList(toDoubleArray(getHistogram(i, j, i+getCellHeight(), j+getCellWidth())));
@@ -275,6 +276,7 @@ public class HOG extends Sample {
             result.addAll(histograms.get(i));
         }
 
+        // returning vector after normalization
         return HOG.normalizeVector(result.stream().mapToDouble(i->i).toArray());
     }
 
