@@ -128,7 +128,7 @@ public class DecisionTree  {
         double minEntropy = Double.MAX_VALUE;
         for (int at : attr) {
             for (int i = 0, len = data.size(); i < len; i++) {
-                double ent = calEntropy(data, at, data.get(i).get(at));
+                double ent = checkPosition(data, at, data.get(i).get(at));
                 if (ent < minEntropy) {
                     minEntropy = ent;
                     minAt = at;
@@ -138,9 +138,17 @@ public class DecisionTree  {
         }
     }
 
-    private double calEntropy(List<List<Double>> data, int attr, double val) {
+    private double checkPosition(List<List<Double>> data, int attr, double val) {
         // TODO Auto-generated method stub
-        return 0.0;
+        List<List<Double>>[] childData = splitData(data, attr, val);
+        double[] pl = getClassProbs(childData[0]);
+        double[] pu = getClassProbs(childData[1]);
+        double el = calcEntropy(pl);
+        double eu = calcEntropy(pu);
+        
+        double e = (el*childData[0].size() + eu*childData[1].size())/(double)data.size();
+        
+        return e;
     }
     
     private List<List<Double>>[] splitData(List<List<Double>> data, int minAt, double minAtVal) {
@@ -155,6 +163,30 @@ public class DecisionTree  {
             }
         }
         return childData;
+    }
+    
+    
+    private double[] getClassProbs(List<List<Double>> data) {
+        double[] ps = new double[data.size()];
+        return ps;
+    }
+
+    private double logOfTwo = Math.log(2);
+    
+    
+    /**
+     * Given a probability mass function indicating the frequencies of 
+     * class representation, calculate an "entropy" value using the method
+     * in Tan Steinbach Kumar's "Data Mining" textbook
+     */
+    private double calcEntropy(double[] ps) {
+        double e = 0;
+        for (double p : ps) {
+            if (p != 0) {
+                e += p*Math.log(p)/logOfTwo;
+            }
+        }
+        return -e;
     }
 
     @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")

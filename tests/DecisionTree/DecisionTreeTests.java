@@ -11,6 +11,7 @@ public class DecisionTreeTests {
 
     public DecisionTreeTests(List<List<Double>> testingData) {
         this.testingData = testingData;
+        
     }
     
     @Before
