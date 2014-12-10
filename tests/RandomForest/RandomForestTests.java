@@ -16,5 +16,5 @@ public class RandomForestTests {
        assertEquals(10, randForest.getMaxDepth());
        assertEquals(100, randForest.getMaxNumOfTrees());
     }
-    
+
 }
