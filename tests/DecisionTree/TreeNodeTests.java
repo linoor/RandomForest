@@ -1,3 +1,5 @@
+package DecisionTree;
+
 import RandomForestHOG.DecisionTree.TreeNode;
 import org.junit.Before;
 import org.junit.Test;
