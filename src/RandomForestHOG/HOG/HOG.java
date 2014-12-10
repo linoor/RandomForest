@@ -37,29 +37,7 @@ public class HOG extends Sample {
 
     @objid ("bf993b00-b60a-4247-890d-9b63a2e630c9")
     HOGParam hogParam() {
-        return null;
-    }
-
-    @objid ("cdef89ff-5d7d-463b-9e97-66e1ad90a707")
-    public void globalNormalization() {
-    	System.out.println("globalNormalization!");
-    }
-
-    @objid ("09490b81-fd8d-4de9-83c8-633b011221dd")
-    public void calGradient() {
-    	System.out.println("calGradient!");
-    }
-
-    @objid ("80f5b195-3530-44da-9c12-1018076aaabc")
-    public void calHistogram() {
-    }
-
-    @objid ("73bca2a7-bea4-4a42-be6b-2bd8f5bde8f2")
-    public void blockNormalization() {
-    }
-
-    @objid ("1102ccb7-f224-4643-856a-10438306eebc")
-    public void calFeatureVector() {
+        return hogParam;
     }
 
     @objid ("8c39ea43-b153-44c8-a0de-ff4ed52b57c0")
@@ -112,18 +90,6 @@ public class HOG extends Sample {
         }
 
         return histogram;
-    }
-
-    @objid ("379e73c3-44a1-422b-a1ac-cf037cad6713")
-    public List<List<Float>> getGradient() {
-        // TODO Auto-generated return
-        return new ArrayList<>();
-    }
-
-    @objid ("edccfe92-5ff2-4f94-ab89-bcf050cd60b0")
-    public List<Float> getFeatureVector() {
-        // TODO Auto-generated return
-        return new ArrayList<Float>();
     }
 
     public HOGParam.BlockType getBlockType() {
@@ -179,6 +145,7 @@ public class HOG extends Sample {
         return pixels;
     }
 
+    @objid ("09490b81-fd8d-4de9-83c8-633b011221dd")
     public int[] getGradientVector(int i, int j) {
         int[][] pixels = getPixelArray();
 
@@ -256,6 +223,7 @@ public class HOG extends Sample {
         return result;
     }
 
+    @objid ("73bca2a7-bea4-4a42-be6b-2bd8f5bde8f2")
     public double[] getBlock(int starti, int startj) {
         List<List<Double>> histograms = new ArrayList<>();
 
@@ -286,7 +254,8 @@ public class HOG extends Sample {
         return result.stream().mapToDouble(i -> i).toArray();
     }
 
-    public double[] getDescriptor() {
+    @objid ("1102ccb7-f224-4643-856a-10438306eebc")
+    public double[] getFeatureVect() {
         int[][] pixels = getPixelArray();
         List<List<Double>> results = new ArrayList<>();
         for (int i = 0; i < pixels.length; i += getBlockHeight()*getCellHeight()) {
