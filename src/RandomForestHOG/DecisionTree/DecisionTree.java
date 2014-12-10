@@ -55,14 +55,14 @@ public class DecisionTree  {
     private void bootstrapSample(final List<List<Double>> data, List<List<Double>> train, List<List<Double>> test) {
         ArrayList<Integer> rand = new ArrayList<Integer>(dataN);
         for (int i = 0; i < dataN; i++) {
-            rand.set(i, i);
+            rand.add(i);
         }
         Collections.shuffle(rand);
         for (int i = 0; i < dataN*2/3; i++) {
-            train.set(i, data.get(rand.get(i)));
+            train.add(data.get(rand.get(i)));
         }
         for (int i = dataN*2/3+1; i < dataN; i++) {
-            test.set(i, data.get(rand.get(i)));
+            test.add(data.get(rand.get(i)));
         }
     }
 
@@ -71,8 +71,8 @@ public class DecisionTree  {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
         // start from 1 because the first entry of a record is class value
-        for (int i = 1; i < attrN+1; i++) {
-            rand.set(i, i);
+        for (int i = 0; i < attrN; i++) {
+            rand.add(i);
         }
         Collections.shuffle(rand);
         attr = rand.subList(0, attrSampleN);
@@ -214,6 +214,10 @@ public class DecisionTree  {
                 }
             }
         }
+    }
+    
+    public TreeNode getRootNode() {
+        return rootNode;
     }
 
     @objid ("76d43c96-c471-4b7d-a417-d0a16d9c295c")
