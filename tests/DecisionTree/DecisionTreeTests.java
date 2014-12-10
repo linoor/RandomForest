@@ -13,9 +13,14 @@ public class DecisionTreeTests {
     private DecisionTree tree;
     private List<List<Double>> testingData;
 
+    public DecisionTreeTests() {
+        setupTestingData();
+        setup();
+    }
+    
     public DecisionTreeTests(List<List<Double>> testingData) {
         this.testingData = testingData;
-        
+        setup();
     }
     
     @Before
@@ -37,14 +42,15 @@ public class DecisionTreeTests {
     
     @Before
     public void setup() {
-        tree = new DecisionTree(testingData, 10);
-        
+         tree = new DecisionTree(testingData, 0);
     }
     
     @Test
-    public void testBootstrapSample() {
-        
+    public void testClassify() {
+        return;
     }
+    
+    
     
     
 
