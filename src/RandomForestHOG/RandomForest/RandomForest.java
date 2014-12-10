@@ -12,22 +12,22 @@ import fr.ensmp.caor.levis.sample.Sample;
 @objid ("a97a3fa3-3a4e-46a1-b40f-98098d41b00f")
 public class RandomForest extends Classifier {
     @objid("8883cce6-777e-4b9c-8805-76062396071d")
-    int _maxDepth() {
+    int getMaxDepth() {
         return 0;
     }
 
     @objid("cef76905-bdae-42d0-827b-37e6adbe4154")
-    int _maxNumOfTrees() {
+    int getMaxNumOfTrees() {
         return 0;
     }
 
     @objid("b5a6a8ac-1ab9-4f93-b678-95119fd19ca6")
-    double _forestError() {
+    double getForestError() {
         return 0;
     }
 
     @objid("28c4ffde-4f11-49c5-804f-9a61039cded6")
-    List<DecisionTree> _trees() {
+    List<DecisionTree> getTrees() {
         return null;
     }
 
