@@ -139,7 +139,6 @@ public class DecisionTree  {
     }
 
     private double checkPosition(List<List<Double>> data, int attr, double val) {
-        // TODO Auto-generated method stub
         List<List<Double>>[] childData = splitData(data, attr, val);
         double[] pl = getClassProbs(childData[0]);
         double[] pu = getClassProbs(childData[1]);
@@ -192,6 +191,12 @@ public class DecisionTree  {
     @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
     public List<Integer> classify(final List<Double> testData) {
         // TODO Auto-generated return
+        if (null == rootNode) {
+            System.out.println("Tree not created yet...");
+            return null;
+        }
+        
+        
         return new ArrayList<Integer>();
     }
 
