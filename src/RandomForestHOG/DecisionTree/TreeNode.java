@@ -36,7 +36,7 @@ public class TreeNode implements Cloneable {
         TreeNode copy = new TreeNode();
         copy.setSplitAttr(this.getSplitAttr());
         copy.setSplitVal(this.getSplitVal());
-        copy.setClassVal(this.getCLassVal());
+        copy.setClassVal(this.getClassVal());
         copy.setLevel(this.getLevel());
         copy.setLeftChild(this.getLeftChild());
         copy.setRightChild(this.getRightChild());
@@ -50,6 +50,7 @@ public class TreeNode implements Cloneable {
 
     private void setupChild(TreeNode child) {
         child.setParent(this);
+        child.setLevel(getLevel());
         child.incrementLevel();
     }
 
@@ -101,7 +102,7 @@ public class TreeNode implements Cloneable {
         return splitVal;
     }
 
-    public double getCLassVal() {
+    public double getClassVal() {
         return classVal;
     }
 

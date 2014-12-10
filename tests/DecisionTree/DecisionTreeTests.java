@@ -16,7 +16,6 @@ public class DecisionTreeTests {
     public DecisionTreeTests() {
         setupTestingData();
         setup();
-        
     }
     
     public DecisionTreeTests(List<List<Double>> testingData) {
@@ -43,12 +42,12 @@ public class DecisionTreeTests {
     
     @Before
     public void setup() {
-        tree = new DecisionTree(testingData, 0);
+         tree = new DecisionTree(testingData, 0);
     }
     
     @Test
-    public void testBootstrapSample() {
-        
+    public void testClassify() {
+        return;
     }
     
     

@@ -96,6 +96,8 @@ public class DecisionTree  {
             int minAt = -1;
             double minAtVal = -1;
             findSplitPosition(parent.getData(), attr, minAt, minAtVal);
+            parent.setSplitAttr(minAt);
+            parent.setSplitVal(minAtVal);
 
             // Step B
             // Split data of parent for its two children
@@ -189,15 +191,29 @@ public class DecisionTree  {
     }
 
     @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
-    public List<Integer> classify(final List<Double> testData) {
+    public double classify(final List<Double> testData) {
         // TODO Auto-generated return
         if (null == rootNode) {
             System.out.println("Tree not created yet...");
-            return null;
+            return -1;
         }
         
-        
-        return new ArrayList<Integer>();
+        TreeNode evalNode = rootNode;
+        while (true) {
+            if (evalNode.isLeaf()) {
+                return evalNode.getClassVal();
+            }
+            else {
+                int splitAttr = evalNode.getSplitAttr();
+                double splitVal = evalNode.getSplitVal();
+                if (testData.get(splitAttr) < splitVal) {
+                    evalNode = evalNode.getLeftChild();
+                }
+                else {
+                    evalNode = evalNode.getRightChild();
+                }
+            }
+        }
     }
 
     @objid ("76d43c96-c471-4b7d-a417-d0a16d9c295c")
