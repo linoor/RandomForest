@@ -31,10 +31,10 @@ public class DecisionTree  {
             return;
         }
 
-        trainN = dataN * 2 / 3; // TODO should discuss how to determine the size of training set
+        trainN = dataN; // TODO should discuss how to determine the size of training set
         testN = dataN - trainN;
         attrN = data.get(0).size() - 1; // -1 for the first element being class (undetermined)
-        attrSampleN = attrN / 2;  // TODO should discuss how many bootstrapped attributes
+        attrSampleN = attrN;  // TODO should discuss how many bootstrapped attributes
 
         /* Initialize training, testing data set */
         List<List<Double>> train, test;
@@ -74,7 +74,7 @@ public class DecisionTree  {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
         // start from 1 because the first entry of a record is class value
-        for (int i = 0; i < attrN; i++) {
+        for (int i = 1; i < attrN+1; i++) {
             rand.add(i);
         }
         Collections.shuffle(rand);
@@ -113,6 +113,11 @@ public class DecisionTree  {
             List<List<Double>>[] childData;
             childData = splitData(parent.getData(), attrObj.attr, attrObj.val);
             
+//            System.out.println("--------------- Child 0 ---------------");
+//            printData(childData[0]);
+//            System.out.println("--------------- Child 1 ---------------");
+//            printData(childData[1]);
+            
             if (0 != childData[0].size()) {
                 parent.setLeftChild(new TreeNode(childData[0]));
                 recursiveSplit(parent.getLeftChild(), attr);
@@ -142,7 +147,7 @@ public class DecisionTree  {
         for (int at : attr) {
             for (int i = 0, len = data.size(); i < len; i++) {
                 double ent = checkPosition(data, at, data.get(i).get(at));
-                System.out.println("ent: "+ent);
+//                System.out.println("ent: "+ent);
                 if (ent < minEntropy) {
                     minEntropy = ent;
                     attrObj.attr = at;
@@ -268,6 +273,20 @@ public class DecisionTree  {
         SplitAttrObj() {
             attr = -1;
             val = -1;
+        }
+    }
+
+    private void printData(List<List<Double>> data) {
+        for (int i = 0, len = data.size(); i < len; i++) {
+            for (int j = 0, len2 = data.get(i).size(); j < len2; j++) {
+                System.out.print(data.get(i).get(j));
+                if (0 == j) {
+                    System.out.print(" : ");
+                } else {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
         }
     }
 
