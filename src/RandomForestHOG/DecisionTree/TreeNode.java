@@ -49,6 +49,9 @@ public class TreeNode implements Cloneable {
     }
 
     private void setupChild(TreeNode child) {
+        if (null == child) {
+            return;
+        }
         child.setParent(this);
         child.setLevel(getLevel());
         child.incrementLevel();

@@ -2,7 +2,10 @@ package RandomForestHOG.DecisionTree;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
@@ -110,11 +113,14 @@ public class DecisionTree  {
             List<List<Double>>[] childData;
             childData = splitData(parent.getData(), attrObj.attr, attrObj.val);
             
-            parent.setLeftChild(new TreeNode(childData[0]));
-            parent.setRightChild(new TreeNode(childData[1]));
-
-            recursiveSplit(parent.getLeftChild(), attr);
-            recursiveSplit(parent.getRightChild(), attr);
+            if (0 != childData[0].size()) {
+                parent.setLeftChild(new TreeNode(childData[0]));
+                recursiveSplit(parent.getLeftChild(), attr);
+            }
+            if (0 != childData[1].size()) {
+                parent.setRightChild(new TreeNode(childData[1]));
+                recursiveSplit(parent.getRightChild(), attr);
+            }
 
         } else {
             parent.setClassVal(curClass);
@@ -149,8 +155,8 @@ public class DecisionTree  {
 
     private double checkPosition(List<List<Double>> data, int attr, double val) {
         List<List<Double>>[] childData = splitData(data, attr, val);
-        double[] pl = getClassProbs(childData[0]);
-        double[] pu = getClassProbs(childData[1]);
+        List<Double> pl = getClassProbs(childData[0]);
+        List<Double> pu = getClassProbs(childData[1]);
         double el = calcEntropy(pl);
         double eu = calcEntropy(pu);
         
@@ -176,8 +182,24 @@ public class DecisionTree  {
     }
     
     
-    private double[] getClassProbs(List<List<Double>> data) {
-        double[] ps = new double[data.size()];
+    private List<Double> getClassProbs(List<List<Double>> data) {
+        HashMap<Double, Integer> counts = new HashMap<Double, Integer>();
+        for (List<Double> record : data) {
+            double clas = record.get(0);
+            if (counts.containsKey(clas)) {
+                counts.put(clas, counts.get(clas)+1);
+            }
+            else {
+                counts.put(clas, 1);
+            }
+        }
+
+        double N = data.size();
+        List<Double> ps = new ArrayList<Double>();
+        for (double key : counts.keySet()) {
+            ps.add(counts.get(key)/N);
+        }
+        
         return ps;
     }
 
@@ -189,7 +211,7 @@ public class DecisionTree  {
      * class representation, calculate an "entropy" value using the method
      * in Tan Steinbach Kumar's "Data Mining" textbook
      */
-    private double calcEntropy(double[] ps) {
+    private double calcEntropy(List<Double> ps) {
         double e = 0;
         for (double p : ps) {
             if (p != 0) {
