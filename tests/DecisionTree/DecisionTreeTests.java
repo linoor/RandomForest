@@ -71,13 +71,13 @@ public class DecisionTreeTests {
         }
     }
     
-    /*@Test
+    @Test
     public void testClassify() {
         List<Double> testRecord = setupTestingData(1, 10, 5).get(0);
         double result = tree.classify(testRecord);
         System.out.println("Test Result: " + result);
         return;
-    }*/
+    }
     
     private void printData(List<List<Double>> data) {
         for (int i = 0, len = data.size(); i < len; i++) {

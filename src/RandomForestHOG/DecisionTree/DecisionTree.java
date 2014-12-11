@@ -228,7 +228,6 @@ public class DecisionTree  {
 
     @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
     public double classify(final List<Double> testData) {
-        // TODO Auto-generated return
         if (null == rootNode) {
             System.out.println("Tree not created yet...");
             return -1;
