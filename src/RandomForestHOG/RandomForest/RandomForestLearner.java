@@ -7,14 +7,18 @@ import fr.ensmp.caor.levis.sample.DataBase;
 
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
 public class RandomForestLearner  extends Learner {
+
+    private int bootstrapSize;
+    private int attributesSize;
+
     @objid("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
-    int _attrN() {
-        return 0;
+    public int getAttributesSize() {
+        return attributesSize;
     }
 
     @objid("462886f4-e68d-48c1-b2dd-1b27d8dc39a2")
-    int _trainN() {
-        return 0;
+    public int getBootstrapSize() {
+        return bootstrapSize;
     }
 
     @objid("89e7d33d-e15d-4fd6-b44f-324059a4e1f8")
@@ -23,7 +27,9 @@ public class RandomForestLearner  extends Learner {
     }
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
-    public RandomForestLearner() {
+    public RandomForestLearner(int bootstrapSize, int attributeSize) {
+        this.bootstrapSize = bootstrapSize;
+        this.attributesSize = attributeSize;
     }
 
     @objid ("4aff82c9-54dd-4e50-960f-3fcb7c21264b")
