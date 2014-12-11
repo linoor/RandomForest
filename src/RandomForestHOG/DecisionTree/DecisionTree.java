@@ -43,10 +43,10 @@ public class DecisionTree  {
         for (List<Double> d : test) {
             d = new ArrayList<Double>();
         }
-        List<Integer> attr = new ArrayList<Integer>(attrSampleN);
+        List<Integer> attr = new ArrayList<Integer>();
 
         bootstrapSample(data, train, test);
-        bootstrapAttr(attr);
+        attr = bootstrapAttr(attr);
 
         rootNode = createTree(train, attr, treeNum);
     }
@@ -58,16 +58,16 @@ public class DecisionTree  {
             rand.add(i);
         }
         Collections.shuffle(rand);
-        for (int i = 0; i < dataN*2/3; i++) {
+        for (int i = 0; i < trainN; i++) {
             train.add(data.get(rand.get(i)));
         }
-        for (int i = dataN*2/3+1; i < dataN; i++) {
+        for (int i = trainN; i < trainN+testN; i++) {
             test.add(data.get(rand.get(i)));
         }
     }
 
     @objid ("22963c8e-9140-49f2-beb7-3b2458a06c51")
-    private void bootstrapAttr(List<Integer> attr) {
+    private List<Integer> bootstrapAttr(List<Integer> attr) {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
         // start from 1 because the first entry of a record is class value
@@ -76,6 +76,7 @@ public class DecisionTree  {
         }
         Collections.shuffle(rand);
         attr = rand.subList(0, attrSampleN);
+        return attr;
     }
 
     @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
@@ -93,17 +94,21 @@ public class DecisionTree  {
 
             // Step A
             // find the split attribute and its value based on minimum entropy
-            int minAt = -1;
-            double minAtVal = -1;
-            findSplitPosition(parent.getData(), attr, minAt, minAtVal);
-            parent.setSplitAttr(minAt);
-            parent.setSplitVal(minAtVal);
+//            int minAt = -1;
+//            double minAtVal = -1;
+            SplitAttrObj attrObj = new SplitAttrObj();
+            
+            assert(0 < attr.size());
+            findSplitPosition(parent.getData(), attr, attrObj);
+            System.out.println("Min Attr: "+attrObj.attr+" Min Val: "+ attrObj.val);
+            parent.setSplitAttr(attrObj.attr);
+            parent.setSplitVal(attrObj.val);
 
             // Step B
             // Split data of parent for its two children
             // Set up children and do recursive call
             List<List<Double>>[] childData;
-            childData = splitData(parent.getData(), minAt, minAtVal);
+            childData = splitData(parent.getData(), attrObj.attr, attrObj.val);
             
             parent.setLeftChild(new TreeNode(childData[0]));
             parent.setRightChild(new TreeNode(childData[1]));
@@ -126,18 +131,20 @@ public class DecisionTree  {
      * @param minAt
      * @param minAtVal
      */
-    private void findSplitPosition(List<List<Double>> data, List<Integer> attr, int minAt, double minAtVal) {
+    private void findSplitPosition(List<List<Double>> data, List<Integer> attr, SplitAttrObj attrObj) {
         double minEntropy = Double.MAX_VALUE;
         for (int at : attr) {
             for (int i = 0, len = data.size(); i < len; i++) {
                 double ent = checkPosition(data, at, data.get(i).get(at));
+                System.out.println("ent: "+ent);
                 if (ent < minEntropy) {
                     minEntropy = ent;
-                    minAt = at;
-                    minAtVal = data.get(i).get(at);
+                    attrObj.attr = at;
+                    attrObj.val = data.get(i).get(at);
                 }
             }
         }
+//        System.out.println("[Find Pos] Min Attr: "+minAt+" Min Val: "+ minAtVal);
     }
 
     private double checkPosition(List<List<Double>> data, int attr, double val) {
@@ -155,6 +162,8 @@ public class DecisionTree  {
     private List<List<Double>>[] splitData(List<List<Double>> data, int minAt, double minAtVal) {
         @SuppressWarnings("unchecked")
         List<List<Double>>[] childData = (List<List<Double>>[]) new List[2];
+        childData[0] = new ArrayList<List<Double>>();
+        childData[1] = new ArrayList<List<Double>>();
         for (List<Double> record : data) {
             if (record.get(minAt) < minAtVal) {
                 childData[0].add(record);
@@ -229,6 +238,15 @@ public class DecisionTree  {
     @objid ("359fef83-1f91-4226-b4e6-33118900cb50")
     public void loadFromString(final String tree) {
         // TODO
+    }
+    
+    private class SplitAttrObj {
+        public int attr;
+        public double val;
+        SplitAttrObj() {
+            attr = -1;
+            val = -1;
+        }
     }
 
 }
