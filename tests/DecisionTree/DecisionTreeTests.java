@@ -20,21 +20,16 @@ public class DecisionTreeTests {
     private List<List<Double>> setupTestingData(int dataSize, int attrSize, int classSize) {
         List<List<Double>> data = new ArrayList<List<Double>>();
         
-        System.out.println("Test Data---------------------");
         for (int i = 0; i < dataSize; i++) {
             data.add(new ArrayList<Double>(attrSize+1));
             List<Double> record = data.get(i);
-            
             record.add(Math.floor(Math.random()*classSize));
-            System.out.print(record.get(record.size()-1) + " : ");
-            
             for (int j = 0; j < attrSize; j++) {
                 record.add(Math.floor(Math.random()*100));
-                System.out.print(record.get(j+1) + ",");
             }
-            
-            System.out.println();
         }
+        System.out.println("Test Data-------------------------");
+        printData(data);
         System.out.println("Test Data end---------------------");
         
         return data;
@@ -42,7 +37,7 @@ public class DecisionTreeTests {
 
     @Before
     public void setup() {
-        testingData = setupTestingData(15, 10, 5);
+        testingData = setupTestingData(10, 10, 5);
         tree = new DecisionTree(testingData, 0);
     }
     
@@ -57,14 +52,16 @@ public class DecisionTreeTests {
         q.add(root);
         while (null != q.peek()) {
             TreeNode node = q.poll();
-            System.out.println(node.getLevel()+":"+node.getSplitAttr()+"("+node.getSplitVal()+")");
+            System.out.println("Level " + node.getLevel() + " ---------------------");
+            System.out.println(node);
+            printData(node.getData());
             
             if (PRINT_LVL_MAX < node.getLevel()) {
                 break;
             }
             
             TreeNode left = node.getLeftChild();
-            TreeNode right = node.getLeftChild();
+            TreeNode right = node.getRightChild();
             if (null != left) {
                 q.add(left);
             }
@@ -80,5 +77,19 @@ public class DecisionTreeTests {
         double result = tree.classify(testRecord);
         System.out.println("Test Result: " + result);
         return;
+    }
+    
+    private void printData(List<List<Double>> data) {
+        for (int i = 0, len = data.size(); i < len; i++) {
+            for (int j = 0, len2 = data.get(i).size(); j < len2; j++) {
+                System.out.print(data.get(i).get(j));
+                if (0 == j) {
+                    System.out.print(" : ");
+                } else {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
+        }
     }
 }

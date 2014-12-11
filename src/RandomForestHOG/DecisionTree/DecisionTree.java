@@ -2,7 +2,10 @@ package RandomForestHOG.DecisionTree;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Set;
 
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
@@ -28,10 +31,10 @@ public class DecisionTree  {
             return;
         }
 
-        trainN = dataN * 2 / 3; // TODO should discuss how to determine the size of training set
+        trainN = dataN; // TODO should discuss how to determine the size of training set
         testN = dataN - trainN;
         attrN = data.get(0).size() - 1; // -1 for the first element being class (undetermined)
-        attrSampleN = attrN / 2;  // TODO should discuss how many bootstrapped attributes
+        attrSampleN = attrN;  // TODO should discuss how many bootstrapped attributes
 
         /* Initialize training, testing data set */
         List<List<Double>> train, test;
@@ -71,7 +74,7 @@ public class DecisionTree  {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
         // start from 1 because the first entry of a record is class value
-        for (int i = 0; i < attrN; i++) {
+        for (int i = 1; i < attrN+1; i++) {
             rand.add(i);
         }
         Collections.shuffle(rand);
@@ -110,11 +113,19 @@ public class DecisionTree  {
             List<List<Double>>[] childData;
             childData = splitData(parent.getData(), attrObj.attr, attrObj.val);
             
-            parent.setLeftChild(new TreeNode(childData[0]));
-            parent.setRightChild(new TreeNode(childData[1]));
-
-            recursiveSplit(parent.getLeftChild(), attr);
-            recursiveSplit(parent.getRightChild(), attr);
+//            System.out.println("--------------- Child 0 ---------------");
+//            printData(childData[0]);
+//            System.out.println("--------------- Child 1 ---------------");
+//            printData(childData[1]);
+            
+            if (0 != childData[0].size()) {
+                parent.setLeftChild(new TreeNode(childData[0]));
+                recursiveSplit(parent.getLeftChild(), attr);
+            }
+            if (0 != childData[1].size()) {
+                parent.setRightChild(new TreeNode(childData[1]));
+                recursiveSplit(parent.getRightChild(), attr);
+            }
 
         } else {
             parent.setClassVal(curClass);
@@ -136,7 +147,7 @@ public class DecisionTree  {
         for (int at : attr) {
             for (int i = 0, len = data.size(); i < len; i++) {
                 double ent = checkPosition(data, at, data.get(i).get(at));
-                System.out.println("ent: "+ent);
+//                System.out.println("ent: "+ent);
                 if (ent < minEntropy) {
                     minEntropy = ent;
                     attrObj.attr = at;
@@ -149,8 +160,8 @@ public class DecisionTree  {
 
     private double checkPosition(List<List<Double>> data, int attr, double val) {
         List<List<Double>>[] childData = splitData(data, attr, val);
-        double[] pl = getClassProbs(childData[0]);
-        double[] pu = getClassProbs(childData[1]);
+        List<Double> pl = getClassProbs(childData[0]);
+        List<Double> pu = getClassProbs(childData[1]);
         double el = calcEntropy(pl);
         double eu = calcEntropy(pu);
         
@@ -176,8 +187,24 @@ public class DecisionTree  {
     }
     
     
-    private double[] getClassProbs(List<List<Double>> data) {
-        double[] ps = new double[data.size()];
+    private List<Double> getClassProbs(List<List<Double>> data) {
+        HashMap<Double, Integer> counts = new HashMap<Double, Integer>();
+        for (List<Double> record : data) {
+            double clas = record.get(0);
+            if (counts.containsKey(clas)) {
+                counts.put(clas, counts.get(clas)+1);
+            }
+            else {
+                counts.put(clas, 1);
+            }
+        }
+
+        double N = data.size();
+        List<Double> ps = new ArrayList<Double>();
+        for (double key : counts.keySet()) {
+            ps.add(counts.get(key)/N);
+        }
+        
         return ps;
     }
 
@@ -189,7 +216,7 @@ public class DecisionTree  {
      * class representation, calculate an "entropy" value using the method
      * in Tan Steinbach Kumar's "Data Mining" textbook
      */
-    private double calcEntropy(double[] ps) {
+    private double calcEntropy(List<Double> ps) {
         double e = 0;
         for (double p : ps) {
             if (p != 0) {
@@ -201,7 +228,6 @@ public class DecisionTree  {
 
     @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
     public double classify(final List<Double> testData) {
-        // TODO Auto-generated return
         if (null == rootNode) {
             System.out.println("Tree not created yet...");
             return -1;
@@ -246,6 +272,20 @@ public class DecisionTree  {
         SplitAttrObj() {
             attr = -1;
             val = -1;
+        }
+    }
+
+    private void printData(List<List<Double>> data) {
+        for (int i = 0, len = data.size(); i < len; i++) {
+            for (int j = 0, len2 = data.get(i).size(); j < len2; j++) {
+                System.out.print(data.get(i).get(j));
+                if (0 == j) {
+                    System.out.print(" : ");
+                } else {
+                    System.out.print(", ");
+                }
+            }
+            System.out.println();
         }
     }
 
