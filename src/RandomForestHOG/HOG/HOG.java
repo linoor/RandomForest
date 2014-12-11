@@ -142,7 +142,9 @@ public class HOG extends Sample {
             }
         }
 
-        return pixels;
+        pixelArray = pixels;
+
+        return pixelArray;
     }
 
     @objid ("09490b81-fd8d-4de9-83c8-633b011221dd")
@@ -196,7 +198,6 @@ public class HOG extends Sample {
     }
 
     public static double computeAngle(int[] vec) {
-//      TODO not sure if this should work like this
         if (vec[1] == 0) {
             return 0;
         }
