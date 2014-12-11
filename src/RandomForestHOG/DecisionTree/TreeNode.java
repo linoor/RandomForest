@@ -43,12 +43,21 @@ public class TreeNode implements Cloneable {
         copy.setParent(this.getParent());
         return copy;
     }
+    
+    @Override
+    public String toString() {
+        return getLevel() + ": attr[" + getSplitAttr() + "," + getSplitVal() 
+                         + "] class["+ getClassVal() + "]";
+    }
 
     private void incrementLevel() {
         level++;
     }
 
     private void setupChild(TreeNode child) {
+        if (null == child) {
+            return;
+        }
         child.setParent(this);
         child.setLevel(getLevel());
         child.incrementLevel();
