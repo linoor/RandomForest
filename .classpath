@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="tests"/>
-	<classpathentry exported="true" kind="lib" path="/Users/ericchiu/Documents/France/MINES ParisTech/2014F Cours/PO/jLevis/Levis.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry exported="true" kind="lib" path="/Applications/Modelio 3.1.2/bundle/java/javadesigner.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files/Modelio 3.1/bundle/java/javadesigner.jar"/>
+	<classpathentry exported="true" kind="lib" path="E:/Mine Paris Tech/Cours Semestre 3 (20142015)/Analyse, Conception et Programmation par objets/Levis.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
