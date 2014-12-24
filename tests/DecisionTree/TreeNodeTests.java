@@ -48,12 +48,22 @@ public class TreeNodeTests {
     //TODO
     @Test
     public void testSplitAttr() {
-
+        if (-99 != parent.getSplitAttr()) {
+            org.junit.Assert.assertTrue("current node should be a leaf", parent.isLeaf());
+        }
+        else {
+            org.junit.Assert.assertFalse("current node should not be a leaf", parent.isLeaf());
+        }
     }
 
     //TODO
     @Test
     public void testSplitVar() {
-
+        if (-99 != parent.getSplitVal()) {
+            org.junit.Assert.assertTrue("current node should be a leaf", parent.isLeaf());
+        }
+        else {
+            org.junit.Assert.assertFalse("current node should not be a leaf", parent.isLeaf());
+        }
     }
 }
