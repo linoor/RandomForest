@@ -6,3 +6,4 @@ data/*
 project.conf
 *.class
 /bin/
+.settings/*

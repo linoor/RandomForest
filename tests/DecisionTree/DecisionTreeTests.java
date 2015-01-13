@@ -46,7 +46,6 @@ public class DecisionTreeTests {
         TreeNode root = tree.getRootNode();
         System.out.println(root.getLevel()+":"+root.getSplitAttr()+"("+root.getSplitVal()+")");
         final int PRINT_LVL_MAX = 5;
-//        int counter = 0;
         
         Queue<TreeNode> q = new LinkedList<TreeNode>();
         q.add(root);
