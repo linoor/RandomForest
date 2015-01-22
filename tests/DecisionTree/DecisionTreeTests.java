@@ -15,7 +15,6 @@ public class DecisionTreeTests {
     
     private DecisionTree tree;
     private List<List<Double>> testingData;
-
     
     private List<List<Double>> setupTestingData(int dataSize, int attrSize, int classSize) {
         List<List<Double>> data = new ArrayList<List<Double>>();
