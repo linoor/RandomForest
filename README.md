@@ -3,7 +3,7 @@ RandomForest
 
 An implementation of the Random Forest algorithm
 
-##$ Reference
+### Reference
 Random Forest
 * [Random-Forest](https://github.com/ironmanMA/Random-Forest) (Java)  
 
