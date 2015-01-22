@@ -1,2 +1,3 @@
 .project merge=ours
+project.conf merge=ours
 
