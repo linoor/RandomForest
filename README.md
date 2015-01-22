@@ -3,7 +3,7 @@ RandomForest
 
 An implementation of the Random Forest algorithm
 
-### Reference
+##$ Reference
 Random Forest
 * [Random-Forest](https://github.com/ironmanMA/Random-Forest) (Java)  
 
@@ -14,7 +14,8 @@ Histogram of Oriented Gradients
 * [HOG tutorial] (https://chrisjmccormick.wordpress.com/2013/05/09/hog-person-detector-tutorial/)
 * [Gradient Vector tutorial] (https://chrisjmccormick.wordpress.com/2013/05/07/gradient-vectors/)
 
-### Set Up in *Eclipse*
+### Set Up
+#### Eclipse
 1. **File > Import** then select **Git > Projects from Git**
 2. Use https://github.com/linoor/RandomForest.git as **Clone URI** (or use ssh URI if preferred)
 3. Configure local settings, then **Finish**
@@ -22,5 +23,8 @@ Histogram of Oriented Gradients
 5. Select **Libraries > Add External JARs**, add **javadesigner.jar** (package from *Modelio*) and **Levis.jar** from file system
 6. Select **Libraries > Add Library**, add **JUnit 4** library 
 7. Remember to check the checkboxes in **Order and Export** tab before clicking **OK**
+
+#### IntelliJ
+
 
 ### How to Use
