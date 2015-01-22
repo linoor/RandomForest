@@ -1,7 +1,8 @@
 bin/
-.settings/
 data/
+.settings/
 .runtime/
+.idea/
 .classpath
 .project
 project.conf

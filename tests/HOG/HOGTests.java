@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 public class HOGTests {
 
-    private final File simpleImg = Paths.get("E:\\Dev\\RandomForest\\assets\\vectorGradientTest.png").toFile();
+    private final File simpleImg = Paths.get("/Users/ericchiu/Workspace/RandomForest_IntJ/assets/vectorGradientTest.png").toFile();
 
     @Before
     public void setup() {
