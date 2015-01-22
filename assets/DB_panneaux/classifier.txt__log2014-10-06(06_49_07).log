@@ -1,0 +1,6 @@
+// MultilayerPerceptronLearner
+// max Iteration : 2000
+// classifier : MultilayerPerceptron
+// learningRate : 0.2
+// momentum : 0.1
+// Iter LearnError TestError
