@@ -17,13 +17,29 @@ Histogram of Oriented Gradients
 Datase
 * [Handwritten Digits](http://archive.ics.uci.edu/ml/datasets/Pen-Based+Recognition+of+Handwritten+Digits)
 
-### Set Up in *Eclipse*
-1. **File > Import** then select **Git > Projects from Git**
-2. Use https://github.com/linoor/RandomForest.git as **Clone URI** (or use ssh URI if preferred)
-3. Configure local settings, then **Finish**
-4. After the the import, go to **Properties** (by right-clicking on the project) **> Java Build Path**
-5. Select **Libraries > Add External JARs**, add **javadesigner.jar** (package from *Modelio*) and **Levis.jar** from file system
-6. Select **Libraries > Add Library**, add **JUnit 4** library 
-7. Remember to check the checkboxes in **Order and Export** tab before clicking **OK**
+### Set Up
+Java 8 required.
+#### Eclipse LUNA
+1. Import project 
+  1. *File > Import*, select *Git > Projects from Git*
+  2. Configure project then *Finish*
+2. Add JARs and libraries
+  1. Right-click project *> Properties > Java Build Path*
+  2. Select *Libraries > Add External JARs*, add `javadesigner.jar` (package from **Modelio**) and `Levis.jar` from file system
+  3. Select *Libraries > Add Library*, add `JUnit 4` library
+  4. Check all added libraries in *Order and Export*
+3. Configure source folders
+  1. Right-click folders `src` and `tests` *> Build Path > Use as Source Folder*
+
+#### IntelliJ IDEA
+1. Import project 
+  1. Choose *Checkout from Version Control > Git*
+  2. Configure project to clone
+2. Add JARs and libraries
+  1. Right-click project *> Open Module Settings*, select *Modules* panel
+  2. In *Dependencies* tab, add `javadesigner.jar` `Levis.jar` and libraries for `JUnit` and `hamcrest`
+3. Configure source folders
+  1. Right-click folders `src` *> Mark Directory As > Sources Root*
+  2. Right-click folders `tests` *> Mark Directory As > Test Sources Root*
 
 ### How to Use
