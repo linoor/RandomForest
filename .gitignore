@@ -1,9 +1,8 @@
-bin/*
-data/*
-.runtime/*
+bin/
+.settings/
+data/
+.runtime/
 .classpath
 .project
 project.conf
 *.class
-/bin/
-.settings/*
