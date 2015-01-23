@@ -12,6 +12,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import Utils.DataVector;
+
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
 public class RandomForestLearner extends Learner {
 
