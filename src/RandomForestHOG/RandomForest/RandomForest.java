@@ -15,25 +15,8 @@ public class RandomForest extends Classifier {
     private int maxDepth;
     private int maxNumOfTrees;
 
-    @objid("8883cce6-777e-4b9c-8805-76062396071d")
-    public int getMaxDepth() {
-        return maxDepth;
-    }
-
-    @objid("cef76905-bdae-42d0-827b-37e6adbe4154")
-    public int getMaxNumOfTrees() {
-        return maxNumOfTrees;
-    }
-
-    @objid("b5a6a8ac-1ab9-4f93-b678-95119fd19ca6")
-    public double getForestError() {
-        return 0;
-    }
-
-    @objid("28c4ffde-4f11-49c5-804f-9a61039cded6")
-    public List<DecisionTree> getTrees() {
-        return null;
-    }
+    public List<DecisionTree> dTree;
+    public List<List<Double>> prediction;
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
@@ -72,6 +55,26 @@ public class RandomForest extends Classifier {
 
     @objid ("b9f976bc-034c-42e9-84d5-f7e6eba0502a")
     public void createForest(final List<Float> data) {
+    }
+
+    @objid("8883cce6-777e-4b9c-8805-76062396071d")
+    public int getMaxDepth() {
+        return maxDepth;
+    }
+
+    @objid("cef76905-bdae-42d0-827b-37e6adbe4154")
+    public int getMaxNumOfTrees() {
+        return maxNumOfTrees;
+    }
+
+    @objid("b5a6a8ac-1ab9-4f93-b678-95119fd19ca6")
+    public double getForestError() {
+        return 0;
+    }
+
+    @objid("28c4ffde-4f11-49c5-804f-9a61039cded6")
+    public List<DecisionTree> getTrees() {
+        return null;
     }
 
     @Override
