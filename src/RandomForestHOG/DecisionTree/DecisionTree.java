@@ -16,10 +16,10 @@ public class DecisionTree  {
     private int attrSampleN;
     private TreeNode rootNode;
 
-    @objid ("92a699ab-b86a-40cc-8fdb-4eca568fa8a6")
-    public DecisionTree() {
-        // TODO
-    }
+//    @objid ("92a699ab-b86a-40cc-8fdb-4eca568fa8a6")
+//    public DecisionTree() {
+//        // TODO
+//    }
 
     @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
     public DecisionTree(final List<List<Double>> data, final int treeNum) {
