@@ -3,6 +3,7 @@ package RandomForestHOG.RandomForest;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import RandomForestHOG.DecisionTree.DecisionTree;
 import Utils.DataVector;
@@ -17,7 +18,7 @@ public class RandomForest extends Classifier {
     private int maxNumOfTrees;
 
     public List<DecisionTree> dTree;
-    public List<List<Integer>> prediction;
+    public List<List<Integer>> predictions;
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
@@ -33,7 +34,14 @@ public class RandomForest extends Classifier {
     }
 
     public List<Integer> classify(List<DataVector> data) {
-
+        List<Integer> prediction = new ArrayList<>(data.size());
+        for (DataVector vector : data) {
+            for (DecisionTree tree : dTree) {
+                int pred = tree.classify(vector);
+                prediction.add(pred);
+            }
+        }
+        return prediction;
     }
 
     @objid ("7d351bea-7309-41e8-8d48-de66b414bc25")
