@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import RandomForestHOG.DecisionTree.DecisionTree;
 import Utils.DataVector;
+import Utils.Helper;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.classifier.Classifier;
 import fr.ensmp.caor.levis.sample.Sample;
@@ -18,7 +19,7 @@ public class RandomForest extends Classifier {
     private int maxNumOfTrees;
 
     public List<DecisionTree> dTree;
-    public List<List<Integer>> predictions;
+    public List<Integer> finalPredictions;
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
@@ -33,15 +34,24 @@ public class RandomForest extends Classifier {
         return 0;
     }
 
-    public List<Integer> classify(List<DataVector> data) {
-        List<Integer> prediction = new ArrayList<>(data.size());
+    public List<Integer> classify(List<DataVector> data, boolean calAccuracy) {
+//        List<Integer> prediction = new ArrayList<>(data.size());
         for (DataVector vector : data) {
+            List<Integer> treePredictions = new ArrayList<>(data.size());
             for (DecisionTree tree : dTree) {
-                int pred = tree.classify(vector);
-                prediction.add(pred);
+                int curPrediction = tree.classify(vector);
+                treePredictions.add(curPrediction);
             }
+            int forestPrediction = Helper.getModeInt(treePredictions);
+            finalPredictions.add(forestPrediction);
         }
-        return prediction;
+        if (calAccuracy) {
+            calAccuracy();
+        }
+        return finalPredictions;
+    }
+
+    private void calAccuracy() {
     }
 
     @objid ("7d351bea-7309-41e8-8d48-de66b414bc25")

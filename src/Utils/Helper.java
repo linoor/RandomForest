@@ -1,10 +1,9 @@
 package Utils;
 
-import org.junit.Assert;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -45,5 +44,21 @@ public class Helper {
             }
             System.out.println();
         }
+    }
+
+    public static int getModeInt(List<Integer> list) {
+        Collections.sort(list);
+
+        int[] counter = new int[list.get(list.size())];
+        int maxCount = -1;
+        int maxIdx = -1;
+        for (int el : list) {
+            counter[el]++;
+            if (counter[el] > maxCount) {
+                maxCount = counter[el];
+                maxIdx = el;
+            }
+        }
+        return maxIdx;
     }
 }
