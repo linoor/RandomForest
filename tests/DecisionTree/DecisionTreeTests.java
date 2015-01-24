@@ -33,7 +33,7 @@ public class DecisionTreeTests {
             Assert.fail();
         }
         else {
-            tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, 0);
+            tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
         }
     }
 
