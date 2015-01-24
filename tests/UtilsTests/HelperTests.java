@@ -1,8 +1,8 @@
 package UtilsTests;
 
 import Utils.Helper;
-import junit.framework.Assert;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.nio.file.Path;
 
