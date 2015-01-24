@@ -4,6 +4,7 @@ import RandomForestHOG.DecisionTree.DecisionTree;
 import RandomForestHOG.DecisionTree.TreeNode;
 
 import Utils.DataVector;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,7 +43,13 @@ public class DecisionTreeTests {
     @Before
     public void setup() {
         testingData = setupTestingData(10, 10, 5);
-        tree = new DecisionTree(testingData, bootstrapRate, 0);
+        int numOfAttrSample = getNumOfAttrSample(testingData);
+        if (0 > numOfAttrSample) {
+            Assert.fail();
+        }
+        else {
+            tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, 0);
+        }
     }
     
     @Test
@@ -102,7 +109,11 @@ public class DecisionTreeTests {
     private int getNumOfAttrSample(List<DataVector> data) {
         try {
             int numOfAttr = data.get(0).feature.length;
-            return
+            return (int)Math.round(Math.log(numOfAttr)/Math.log(2)+1);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return -1;
         }
 
     }

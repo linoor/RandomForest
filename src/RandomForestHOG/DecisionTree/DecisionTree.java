@@ -72,7 +72,7 @@ public class DecisionTree  {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
         // start from 1 because the first entry of a record is class value
-        for (int i = 1; i < attrN+1; i++) {
+        for (int i = 0; i < attrN; i++) {
             rand.add(i);
         }
         Collections.shuffle(rand);

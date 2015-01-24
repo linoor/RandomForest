@@ -10,11 +10,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class RandomForestLearnerTests {
 
-    @Test
-    public void testConstructor() {
-        RandomForestLearner randomForestLearner = new RandomForestLearner(4, 5);
-        assertEquals(randomForestLearner.getBootstrapSize(), 4);
-        assertEquals(randomForestLearner.getAttributesSize(), 5);
-    }
+//    @Test
+//    public void testConstructor() {
+//        RandomForestLearner randomForestLearner = new RandomForestLearner(4, 5);
+//        assertEquals(randomForestLearner.getBootstrapSize(), 4);
+//        assertEquals(randomForestLearner.getAttributesSize(), 5);
+//    }
 
 }

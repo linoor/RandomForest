@@ -87,7 +87,7 @@ public class RandomForestLearner extends Learner {
             if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
                 treePool.shutdownNow();
                 if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-                    System.err.println("treePool did not terminate...");
+                    System.err.println("tree pool did not terminate...");
                 }
             }
         }
