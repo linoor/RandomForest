@@ -31,8 +31,8 @@ public class RandomForestLearner extends Learner {
 
     private int numOfTree;
     private int numOfThread;
-    private List<List<Double>> data;
-    private List<List<Double>> testData;
+    private List<DataVector> data;
+    private List<DataVector> testData;
 
     /* the thread pool that generates decision tree concurrently */
     private ExecutorService treePool;
@@ -77,11 +77,11 @@ public class RandomForestLearner extends Learner {
     }
 
     private class CreateTree implements Runnable {
-        private List<List<Double>> data;
+        private List<DataVector> data;
         private RandomForest forest;
         private int treeId;
 
-        public CreateTree(List<List<Double>> data, RandomForest forest, int treeId) {
+        public CreateTree(List<DataVector> data, RandomForest forest, int treeId) {
             this.data = data;
             this.forest = forest;
             this.treeId = treeId;

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import Utils.DataVector;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("61261918-d6ad-4d4d-a19f-e6c7088f5dd6")
@@ -22,7 +23,7 @@ public class DecisionTree  {
 //    }
 
     @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
-    public DecisionTree(final List<List<Double>> data, final int treeNum) {
+    public DecisionTree(final List<DataVector> data, final int treeNum) {
         dataN = data.size();
         if (0 >= dataN) {
             System.out.println("DecisionTree: data empty...");
@@ -31,19 +32,19 @@ public class DecisionTree  {
 
         trainN = dataN; // TODO should discuss how to determine the size of training set
         testN = dataN - trainN;
-        attrN = data.get(0).size() - 1; // -1 for the first element being class (undetermined)
+        attrN = data.get(0).feature.length;
         attrSampleN = attrN;  // TODO should discuss how many bootstrapped attributes
 
         /* Initialize training, testing data set */
-        List<List<Double>> train, test;
-        train = new ArrayList<List<Double>>(trainN);
-        test = new ArrayList<List<Double>>(testN);
-        for (List<Double> d : train) {
-            d = new ArrayList<Double>();
-        }
-        for (List<Double> d : test) {
-            d = new ArrayList<Double>();
-        }
+        List<DataVector> train, test;
+        train = new ArrayList<DataVector>(trainN);
+        test = new ArrayList<DataVector>(testN);
+//        for (DataVector d : train) {
+//            d = new ArrayList<Double>();
+//        }
+//        for (DataVector d : test) {
+//            d = new ArrayList<Double>();
+//        }
         List<Integer> attr = new ArrayList<Integer>();
 
         bootstrapSample(data, train, test);
@@ -53,7 +54,7 @@ public class DecisionTree  {
     }
 
     @objid ("bd35c418-14d7-4599-891b-34837487a39c")
-    private void bootstrapSample(final List<List<Double>> data, List<List<Double>> train, List<List<Double>> test) {
+    private void bootstrapSample(final List<DataVector> data, List<DataVector> train, List<DataVector> test) {
         ArrayList<Integer> rand = new ArrayList<Integer>(dataN);
         for (int i = 0; i < dataN; i++) {
             rand.add(i);
@@ -81,7 +82,7 @@ public class DecisionTree  {
     }
 
     @objid ("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
-    private TreeNode createTree(final List<List<Double>> train, List<Integer> attr, final int nTree) {
+    private TreeNode createTree(final List<DataVector> train, List<Integer> attr, final int nTree) {
         TreeNode root = new TreeNode();
         root.setData(train);
         recursiveSplit(root, attr);
@@ -108,7 +109,7 @@ public class DecisionTree  {
             // Step B
             // Split data of parent for its two children
             // Set up children and do recursive call
-            List<List<Double>>[] childData;
+            List<DataVector>[] childData;
             childData = splitData(parent.getData(), attrObj.attr, attrObj.val);
             
 //            System.out.println("--------------- Child 0 ---------------");
@@ -137,27 +138,26 @@ public class DecisionTree  {
      * Find the splitting attribute and value that create minimum entropy
      * @param data
      * @param attr
-     * @param minAt
-     * @param minAtVal
+     * @param attrObj
      */
-    private void findSplitPosition(List<List<Double>> data, List<Integer> attr, SplitAttrObj attrObj) {
+    private void findSplitPosition(List<DataVector> data, List<Integer> attr, SplitAttrObj attrObj) {
         double minEntropy = Double.MAX_VALUE;
         for (int at : attr) {
             for (int i = 0, len = data.size(); i < len; i++) {
-                double ent = checkPosition(data, at, data.get(i).get(at));
+                double ent = checkPosition(data, at, data.get(i).feature[at]);
 //                System.out.println("ent: "+ent);
                 if (ent < minEntropy) {
                     minEntropy = ent;
                     attrObj.attr = at;
-                    attrObj.val = data.get(i).get(at);
+                    attrObj.val = data.get(i).feature[at];
                 }
             }
         }
 //        System.out.println("[Find Pos] Min Attr: "+minAt+" Min Val: "+ minAtVal);
     }
 
-    private double checkPosition(List<List<Double>> data, int attr, double val) {
-        List<List<Double>>[] childData = splitData(data, attr, val);
+    private double checkPosition(List<DataVector> data, int attr, double val) {
+        List<DataVector>[] childData = splitData(data, attr, val);
         List<Double> pl = getClassProbs(childData[0]);
         List<Double> pu = getClassProbs(childData[1]);
         double el = calcEntropy(pl);
@@ -168,13 +168,13 @@ public class DecisionTree  {
         return e;
     }
     
-    private List<List<Double>>[] splitData(List<List<Double>> data, int minAt, double minAtVal) {
+    private List<DataVector>[] splitData(List<DataVector> data, int minAt, double minAtVal) {
         @SuppressWarnings("unchecked")
-        List<List<Double>>[] childData = (List<List<Double>>[]) new List[2];
-        childData[0] = new ArrayList<List<Double>>();
-        childData[1] = new ArrayList<List<Double>>();
-        for (List<Double> record : data) {
-            if (record.get(minAt) < minAtVal) {
+        List<DataVector>[] childData = (List<DataVector>[]) new List[2];
+        childData[0] = new ArrayList<DataVector>();
+        childData[1] = new ArrayList<DataVector>();
+        for (DataVector record : data) {
+            if (record.feature[minAt] < minAtVal) {
                 childData[0].add(record);
             }
             else {
@@ -185,10 +185,10 @@ public class DecisionTree  {
     }
     
     
-    private List<Double> getClassProbs(List<List<Double>> data) {
-        HashMap<Double, Integer> counts = new HashMap<Double, Integer>();
-        for (List<Double> record : data) {
-            double clas = record.get(0);
+    private List<Double> getClassProbs(List<DataVector> data) {
+        HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+        for (DataVector record : data) {
+            int clas = record.cls;
             if (counts.containsKey(clas)) {
                 counts.put(clas, counts.get(clas)+1);
             }
@@ -199,7 +199,7 @@ public class DecisionTree  {
 
         double N = data.size();
         List<Double> ps = new ArrayList<Double>();
-        for (double key : counts.keySet()) {
+        for (int key : counts.keySet()) {
             ps.add(counts.get(key)/N);
         }
         
@@ -273,15 +273,13 @@ public class DecisionTree  {
         }
     }
 
-    private void printData(List<List<Double>> data) {
+    private void printData(List<DataVector> data) {
         for (int i = 0, len = data.size(); i < len; i++) {
-            for (int j = 0, len2 = data.get(i).size(); j < len2; j++) {
-                System.out.print(data.get(i).get(j));
-                if (0 == j) {
-                    System.out.print(" : ");
-                } else {
-                    System.out.print(", ");
-                }
+            System.out.print(data.get(i).cls);
+            System.out.print(" : ");
+            for (int j = 0, len2 = data.get(i).feature.length; j < len2; j++) {
+                System.out.print(data.get(i).feature[i]);
+                System.out.print(", ");
             }
             System.out.println();
         }

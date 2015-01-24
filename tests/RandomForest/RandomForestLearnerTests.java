@@ -16,4 +16,5 @@ public class RandomForestLearnerTests {
         assertEquals(randomForestLearner.getBootstrapSize(), 4);
         assertEquals(randomForestLearner.getAttributesSize(), 5);
     }
+
 }

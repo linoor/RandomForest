@@ -16,7 +16,7 @@ public class RandomForest extends Classifier {
     private int maxNumOfTrees;
 
     public List<DecisionTree> dTree;
-    public List<List<Double>> prediction;
+    public List<List<Integer>> prediction;
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {

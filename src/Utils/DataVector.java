@@ -5,6 +5,9 @@ package Utils;
  */
 public class DataVector {
 
+    /* using public variable here for this class serves just like struct in c++
+     * getter/setter could be added later on
+     */
     public double[] feature;
     public int cls;
 

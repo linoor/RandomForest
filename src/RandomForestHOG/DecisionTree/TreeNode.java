@@ -1,5 +1,6 @@
 package RandomForestHOG.DecisionTree;
 
+import Utils.DataVector;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import java.util.List;
 
@@ -13,18 +14,18 @@ public class TreeNode implements Cloneable {
     private int splitAttr;
     private double splitVal;
     private double classVal;
-    private List<List<Double>> data;
+    private List<DataVector> data;
 
     @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
         this(null, 0, -99, -99);
     }
     
-    public TreeNode(List<List<Double>> data) {
+    public TreeNode(List<DataVector> data) {
         this(data, 0, -99, -99);
     }
     
-    public TreeNode(List<List<Double>> data, int level, int splitAttr, double splitVal) {
+    public TreeNode(List<DataVector> data, int level, int splitAttr, double splitVal) {
         setData(data);
         setLevel(level);
         setSplitAttr(splitAttr);
@@ -74,9 +75,9 @@ public class TreeNode implements Cloneable {
     public double checkIfSameClass() {
         // get class of the first record of data
         // (suppose class is the first element of that record)
-        double curClass = data.get(0).get(0);
-        for (List<Double> record : data) {
-            if (curClass != record.get(0)) {
+        double curClass = data.get(0).cls;
+        for (DataVector record : data) {
+            if (curClass != record.cls) {
                 return -1;
             }
         }
@@ -115,7 +116,7 @@ public class TreeNode implements Cloneable {
         return classVal;
     }
 
-    public List<List<Double>> getData() {
+    public List<DataVector> getData() {
         return data;
     }
 
@@ -149,7 +150,7 @@ public class TreeNode implements Cloneable {
         this.classVal = classVal;
     }
 
-    public void setData(List<List<Double>> data) {
+    public void setData(List<DataVector> data) {
         this.data = data;
     }
 }
