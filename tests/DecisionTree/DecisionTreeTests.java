@@ -56,7 +56,7 @@ public class DecisionTreeTests {
     
     @Test
     public void testClassify() {
-        DataVector testRecord = Helper.setupTestingData(1, 10, 5).get(0);
+        DataVector testRecord = Helper.setupTestingData(1, numOfAttr, numOfClass).get(0);
         double result = tree.classify(testRecord);
         System.out.println("Test Result: " + result);
     }
