@@ -1,35 +1,135 @@
 package RandomForestHOG.RandomForest;
 
+import RandomForestHOG.DecisionTree.DecisionTree;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.classifier.Classifier;
 import fr.ensmp.caor.levis.learner.Learner;
 import fr.ensmp.caor.levis.sample.DataBase;
 
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import Utils.DataVector;
+
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
-public class RandomForestLearner  extends Learner {
+public class RandomForestLearner extends Learner {
 
-    private int bootstrapSize;
-    private int attributesSize;
+    private Classifier _model = new RandomForest();
 
-    @objid("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
-    public int getAttributesSize() {
-        return attributesSize;
+    private static double bootstrapRate = 2.0/3;
+    private static double attrSampleRate = 1;
+
+    private static int numOfClass;
+    private static int numOfAttr;
+    /* number of attributes to be bootstrapped when creating decision trees
+     * suggested by Breiman: = (int)Math.round(Math.log([# of attr])/Math.log(2)+1)
+     */
+    private static int numOfAttrSample;
+
+    private static int numOfTree;
+
+    private List<DataVector> data;
+//    private List<DataVector> testData;
+
+    private static int numOfThread;
+    /* the thread pool that generates decision tree concurrently */
+    private ExecutorService treePool;
+
+
+    @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread) {
+        super();
+        if (0 >= data.size()) {
+            System.err.println("RandomForestLearner: data empty...");
+            return;
+        }
+        RandomForest model = (RandomForest) _model;
+
+        this.data = data;
+        this.numOfTree = (numOfTree > model.getMaxNumOfTrees())? model.getMaxNumOfTrees() : numOfTree;
+        this.numOfThread = numOfThread;
+
+        this.numOfAttr = data.get(0).feature.length;
+        this.numOfAttrSample = (int)Math.round(Math.log(this.numOfAttr)/Math.log(2)+1);
+        this.attrSampleRate = ((double)this.numOfAttrSample) / this.numOfAttr;
     }
 
-    @objid("462886f4-e68d-48c1-b2dd-1b27d8dc39a2")
-    public int getBootstrapSize() {
-        return bootstrapSize;
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread, double attrSampleRate) {
+        this(data, numOfTree, numOfThread);
+        if (1 < attrSampleRate) {
+            System.out.println("RandomForestLearner: attribute sample rate > 1... using default setting");
+        }
+        else {
+            this.attrSampleRate = attrSampleRate;
+            this.numOfAttrSample = (int)Math.round(numOfAttr * attrSampleRate);
+        }
     }
 
-    @objid("89e7d33d-e15d-4fd6-b44f-324059a4e1f8")
-    RandomForest _model() {
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread, double attrSampleRate, double bootstrapRate) {
+        this(data, numOfTree, numOfThread, attrSampleRate);
+        if (1 < bootstrapRate) {
+            System.out.println("RandomForestLearner: data bootstrap rate > 1... using default setting");
+        }
+        else {
+            this.bootstrapRate = bootstrapRate;
+        }
+    }
+
+
+    protected Classifier learn() {
+        RandomForest model = (RandomForest) _model;
+        treePool = Executors.newFixedThreadPool(numOfThread);
+        for (int i = 0; i < numOfTree; i++) {
+            treePool.execute(new CreateTree(data, model, i));
+        }
+        treePool.shutdown();
+        try {
+            if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
+                treePool.shutdownNow();
+                if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
+                    System.err.println("tree pool did not terminate...");
+                }
+            }
+        }
+        catch (InterruptedException ie) {
+            System.out.println("interrupted exception in RandomForestLearner...");
+            treePool.shutdownNow();
+        }
+
+        return model;
+    }
+
+    @objid ("84799113-d630-4eef-bd4d-a074581d5b7f")
+    protected Classifier learn(DataBase p0) throws Exception {
         return null;
     }
 
-    @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
-    public RandomForestLearner(int bootstrapSize, int attributeSize) {
-        this.bootstrapSize = bootstrapSize;
-        this.attributesSize = attributeSize;
+    private class CreateTree implements Runnable {
+        private List<DataVector> data;
+        private RandomForest forest;
+        private int treeId;
+
+        public CreateTree(List<DataVector> data, RandomForest forest, int treeId) {
+            this.data = data;
+            this.forest = forest;
+            this.treeId = treeId;
+        }
+        @Override
+        public void run() {
+            forest.dTree.add(new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId));
+        }
+    }
+
+    @objid("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
+    public double getAttrSampleRate() {
+        return attrSampleRate;
+    }
+
+    @objid("462886f4-e68d-48c1-b2dd-1b27d8dc39a2")
+    public double getBootstrapRate() {
+        return bootstrapRate;
     }
 
     @objid ("4aff82c9-54dd-4e50-960f-3fcb7c21264b")
@@ -52,12 +152,6 @@ public class RandomForestLearner  extends Learner {
     @objid ("ed4da577-e9c1-44db-b292-1ddb4aeab813")
     protected Object[] getLearnerPossibleValues(String p0) {
         return new Object[0];
-    }
-
-    @objid ("84799113-d630-4eef-bd4d-a074581d5b7f")
-    protected Classifier learn(DataBase p0) throws Exception {
-        // TODO Auto-generated return
-        return null;
     }
 
     @objid ("9b2f1c61-6be7-4156-85db-15202c387c02")

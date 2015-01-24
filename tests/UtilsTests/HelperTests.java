@@ -1,8 +1,8 @@
 package UtilsTests;
 
 import Utils.Helper;
-import junit.framework.Assert;
 import org.junit.Test;
+import org.junit.Assert;
 
 import java.nio.file.Path;
 
@@ -13,8 +13,17 @@ public class HelperTests {
 
     @Test
     public void testAssetsFolder() {
-        String myPath = "E:\\Dev\\RandomForest\\assets";
+//        String myPath = "E:\\Dev\\RandomForest\\assets";
+        String myPath = System.getProperty("user.dir") + "/assets";
         Assert.assertEquals(Helper.getAssetsFolder().toAbsolutePath().toString(), myPath);
+    }
+
+    @Test
+    public void testSetUpTestingData() {
+    }
+
+    @Test
+    public void testPrintData() {
     }
 }
 
