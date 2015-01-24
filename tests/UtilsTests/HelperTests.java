@@ -13,7 +13,8 @@ public class HelperTests {
 
     @Test
     public void testAssetsFolder() {
-        String myPath = "E:\\Dev\\RandomForest\\assets";
+//        String myPath = "E:\\Dev\\RandomForest\\assets";
+        String myPath = System.getProperty("user.dir") + "/assets";
         Assert.assertEquals(Helper.getAssetsFolder().toAbsolutePath().toString(), myPath);
     }
 }
