@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.List;
 import RandomForestHOG.DecisionTree.DecisionTree;
+import Utils.DataVector;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import fr.ensmp.caor.levis.classifier.Classifier;
 import fr.ensmp.caor.levis.sample.Sample;
@@ -25,24 +26,28 @@ public class RandomForest extends Classifier {
         this.maxNumOfTrees = maxNumOfTrees;
     }
 
-    @objid ("cbe45e05-de9e-49f4-b0cb-481904bc80f9")
-    public void write(BufferedWriter p0, boolean p1) throws IOException {
-    }
-
-    @objid ("f96d5246-c8ac-49c9-a26f-6a2b8de8cc38")
-    public void read(BufferedReader p0) throws Exception {
-    }
 
     @objid ("825cee3b-bf63-4b2f-96a7-c6fe53cf1387")
     public int classify(Sample p0) {
-        // TODO Auto-generated return
         return 0;
+    }
+
+    public List<Integer> classify(List<DataVector> data) {
+
     }
 
     @objid ("7d351bea-7309-41e8-8d48-de66b414bc25")
     public int voteOfDTree(final List<Integer> predictions) {
         // TODO Auto-generated return
         return 0;
+    }
+
+    @objid ("cbe45e05-de9e-49f4-b0cb-481904bc80f9")
+    public void write(BufferedWriter p0, boolean p1) throws IOException {
+    }
+
+    @objid ("f96d5246-c8ac-49c9-a26f-6a2b8de8cc38")
+    public void read(BufferedReader p0) throws Exception {
     }
 
     @objid ("4e02065e-bd36-4784-a14a-e65f379b4cbd")
@@ -74,7 +79,7 @@ public class RandomForest extends Classifier {
 
     @objid("28c4ffde-4f11-49c5-804f-9a61039cded6")
     public List<DecisionTree> getTrees() {
-        return null;
+        return dTree;
     }
 
     @Override

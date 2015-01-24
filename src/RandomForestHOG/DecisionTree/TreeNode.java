@@ -13,7 +13,7 @@ public class TreeNode implements Cloneable {
 
     private int splitAttr;
     private double splitVal;
-    private double classVal;
+    private int classVal;
     private List<DataVector> data;
 
     @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
@@ -72,10 +72,10 @@ public class TreeNode implements Cloneable {
      * Check if all record of data of this tree node have the same class value.
      * @return that class value, -1 if not
      */
-    public double checkIfSameClass() {
+    public int checkIfSameClass() {
         // get class of the first record of data
         // (suppose class is the first element of that record)
-        double curClass = data.get(0).cls;
+        int curClass = data.get(0).cls;
         for (DataVector record : data) {
             if (curClass != record.cls) {
                 return -1;
@@ -112,7 +112,7 @@ public class TreeNode implements Cloneable {
         return splitVal;
     }
 
-    public double getClassVal() {
+    public int getClassVal() {
         return classVal;
     }
 
@@ -146,7 +146,7 @@ public class TreeNode implements Cloneable {
         this.splitVal = splitVal;
     }
 
-    public void setClassVal(double classVal) {
+    public void setClassVal(int classVal) {
         this.classVal = classVal;
     }
 
