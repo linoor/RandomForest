@@ -2,11 +2,13 @@ package HOG;
 
 import RandomForestHOG.HOG.HOG;
 import RandomForestHOG.HOG.HOGParam;
+import Utils.Helper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static RandomForestHOG.HOG.HOGParam.BlockType.RADIAL;
@@ -16,10 +18,12 @@ import static org.junit.Assert.*;
 
 public class HOGTests {
 
-    private final File simpleImg = Paths.get("C:\\git\\RandomForest\\assets\\vectorGradientTest.png").toFile();
+    private File simpleImg;
 
     @Before
     public void setup() {
+        Path simpleImgPath = Paths.get(Helper.getAssetsFolder().toString()+"\\Test\\vectorGradientTest.png");
+        simpleImg = simpleImgPath.toFile();
     }
 
     @Test

@@ -79,6 +79,4 @@ public class HOGAppli {
 		return image.getWidth();
 	}
 
-
-
 }
