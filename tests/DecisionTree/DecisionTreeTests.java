@@ -3,29 +3,34 @@ package DecisionTree;
 import RandomForestHOG.DecisionTree.DecisionTree;
 import RandomForestHOG.DecisionTree.TreeNode;
 
+import Utils.DataVector;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 public class DecisionTreeTests {
-    
+
     private DecisionTree tree;
-    private List<List<Double>> testingData;
+    private List<DataVector> testingData;
+
+    private double bootstrapRate = 2.0/3;
     
-    private List<List<Double>> setupTestingData(int dataSize, int attrSize, int classSize) {
-        List<List<Double>> data = new ArrayList<List<Double>>();
+    private List<DataVector> setupTestingData(int dataSize, int attrSize, int classSize) {
+        List<DataVector> data = new ArrayList<DataVector>();
         
         for (int i = 0; i < dataSize; i++) {
-            data.add(new ArrayList<Double>(attrSize+1));
-            List<Double> record = data.get(i);
-            record.add(Math.floor(Math.random()*classSize));
+            int cls = (int) Math.floor(Math.random()*classSize);
+            double[] feature = new double[attrSize];
             for (int j = 0; j < attrSize; j++) {
-                record.add(Math.floor(Math.random()*100));
+                feature[j] = (Math.floor(Math.random()*100));
             }
+            DataVector record = new DataVector(cls, feature);
+            data.add(record);
         }
         System.out.println("Test Data-------------------------");
         printData(data);
@@ -37,7 +42,7 @@ public class DecisionTreeTests {
     @Before
     public void setup() {
         testingData = setupTestingData(10, 10, 5);
-        tree = new DecisionTree(testingData, 0);
+        tree = new DecisionTree(testingData, bootstrapRate, 0);
     }
     
     @Test
@@ -68,26 +73,37 @@ public class DecisionTreeTests {
             }
         }
     }
+
+    @Test
+    public void testConstructor() {
+
+    }
     
     @Test
     public void testClassify() {
-        List<Double> testRecord = setupTestingData(1, 10, 5).get(0);
+        DataVector testRecord = setupTestingData(1, 10, 5).get(0);
         double result = tree.classify(testRecord);
         System.out.println("Test Result: " + result);
         return;
     }
-    
-    private void printData(List<List<Double>> data) {
+
+    private void printData(List<DataVector> data) {
         for (int i = 0, len = data.size(); i < len; i++) {
-            for (int j = 0, len2 = data.get(i).size(); j < len2; j++) {
-                System.out.print(data.get(i).get(j));
-                if (0 == j) {
-                    System.out.print(" : ");
-                } else {
-                    System.out.print(", ");
-                }
+            System.out.print(data.get(i).cls);
+            System.out.print(" : ");
+            for (int j = 0, len2 = data.get(i).feature.length; j < len2; j++) {
+                System.out.print(data.get(i).feature[i]);
+                System.out.print(", ");
             }
             System.out.println();
         }
+    }
+
+    private int getNumOfAttrSample(List<DataVector> data) {
+        try {
+            int numOfAttr = data.get(0).feature.length;
+            return
+        }
+
     }
 }

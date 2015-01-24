@@ -19,8 +19,8 @@ public class RandomForestLearner extends Learner {
 
     Classifier _model = new RandomForest(200, 100);
 
-    private int bootstrapSize;
-    private int attributesSize;
+    private static double bootstrapRate = 2.0/3;
+    private static double attrSampleRate = 1;
 
     private static int numOfClass;
     private static int numOfAttr;
@@ -29,24 +29,52 @@ public class RandomForestLearner extends Learner {
      */
     private static int numOfAttrSample;
 
-    private int numOfTree;
-    private int numOfThread;
-    private List<DataVector> data;
-    private List<DataVector> testData;
+    private static int numOfTree;
 
+    private List<DataVector> data;
+//    private List<DataVector> testData;
+
+    private static int numOfThread;
     /* the thread pool that generates decision tree concurrently */
     private ExecutorService treePool;
 
-//    @objid("89e7d33d-e15d-4fd6-b44f-324059a4e1f8")
-//    RandomForest _model() {
-//        return null;
-//    }
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
-    public RandomForestLearner(int bootstrapSize, int attributeSize) {
-        this.bootstrapSize = bootstrapSize;
-        this.attributesSize = attributeSize;
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread) {
+        if (0 >= data.size()) {
+            System.err.println("RandomForestLearner: data empty...");
+            return;
+        }
+        this.data = data;
+        this.numOfTree = numOfTree;
+        this.numOfThread = numOfThread;
+
+        this.numOfAttr = data.get(0).feature.length;
+        this.numOfAttrSample = (int)Math.round(Math.log(this.numOfAttr)/Math.log(2)+1);
+        this.attrSampleRate = ((double)this.numOfAttrSample) / this.numOfAttr;
     }
+
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread, double attrSampleRate) {
+        this(data, numOfTree, numOfThread);
+        if (1 < attrSampleRate) {
+            System.out.println("RandomForestLearner: attribute sample rate > 1... using default setting");
+        }
+        else {
+            this.attrSampleRate = attrSampleRate;
+            this.numOfAttrSample = (int)Math.round(numOfAttr * attrSampleRate);
+        }
+    }
+
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread, double attrSampleRate, double bootstrapRate) {
+        this(data, numOfTree, numOfThread, attrSampleRate);
+        if (1 < bootstrapRate) {
+            System.out.println("RandomForestLearner: data bootstrap rate > 1... using default setting");
+        }
+        else {
+            this.bootstrapRate = bootstrapRate;
+        }
+    }
+
 
     protected Classifier learn() {
         RandomForest model = (RandomForest) _model;
@@ -88,20 +116,19 @@ public class RandomForestLearner extends Learner {
         }
         @Override
         public void run() {
-            forest.dTree.add(new DecisionTree(data, treeId));
+            forest.dTree.add(new DecisionTree(data, bootstrapRate, numOfAttrSample, treeId));
         }
     }
 
     @objid("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
-    public int getAttributesSize() {
-        return attributesSize;
+    public double getAttrSampleRate() {
+        return attrSampleRate;
     }
 
     @objid("462886f4-e68d-48c1-b2dd-1b27d8dc39a2")
-    public int getBootstrapSize() {
-        return bootstrapSize;
+    public double getBootstrapRate() {
+        return bootstrapRate;
     }
-
 
     @objid ("4aff82c9-54dd-4e50-960f-3fcb7c21264b")
     protected Object getLearnerParameter(String p0) {

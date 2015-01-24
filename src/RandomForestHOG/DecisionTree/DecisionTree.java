@@ -23,17 +23,16 @@ public class DecisionTree  {
 //    }
 
     @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
-    public DecisionTree(final List<DataVector> data, final int treeNum) {
-        dataN = data.size();
+    public DecisionTree(final List<DataVector> data, final double bootstrapRate, final int attrSampleN, final int treeNum) {
+        this.dataN = data.size();
         if (0 >= dataN) {
             System.out.println("DecisionTree: data empty...");
             return;
         }
-
-        trainN = dataN; // TODO should discuss how to determine the size of training set
-        testN = dataN - trainN;
-        attrN = data.get(0).feature.length;
-        attrSampleN = attrN;  // TODO should discuss how many bootstrapped attributes
+        this.trainN = (int)Math.round(bootstrapRate*dataN);
+        this.testN = this.dataN - this.trainN;
+        this.attrN = data.get(0).feature.length;
+        this.attrSampleN = attrSampleN;
 
         /* Initialize training, testing data set */
         List<DataVector> train, test;
@@ -130,7 +129,6 @@ public class DecisionTree  {
             parent.setClassVal(curClass);
             parent.setLeftChild(null);
             parent.setRightChild(null);
-            return;
         }
     }
 
@@ -169,7 +167,6 @@ public class DecisionTree  {
     }
     
     private List<DataVector>[] splitData(List<DataVector> data, int minAt, double minAtVal) {
-        @SuppressWarnings("unchecked")
         List<DataVector>[] childData = (List<DataVector>[]) new List[2];
         childData[0] = new ArrayList<DataVector>();
         childData[1] = new ArrayList<DataVector>();
@@ -225,7 +222,7 @@ public class DecisionTree  {
     }
 
     @objid ("943639d0-f911-4e72-b5b3-3087f8f11863")
-    public double classify(final List<Double> testData) {
+    public double classify(final DataVector testData) {
         if (null == rootNode) {
             System.out.println("Tree not created yet...");
             return -1;
@@ -239,7 +236,7 @@ public class DecisionTree  {
             else {
                 int splitAttr = evalNode.getSplitAttr();
                 double splitVal = evalNode.getSplitVal();
-                if (testData.get(splitAttr) < splitVal) {
+                if (testData.feature[splitAttr] < splitVal) {
                     evalNode = evalNode.getLeftChild();
                 }
                 else {
