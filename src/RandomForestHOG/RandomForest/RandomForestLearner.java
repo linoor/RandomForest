@@ -7,7 +7,6 @@ import fr.ensmp.caor.levis.learner.Learner;
 import fr.ensmp.caor.levis.sample.DataBase;
 
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +16,7 @@ import Utils.DataVector;
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
 public class RandomForestLearner extends Learner {
 
-    Classifier _model = new RandomForest(200, 100);
+    private Classifier _model = new RandomForest();
 
     private static double bootstrapRate = 2.0/3;
     private static double attrSampleRate = 1;
@@ -41,12 +40,15 @@ public class RandomForestLearner extends Learner {
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
     public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread) {
+        super();
         if (0 >= data.size()) {
             System.err.println("RandomForestLearner: data empty...");
             return;
         }
+        RandomForest model = (RandomForest) _model;
+
         this.data = data;
-        this.numOfTree = numOfTree;
+        this.numOfTree = (numOfTree > model.getMaxNumOfTrees())? model.getMaxNumOfTrees() : numOfTree;
         this.numOfThread = numOfThread;
 
         this.numOfAttr = data.get(0).feature.length;
@@ -116,7 +118,7 @@ public class RandomForestLearner extends Learner {
         }
         @Override
         public void run() {
-            forest.dTree.add(new DecisionTree(data, bootstrapRate, numOfAttrSample, treeId));
+            forest.dTree.add(new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId));
         }
     }
 

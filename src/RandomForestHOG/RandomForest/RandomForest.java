@@ -15,11 +15,16 @@ import fr.ensmp.caor.levis.sample.Sample;
 @objid ("a97a3fa3-3a4e-46a1-b40f-98098d41b00f")
 public class RandomForest extends Classifier {
 
-    private int maxDepth;
-    private int maxNumOfTrees;
+    /* if not specified, maxDepth = -1 */
+    private int maxDepth = -1;
+    private int maxNumOfTrees = 100;
 
     public List<DecisionTree> dTree;
     public List<Integer> finalPredictions;
+
+    public RandomForest() {
+        super();
+    }
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
@@ -27,7 +32,6 @@ public class RandomForest extends Classifier {
         this.maxDepth = maxDepth;
         this.maxNumOfTrees = maxNumOfTrees;
     }
-
 
     @objid ("825cee3b-bf63-4b2f-96a7-c6fe53cf1387")
     public int classify(Sample p0) {
@@ -52,12 +56,6 @@ public class RandomForest extends Classifier {
     }
 
     private void calAccuracy() {
-    }
-
-    @objid ("7d351bea-7309-41e8-8d48-de66b414bc25")
-    public int voteOfDTree(final List<Integer> predictions) {
-        // TODO Auto-generated return
-        return 0;
     }
 
     @objid ("cbe45e05-de9e-49f4-b0cb-481904bc80f9")

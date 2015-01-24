@@ -1,7 +1,10 @@
 package RandomForestHOG.DecisionTree;
 
 import Utils.DataVector;
+import Utils.Helper;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
@@ -51,19 +54,6 @@ public class TreeNode implements Cloneable {
                          + "] class["+ getClassVal() + "]";
     }
 
-    private void incrementLevel() {
-        level++;
-    }
-
-    private void setupChild(TreeNode child) {
-        if (null == child) {
-            return;
-        }
-        child.setParent(this);
-        child.setLevel(getLevel());
-        child.incrementLevel();
-    }
-
     public boolean isLeaf() {
         return getLeftChild() == null && getRightChild() == null;
     }
@@ -82,6 +72,19 @@ public class TreeNode implements Cloneable {
             }
         }
         return curClass;
+    }
+
+    /**
+     * Vote for the major class value among rest of the data.
+     * Use after checkIfSameClass()
+     * @return major class value
+     */
+    public int voteMajorClass() {
+        List<Integer> classes = new ArrayList<Integer>();
+        for (DataVector record : data) {
+            classes.add(record.cls);
+        }
+        return Helper.getModeInt(classes);
     }
 
     @objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
@@ -152,5 +155,18 @@ public class TreeNode implements Cloneable {
 
     public void setData(List<DataVector> data) {
         this.data = data;
+    }
+
+    private void incrementLevel() {
+        level++;
+    }
+
+    private void setupChild(TreeNode child) {
+        if (null == child) {
+            return;
+        }
+        child.setParent(this);
+        child.setLevel(getLevel());
+        child.incrementLevel();
     }
 }

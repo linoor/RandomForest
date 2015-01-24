@@ -17,12 +17,13 @@ public class DecisionTree {
     private int testN;
     private int attrN;
     private int attrSampleN;
+    private int maxDepth;
     private TreeNode rootNode;
 
     private double logOfTwo = Math.log(2);
 
     @objid("95f01270-0b39-4c6b-bbf3-fb177f21545e")
-    public DecisionTree(final List<DataVector> data, final double bootstrapRate, final int attrSampleN, final int treeNum) {
+    public DecisionTree(final List<DataVector> data, final double bootstrapRate, final int attrSampleN, final int maxDepth, final int treeNum) {
         this.dataN = data.size();
         if (0 >= dataN) {
             System.out.println("DecisionTree: data empty...");
@@ -32,6 +33,7 @@ public class DecisionTree {
         this.testN = this.dataN - this.trainN;
         this.attrN = data.get(0).feature.length;
         this.attrSampleN = attrSampleN;
+        this.maxDepth = maxDepth;
 
         /* Initialize training, testing data set */
         List<DataVector> train, test;
@@ -142,6 +144,12 @@ public class DecisionTree {
     private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
         int curClass = parent.checkIfSameClass();
         if (-1 == curClass) {
+
+            if (-1 != maxDepth && parent.getLevel() >= maxDepth) {
+                parent.setClassVal(parent.voteMajorClass());
+                parent.setLeftChild(null);
+                parent.setRightChild(null);
+            }
 
             // Step A
             // find the split attribute and its value based on minimum entropy
