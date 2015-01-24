@@ -4,6 +4,7 @@ import RandomForestHOG.DecisionTree.DecisionTree;
 import RandomForestHOG.DecisionTree.TreeNode;
 
 import Utils.DataVector;
+import Utils.Helper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,30 +20,14 @@ public class DecisionTreeTests {
     private DecisionTree tree;
     private List<DataVector> testingData;
 
+    int dataSize = 20;
+    int numOfAttr = 20;
+    int numOfClass = 10;
     private double bootstrapRate = 2.0/3;
-    
-    private List<DataVector> setupTestingData(int dataSize, int attrSize, int classSize) {
-        List<DataVector> data = new ArrayList<DataVector>();
-        
-        for (int i = 0; i < dataSize; i++) {
-            int cls = (int) Math.floor(Math.random()*classSize);
-            double[] feature = new double[attrSize];
-            for (int j = 0; j < attrSize; j++) {
-                feature[j] = (Math.floor(Math.random()*100));
-            }
-            DataVector record = new DataVector(cls, feature);
-            data.add(record);
-        }
-        System.out.println("Test Data-------------------------");
-        printData(data);
-        System.out.println("Test Data end---------------------");
-        
-        return data;
-    }
 
     @Before
     public void setup() {
-        testingData = setupTestingData(10, 10, 5);
+        testingData = Helper.setupTestingData(dataSize, numOfAttr, numOfClass);
         int numOfAttrSample = getNumOfAttrSample(testingData);
         if (0 > numOfAttrSample) {
             Assert.fail();
@@ -51,25 +36,49 @@ public class DecisionTreeTests {
             tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, 0);
         }
     }
+
+    @Test
+    public void testConstructor() {
+//        int dataSize = 20;
+//        int numOfAttr = 20;
+//        int numOfClass = 10;
+//        testingData = setupTestingData(dataSize, numOfAttr, numOfClass);
+//        int numOfAttrSample = getNumOfAttrSample(testingData);
+//        DecisionTree testTree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, 0);
+
+        Assert.assertEquals(dataSize, tree.getDataN());
+        Assert.assertEquals((int) Math.round(dataSize * bootstrapRate), tree.getTrainN());
+        Assert.assertEquals(dataSize - (int) Math.round(dataSize * bootstrapRate), tree.getTestN());
+        Assert.assertEquals(numOfAttr, tree.getAttrN());
+        Assert.assertEquals(getNumOfAttrSample(testingData), tree.getAttrSampleN());
+    }
+
     
+    @Test
+    public void testClassify() {
+        DataVector testRecord = Helper.setupTestingData(1, 10, 5).get(0);
+        double result = tree.classify(testRecord);
+        System.out.println("Test Result: " + result);
+    }
+
     @Test
     public void printCreatedTree() {
         TreeNode root = tree.getRootNode();
         System.out.println(root.getLevel()+":"+root.getSplitAttr()+"("+root.getSplitVal()+")");
         final int PRINT_LVL_MAX = 5;
-        
+
         Queue<TreeNode> q = new LinkedList<TreeNode>();
         q.add(root);
         while (null != q.peek()) {
             TreeNode node = q.poll();
             System.out.println("Level " + node.getLevel() + " ---------------------");
             System.out.println(node);
-            printData(node.getData());
-            
+            Helper.printData(node.getData());
+
             if (PRINT_LVL_MAX < node.getLevel()) {
                 break;
             }
-            
+
             TreeNode left = node.getLeftChild();
             TreeNode right = node.getRightChild();
             if (null != left) {
@@ -78,31 +87,6 @@ public class DecisionTreeTests {
             if (null != right) {
                 q.add(right);
             }
-        }
-    }
-
-    @Test
-    public void testConstructor() {
-
-    }
-    
-    @Test
-    public void testClassify() {
-        DataVector testRecord = setupTestingData(1, 10, 5).get(0);
-        double result = tree.classify(testRecord);
-        System.out.println("Test Result: " + result);
-        return;
-    }
-
-    private void printData(List<DataVector> data) {
-        for (int i = 0, len = data.size(); i < len; i++) {
-            System.out.print(data.get(i).cls);
-            System.out.print(" : ");
-            for (int j = 0, len2 = data.get(i).feature.length; j < len2; j++) {
-                System.out.print(data.get(i).feature[i]);
-                System.out.print(", ");
-            }
-            System.out.println();
         }
     }
 

@@ -10,6 +10,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid ("61261918-d6ad-4d4d-a19f-e6c7088f5dd6")
 public class DecisionTree  {
+
     private int dataN;
     private int trainN;
     private int testN;
@@ -17,10 +18,7 @@ public class DecisionTree  {
     private int attrSampleN;
     private TreeNode rootNode;
 
-//    @objid ("92a699ab-b86a-40cc-8fdb-4eca568fa8a6")
-//    public DecisionTree() {
-//        // TODO
-//    }
+    private double logOfTwo = Math.log(2);
 
     @objid ("95f01270-0b39-4c6b-bbf3-fb177f21545e")
     public DecisionTree(final List<DataVector> data, final double bootstrapRate, final int attrSampleN, final int treeNum) {
@@ -38,15 +36,9 @@ public class DecisionTree  {
         List<DataVector> train, test;
         train = new ArrayList<DataVector>(trainN);
         test = new ArrayList<DataVector>(testN);
-//        for (DataVector d : train) {
-//            d = new ArrayList<Double>();
-//        }
-//        for (DataVector d : test) {
-//            d = new ArrayList<Double>();
-//        }
-        List<Integer> attr = new ArrayList<Integer>();
-
         bootstrapSample(data, train, test);
+
+        List<Integer> attr = new ArrayList<Integer>();
         attr = bootstrapAttr(attr);
 
         rootNode = createTree(train, attr, treeNum);
@@ -202,9 +194,6 @@ public class DecisionTree  {
         
         return ps;
     }
-
-    private double logOfTwo = Math.log(2);
-    
     
     /**
      * Given a probability mass function indicating the frequencies of 
@@ -246,8 +235,13 @@ public class DecisionTree  {
         }
     }
     
-    public TreeNode getRootNode() {
-        return rootNode;
+    private class SplitAttrObj {
+        public int attr;
+        public double val;
+        SplitAttrObj() {
+            attr = -1;
+            val = -1;
+        }
     }
 
     @objid ("76d43c96-c471-4b7d-a417-d0a16d9c295c")
@@ -259,15 +253,6 @@ public class DecisionTree  {
     @objid ("359fef83-1f91-4226-b4e6-33118900cb50")
     public void loadFromString(final String tree) {
         // TODO
-    }
-    
-    private class SplitAttrObj {
-        public int attr;
-        public double val;
-        SplitAttrObj() {
-            attr = -1;
-            val = -1;
-        }
     }
 
     private void printData(List<DataVector> data) {
@@ -282,4 +267,27 @@ public class DecisionTree  {
         }
     }
 
+    public TreeNode getRootNode() {
+        return rootNode;
+    }
+
+    public int getDataN() {
+        return dataN;
+    }
+
+    public int getTrainN() {
+        return trainN;
+    }
+
+    public int getTestN() {
+        return testN;
+    }
+
+    public int getAttrN() {
+        return attrN;
+    }
+
+    public int getAttrSampleN() {
+        return attrSampleN;
+    }
 }
