@@ -1,21 +1,7 @@
 RandomForest
 ============
 
-An implementation of the Random Forest algorithm
-
-### Reference
-Random Forest
-* [Random-Forest](https://github.com/ironmanMA/Random-Forest) (Java)  
-
-Histogram of Oriented Gradients
-* [Histograms of Oriented Gradients for Human Detection](http://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf) (Navneet Dalal and Bill Triggs)
-* [Hog-Processing](http://hogprocessing.altervista.org/) (Java)
-* [HOG of skimage](http://scikit-image.org/docs/dev/auto_examples/plot_hog.html) (Python)
-* [HOG tutorial] (https://chrisjmccormick.wordpress.com/2013/05/09/hog-person-detector-tutorial/)
-* [Gradient Vector tutorial] (https://chrisjmccormick.wordpress.com/2013/05/07/gradient-vectors/)
-
-Datase
-* [Handwritten Digits](http://archive.ics.uci.edu/ml/datasets/Pen-Based+Recognition+of+Handwritten+Digits)
+An implementation of the Random Forest algorithm on HOG images
 
 ### Set Up
 Java 8 required.
@@ -42,4 +28,24 @@ Java 8 required.
   1. Right-click folders `src` *> Mark Directory As > Sources Root*
   2. Right-click folders `tests` *> Mark Directory As > Test Sources Root*
 
-### How to Use
+### Usage
+* Choose the test method of interest from `MainRun.java`
+  *default setting: Train - digit images from DB; Test - selected 10, 20, 30 images from DB*
+* Or  
+  1. Add custom data sets to `assets` folder
+  2. Create method for custom training in `MainRun.java` and set up file paths
+  3. `runRandomForest`
+
+### Reference
+Random Forest
+* [Random-Forest](https://github.com/ironmanMA/Random-Forest) (Java)
+
+Histogram of Oriented Gradients
+* [Histograms of Oriented Gradients for Human Detection](http://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf) (Navneet Dalal and Bill Triggs)
+* [Hog-Processing](http://hogprocessing.altervista.org/) (Java)
+* [HOG of skimage](http://scikit-image.org/docs/dev/auto_examples/plot_hog.html) (Python)
+* [HOG tutorial] (https://chrisjmccormick.wordpress.com/2013/05/09/hog-person-detector-tutorial/)
+* [Gradient Vector tutorial] (https://chrisjmccormick.wordpress.com/2013/05/07/gradient-vectors/)
+
+Datase
+* [Handwritten Digits](http://archive.ics.uci.edu/ml/datasets/Pen-Based+Recognition+of+Handwritten+Digits)
