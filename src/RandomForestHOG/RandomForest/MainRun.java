@@ -17,7 +17,7 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
  */
 public class MainRun {
     public static void main(String[] args) {
-        runHOGDB_PAN();
+        runHOGDB();
 //        runHOGSmallPatch();
 //        runTestPendigits();
     }
@@ -46,7 +46,7 @@ public class MainRun {
         }
     }
 
-    public static void runHOGDB_PAN() {
+    public static void runHOGDB() {
         HOGAppli hogAppli, hogAppliTest;
         File[] files = new File(Helper.getAssetsFolderStr() + "/DB").listFiles();
         File[] testFiles = new File(Helper.getAssetsFolderStr() + "/Test/testset").listFiles();
