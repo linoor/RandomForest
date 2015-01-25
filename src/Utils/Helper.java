@@ -53,7 +53,7 @@ public class Helper {
     public static int getModeInt(List<Integer> list) {
         Collections.sort(list);
 
-        int[] counter = new int[list.get(list.size())];
+        int[] counter = new int[list.get(list.size()-1)+1];
         int maxCount = -1;
         int maxIdx = -1;
         for (int el : list) {

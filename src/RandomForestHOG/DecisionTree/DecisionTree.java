@@ -142,6 +142,7 @@ public class DecisionTree {
 
     @objid("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
     private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
+        System.out.println(parent.getLevel());
         int curClass = parent.checkIfSameClass();
         if (-1 == curClass) {
 
@@ -179,12 +180,18 @@ public class DecisionTree {
                 parent.setLeftChild(new TreeNode(childData[0]));
                 recursiveSplit(parent.getLeftChild(), attr);
             }
+            else {
+                parent.setLeftChild(null);
+            }
             if (0 != childData[1].size()) {
                 parent.setRightChild(new TreeNode(childData[1]));
                 recursiveSplit(parent.getRightChild(), attr);
             }
-
-        } else {
+            else {
+                parent.setRightChild(null);
+            }
+        }
+        else {
             parent.setClassVal(curClass);
             parent.setLeftChild(null);
             parent.setRightChild(null);

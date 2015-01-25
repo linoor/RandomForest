@@ -16,7 +16,7 @@ import Utils.DataVector;
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
 public class RandomForestLearner extends Learner {
 
-    private Classifier _model = new RandomForest();
+    private Classifier _model;
 
     private static double bootstrapRate = 2.0/3;
     private static double attrSampleRate = 1;
@@ -27,37 +27,36 @@ public class RandomForestLearner extends Learner {
      * suggested by Breiman: = (int)Math.round(Math.log([# of attr])/Math.log(2)+1)
      */
     private static int numOfAttrSample;
-
     private static int numOfTree;
+    private static int depthOfTree;
 
     private List<DataVector> data;
 //    private List<DataVector> testData;
 
-    private static int numOfThread;
     /* the thread pool that generates decision tree concurrently */
     private ExecutorService treePool;
 
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
-    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread) {
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree) {
         super();
         if (0 >= data.size()) {
             System.err.println("RandomForestLearner: data empty...");
             return;
         }
-        RandomForest model = (RandomForest) _model;
 
         this.data = data;
-        this.numOfTree = (numOfTree > model.getMaxNumOfTrees())? model.getMaxNumOfTrees() : numOfTree;
-        this.numOfThread = numOfThread;
+        this.numOfTree = numOfTree;
+        this.depthOfTree = depthOfTree;
+        _model = new RandomForest(depthOfTree, numOfTree);
 
         this.numOfAttr = data.get(0).feature.length;
         this.numOfAttrSample = (int)Math.round(Math.log(this.numOfAttr)/Math.log(2)+1);
         this.attrSampleRate = ((double)this.numOfAttrSample) / this.numOfAttr;
     }
 
-    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread, double attrSampleRate) {
-        this(data, numOfTree, numOfThread);
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree, double attrSampleRate) {
+        this(data, numOfTree, depthOfTree);
         if (1 < attrSampleRate) {
             System.out.println("RandomForestLearner: attribute sample rate > 1... using default setting");
         }
@@ -67,8 +66,8 @@ public class RandomForestLearner extends Learner {
         }
     }
 
-    public RandomForestLearner(List<DataVector> data, int numOfTree, int numOfThread, double attrSampleRate, double bootstrapRate) {
-        this(data, numOfTree, numOfThread, attrSampleRate);
+    public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree, double attrSampleRate, double bootstrapRate) {
+        this(data, numOfTree, depthOfTree, attrSampleRate);
         if (1 < bootstrapRate) {
             System.out.println("RandomForestLearner: data bootstrap rate > 1... using default setting");
         }
@@ -79,7 +78,7 @@ public class RandomForestLearner extends Learner {
 
     protected Classifier learn() {
         RandomForest model = (RandomForest) _model;
-        treePool = Executors.newFixedThreadPool(numOfThread);
+        treePool = Executors.newFixedThreadPool(numOfTree);
         for (int i = 0; i < numOfTree; i++) {
             treePool.execute(new CreateTree(data, model, i));
         }

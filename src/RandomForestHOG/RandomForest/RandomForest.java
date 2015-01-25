@@ -16,8 +16,8 @@ import fr.ensmp.caor.levis.sample.Sample;
 public class RandomForest extends Classifier {
 
     /* if not specified, maxDepth = -1 */
-    private int maxDepth = -1;
-    private int maxNumOfTrees = 100;
+    private static int maxDepth = -1;
+    private static int maxNumOfTrees = 100;
 
     public List<DecisionTree> dTree;
     public List<Integer> finalPredictions;
@@ -28,7 +28,7 @@ public class RandomForest extends Classifier {
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
-        super();
+        this();
         this.maxDepth = maxDepth;
         this.maxNumOfTrees = maxNumOfTrees;
     }
@@ -53,6 +53,14 @@ public class RandomForest extends Classifier {
             calAccuracy();
         }
         return finalPredictions;
+    }
+
+    public static void setMaxDepth(int maxDepth) {
+        RandomForest.maxDepth = maxDepth;
+    }
+
+    public static void setMaxNumOfTrees(int maxNumOfTrees) {
+        RandomForest.maxNumOfTrees = maxNumOfTrees;
     }
 
     private void calAccuracy() {

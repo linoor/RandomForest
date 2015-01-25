@@ -24,22 +24,18 @@ public class ExtDataParser {
 
             for (String line : lines) {
                 String[] tokens = line.split(",");
+
                 int cls = -1;
                 double[] feature = new double[tokens.length - 1];
                 for (int i = 0, len = tokens.length; i < len; i++) {
                     tokens[i] = tokens[i].trim();
-//                    System.out.print(tokens[i] + ' ');
-
                     if (len - 1 == i) {
                         cls = Integer.parseInt(tokens[i]);
                     }
                     else {
                         feature[i] = Double.parseDouble(tokens[i]);
-                        System.out.print(feature[i]);
-                        System.out.print(" ");
                     }
                 }
-                System.out.println();
 
                 dataset.add(new DataVector(cls, feature));
             }
