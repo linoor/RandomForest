@@ -45,7 +45,7 @@ public class HOGAppli {
 			for (File file : files) {
 				if (file.isDirectory()) {
 					System.out.println("Loading Directory : " + file.getName());
-					cls++;					
+					cls++;
 					LoadFiles(file.listFiles()); // Calls same method again.
 				} else {
 					System.out.println("Loading File : " + file.getName());
@@ -64,8 +64,8 @@ public class HOGAppli {
 			BufferedImage originalImage = ImageIO.read(new File(fileName.getAbsolutePath()));
 			image = ImageUtils.resize(originalImage, this.hogParam.getWidth(), this.hogParam.getHeight());
 			hog = new HOG(this.hogParam, image);
-			
-			dataVectors.add(new DataVector(cls, hog.getFeatureVect()));			
+
+			dataVectors.add(new DataVector(cls, hog.getFeatureVect()));
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail();

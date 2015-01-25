@@ -14,6 +14,9 @@ Histogram of Oriented Gradients
 * [HOG tutorial] (https://chrisjmccormick.wordpress.com/2013/05/09/hog-person-detector-tutorial/)
 * [Gradient Vector tutorial] (https://chrisjmccormick.wordpress.com/2013/05/07/gradient-vectors/)
 
+Datase
+* [Handwritten Digits](http://archive.ics.uci.edu/ml/datasets/Pen-Based+Recognition+of+Handwritten+Digits)
+
 ### Set Up in *Eclipse*
 1. **File > Import** then select **Git > Projects from Git**
 2. Use https://github.com/linoor/RandomForest.git as **Clone URI** (or use ssh URI if preferred)

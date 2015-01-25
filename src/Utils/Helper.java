@@ -43,7 +43,7 @@ public class Helper {
             System.out.print(data.get(i).cls);
             System.out.print(" : ");
             for (int j = 0, len2 = data.get(i).feature.length; j < len2; j++) {
-                System.out.print(data.get(i).feature[i]);
+                System.out.print(data.get(i).feature[j]);
                 System.out.print(", ");
             }
             System.out.println();
