@@ -17,8 +17,8 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
  */
 public class MainRun {
     public static void main(String[] args) {
-        runHOGDB();
-//        runHOGSmallPatch();
+//        runHOGDB();
+        runHOGSmallPatch();
 //        runTestPendigits();
     }
 
