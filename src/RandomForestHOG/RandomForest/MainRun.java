@@ -18,7 +18,7 @@ public class MainRun {
 
     private static boolean runWithThread = true;
     private static int numOfTree = 100;
-    private static int depthOfTree = 10;
+    private static int depthOfTree = 100;
 
     public static void main(String[] args) {
         runHOGDB();
