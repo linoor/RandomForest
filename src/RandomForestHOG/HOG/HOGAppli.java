@@ -74,12 +74,16 @@ public class HOGAppli {
 		}
 	}
 
-	
+
 	
 	public void drawImage() {
 		Graphics g = image.getGraphics();
 		g.drawImage(image, 0, 0, null);
 	}
+	
+	public List<DataVector> getDataVectors(){
+	    return dataVectors;
+	};
 	
 	public int getImageHeight() {
 		return image.getHeight();
