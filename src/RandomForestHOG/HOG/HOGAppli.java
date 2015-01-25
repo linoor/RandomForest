@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 import java.awt.Graphics;
 import java.awt.image.*;
 import java.io.*;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -20,7 +21,8 @@ import fr.ensmp.caor.levis.ui.*;
 
 public class HOGAppli {
 
-	private DataVector[] dataVectors = null;
+	private ArrayList<DataVector> dataVectors = null;
+	private int cls = 0;
 	private HOG hog;
 	private HOGParam hogParam;
 	private BufferedImage image;
@@ -41,7 +43,7 @@ public class HOGAppli {
 			for (File file : files) {
 				if (file.isDirectory()) {
 					System.out.println("Loading Directory : " + file.getName());
-					//dataVectors.add(new DataVector(file.getName(), null))
+					cls++;					
 					LoadFiles(file.listFiles()); // Calls same method again.
 				} else {
 					//System.out.println("Loading File : " + file.getName());
@@ -57,23 +59,18 @@ public class HOGAppli {
 
 	public void LoadImage(File fileName) throws Exception {
 		try {
-			//System.out.println("Loading Image from : " + fileName.getAbsolutePath());
+			//System.out.println("Loading Image from : " + fileName.getName());
 			BufferedImage originalImage = ImageIO.read(new File(fileName.getAbsolutePath()));
 			image = ImageUtils.resize(originalImage, hogParam.getWidth(), hogParam.getHeight());
 			hog = new HOG(this.hogParam, image);
 			
-			getDataVector(hog);
-			
+			dataVectors.add(new DataVector(cls, hog.getFeatureVect()));			
 		} catch (IOException e) {
 			e.printStackTrace();
 			fail();
 		}
 	}
 
-	public void getDataVector(HOG dataHog){
-	//	DataVector newVector = new DataVector(int cls, dataHog.getFeatureVect());
-		
-	}
 	
 	public void drawImage() {
 		Graphics g = image.getGraphics();
