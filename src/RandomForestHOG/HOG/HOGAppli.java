@@ -46,7 +46,6 @@ public class HOGAppli {
 	private HOGParam hogParam;
 	private BufferedImage image;
 
-
 	public HOGAppli() {
 		this.hogParam = new HOGParam(RECTANGULAR,  9, 6, 6, 3, 3, 1, 20, 20);
 		dataVectors = new ArrayList<DataVector>();
@@ -65,7 +64,7 @@ public class HOGAppli {
 			for (File file : files) {
 				if (file.isDirectory()) {
 					System.out.println("Loading Directory : " + file.getName());
-					cls++;					
+					cls++;
 					LoadFiles(file.listFiles()); // Calls same method again.
 				} else {
 					//System.out.println("Loading File : " + file.getName());
@@ -76,7 +75,6 @@ public class HOGAppli {
 			e.printStackTrace();
 			fail();
 		}
-
 	}
 
 	public void LoadImage(File fileName) throws Exception {
@@ -87,8 +85,7 @@ public class HOGAppli {
 			image = ImageUtils.resize(originalImage, hogAppli.hogParam.getWidth(), hogAppli.hogParam.getHeight());
 			drawImage(image);
 			hog = new HOG(this.hogParam, image);
-
-			
+		
 			dataVectors.add(new DataVector(cls, hog.getFeatureVect()));			
 		} catch (IOException e) {
 			e.printStackTrace();

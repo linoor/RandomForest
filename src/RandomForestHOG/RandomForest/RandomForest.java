@@ -16,19 +16,23 @@ import fr.ensmp.caor.levis.sample.Sample;
 public class RandomForest extends Classifier {
 
     /* if not specified, maxDepth = -1 */
-    private int maxDepth = -1;
-    private int maxNumOfTrees = 100;
+    private static int maxDepth = -1;
+    private static int maxNumOfTrees = 100;
 
     public List<DecisionTree> dTree;
     public List<Integer> finalPredictions;
+    public List<Integer> correctPredictions;
 
     public RandomForest() {
         super();
+        dTree = new ArrayList<DecisionTree>();
+        finalPredictions = new ArrayList<Integer>();
+        correctPredictions = new ArrayList<Integer>();
     }
 
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
-        super();
+        this();
         this.maxDepth = maxDepth;
         this.maxNumOfTrees = maxNumOfTrees;
     }
@@ -48,6 +52,7 @@ public class RandomForest extends Classifier {
             }
             int forestPrediction = Helper.getModeInt(treePredictions);
             finalPredictions.add(forestPrediction);
+            correctPredictions.add(vector.cls);
         }
         if (calAccuracy) {
             calAccuracy();
@@ -55,7 +60,31 @@ public class RandomForest extends Classifier {
         return finalPredictions;
     }
 
+    public static void setMaxDepth(int maxDepth) {
+        RandomForest.maxDepth = maxDepth;
+    }
+
+    public static void setMaxNumOfTrees(int maxNumOfTrees) {
+        RandomForest.maxNumOfTrees = maxNumOfTrees;
+    }
+
     private void calAccuracy() {
+        int err = 0;
+        for (int i = 0, len = finalPredictions.size(); i < len; i++) {
+            if (finalPredictions.get(i) != correctPredictions.get(i)) {
+                err++;
+                System.out.print(correctPredictions.get(i));
+                System.out.print(" => ");
+                System.out.println(finalPredictions.get(i));
+            }
+            else {
+                System.out.println(correctPredictions.get(i));
+            }
+        }
+        System.out.print("Errors: ");
+        System.out.println(err);
+        System.out.print("Error rate: ");
+        System.out.println((double) err / correctPredictions.size());
     }
 
     @objid ("cbe45e05-de9e-49f4-b0cb-481904bc80f9")

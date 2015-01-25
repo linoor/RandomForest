@@ -43,7 +43,7 @@ public class Helper {
             System.out.print(data.get(i).cls);
             System.out.print(" : ");
             for (int j = 0, len2 = data.get(i).feature.length; j < len2; j++) {
-                System.out.print(data.get(i).feature[i]);
+                System.out.print(data.get(i).feature[j]);
                 System.out.print(", ");
             }
             System.out.println();
@@ -51,9 +51,13 @@ public class Helper {
     }
 
     public static int getModeInt(List<Integer> list) {
+        if (0 >= list.size()) {
+            return Integer.MIN_VALUE;
+        }
+
         Collections.sort(list);
 
-        int[] counter = new int[list.get(list.size())];
+        int[] counter = new int[list.get(list.size()-1)+1];
         int maxCount = -1;
         int maxIdx = -1;
         for (int el : list) {
