@@ -102,26 +102,6 @@ public class HOG extends Sample {
         return result.stream().mapToDouble(i -> i).toArray();
     }
 
-    @objid("bbea47d8-6f43-4ae3-b718-68a8765253c7")
-    float[] _histogram() {
-        return null;
-    }
-
-    @objid("df0f8cc0-0cd7-4008-8922-9072a1b1d431")
-    float[] _gradient() {
-        return null;
-    }
-
-    @objid("b0d3e5ab-4f32-471f-9980-8c55eea662ae")
-    float[] _featureVector() {
-        return null;
-    }
-
-    @objid("bf993b00-b60a-4247-890d-9b63a2e630c9")
-    HOGParam hogParam() {
-        return hogParam;
-    }
-
     @objid("03255d6c-46ed-478f-b835-efa132d60bac")
     public double[] getHistogram(int i_start, int j_start, int end_i, int end_j) {
         double[] histogram = new double[getBinNumber()];
@@ -202,7 +182,8 @@ public class HOG extends Sample {
         for (int i = 0; i < getWidth(); i++) {
             for (int j = 0; j < getHeight(); j++) {
                 Color c = new Color(img.getRGB(j, i));
-                pixels[i][j] = c.getRed();
+                int gray = (c.getRed() + c.getGreen() + c.getBlue()) / 3;
+                pixels[i][j] = gray;
             }
         }
 
