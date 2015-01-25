@@ -49,9 +49,9 @@ public class RandomForest extends Classifier {
             int forestPrediction = Helper.getModeInt(treePredictions);
             finalPredictions.add(forestPrediction);
         }
-        if (calAccuracy) {
-            calAccuracy();
-        }
+//        if (calAccuracy) {
+//            calAccuracy();
+//        }
         return finalPredictions;
     }
 
@@ -62,9 +62,9 @@ public class RandomForest extends Classifier {
     public static void setMaxNumOfTrees(int maxNumOfTrees) {
         RandomForest.maxNumOfTrees = maxNumOfTrees;
     }
-
-    private void calAccuracy() {
-    }
+//
+//    private void calAccuracy() {
+//    }
 
     @objid ("cbe45e05-de9e-49f4-b0cb-481904bc80f9")
     public void write(BufferedWriter p0, boolean p1) throws IOException {

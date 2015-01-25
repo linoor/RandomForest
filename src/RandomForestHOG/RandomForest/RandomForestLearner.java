@@ -77,24 +77,31 @@ public class RandomForestLearner extends Learner {
         }
     }
 
-    protected Classifier learn() {
+    protected Classifier learn(boolean threadMode) {
         RandomForest model = (RandomForest) _model;
-        treePool = Executors.newFixedThreadPool(numOfTree);
-        for (int i = 0; i < numOfTree; i++) {
-            treePool.execute(new CreateTree(data, model, i));
-        }
-        treePool.shutdown();
-        try {
-            if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-                treePool.shutdownNow();
+        if (threadMode) {
+            treePool = Executors.newFixedThreadPool(numOfTree);
+            for (int i = 0; i < numOfTree; i++) {
+                treePool.execute(new CreateTree(data, model, i));
+            }
+            treePool.shutdown();
+            try {
                 if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-                    System.err.println("tree pool did not terminate...");
+                    treePool.shutdownNow();
+                    if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
+                        System.err.println("tree pool did not terminate...");
+                    }
                 }
+            } catch (InterruptedException ie) {
+                System.out.println("interrupted exception in RandomForestLearner...");
+                treePool.shutdownNow();
             }
         }
-        catch (InterruptedException ie) {
-            System.out.println("interrupted exception in RandomForestLearner...");
-            treePool.shutdownNow();
+        else {
+            for (int i = 0; i < numOfTree; i++) {
+                CreateTree create = new CreateTree(data, model, i);
+                create.run();
+            }
         }
 
         return model;
@@ -121,7 +128,9 @@ public class RandomForestLearner extends Learner {
         }
         @Override
         public void run() {
-            forest.dTree.add(new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId));
+            DecisionTree tree = new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId);
+            tree.createTree();
+            forest.dTree.add(tree);
         }
     }
 

@@ -17,17 +17,17 @@ public class DecisionTree {
     private int testN;
     private int attrN;
     private int attrSampleN;
+    private int treeId;
     private int maxDepth;
     private TreeNode rootNode;
-
     private List<DataVector> train;
+
     private List<DataVector> test;
     private List<Integer> attrSample;
-
     private double logOfTwo = Math.log(2);
 
     @objid("95f01270-0b39-4c6b-bbf3-fb177f21545e")
-    public DecisionTree(final List<DataVector> data, final double bootstrapRate, final int attrSampleN, final int maxDepth, final int treeNum) {
+    public DecisionTree(final List<DataVector> data, final double bootstrapRate, final int attrSampleN, final int maxDepth, final int treeId) {
         this.dataN = data.size();
         if (0 >= dataN) {
             System.out.println("DecisionTree: data empty...");
@@ -37,6 +37,7 @@ public class DecisionTree {
         this.testN = this.dataN - this.trainN;
         this.attrN = data.get(0).feature.length;
         this.attrSampleN = attrSampleN;
+        this.treeId = treeId;
         this.maxDepth = maxDepth;
 
         /* Initialize training, testing data set, attribute samples */
@@ -71,6 +72,10 @@ public class DecisionTree {
         return attrSampleN;
     }
 
+    public int getTreeId() {
+        return treeId;
+    }
+
     @objid("76d43c96-c471-4b7d-a417-d0a16d9c295c")
     public String saveToString() {
         // TODO Auto-generated return
@@ -83,10 +88,10 @@ public class DecisionTree {
     }
 
     @objid("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
-    public void createTree(final List<DataVector> train, List<Integer> attr, final int nTree) {
+    public void createTree() {
         rootNode = new TreeNode();
         rootNode.setData(train);
-        recursiveSplit(rootNode, attr);
+        recursiveSplit(rootNode, attrSample);
     }
 
     @objid("943639d0-f911-4e72-b5b3-3087f8f11863")

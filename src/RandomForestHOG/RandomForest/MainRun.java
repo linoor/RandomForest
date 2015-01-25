@@ -45,8 +45,8 @@ public class MainRun {
 
         RandomForestLearner rfLearner = new RandomForestLearner(train, 10, 20);
         rfLearner.setTestData(test);
-        RandomForest rfMode = (RandomForest) rfLearner.learn();
-//        List<Integer> predictions = rfMode.classify(test, false);
-//        System.out.println(predictions);
+        RandomForest rfMode = (RandomForest) rfLearner.learn(false);
+        List<Integer> predictions = rfMode.classify(test, false);
+        System.out.println(predictions);
     }
 }
