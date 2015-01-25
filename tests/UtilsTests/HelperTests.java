@@ -18,6 +18,12 @@ public class HelperTests {
         Assert.assertEquals(Helper.getAssetsFolder().toAbsolutePath().toString(), myPath);
     }
 
+    public void testAssetsFolderStr() {
+//        String myPath = "E:\\Dev\\RandomForest\\assets";
+        String myPath = System.getProperty("user.dir") + "/assets";
+        Assert.assertEquals(Helper.getAssetsFolderStr(), myPath);
+    }
+
     @Test
     public void testSetUpTestingData() {
     }

@@ -15,6 +15,10 @@ public class Helper {
         return Paths.get("assets");
     }
 
+    public static String getAssetsFolderStr() {
+        return getAssetsFolder().toAbsolutePath().toString();
+    }
+
     public static List<DataVector> setupTestingData(int dataSize, int attrSize, int classSize) {
         List<DataVector> data = new ArrayList<DataVector>();
 

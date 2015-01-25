@@ -31,9 +31,9 @@ public class HOGAppli {
 		// 10pixel x 10pixel => cell(4pixel x 4pixel) x block(2cell x 2cell)
 	}
 	
-	public HOGAppli(File[] files, final HOGParam initHogParam) throws Exception {
-		LoadFiles(files);
+	public HOGAppli(File[] files, HOGParam initHogParam) throws Exception {
 		this.hogParam = initHogParam;
+		LoadFiles(files);
 	}
 
 	public void LoadFiles(File[] files) throws Exception {
@@ -44,7 +44,7 @@ public class HOGAppli {
 					//dataVectors.add(new DataVector(file.getName(), null))
 					LoadFiles(file.listFiles()); // Calls same method again.
 				} else {
-					//System.out.println("Loading File : " + file.getName());
+					System.out.println("Loading File : " + file.getName());
 					LoadImage(file);
 				}
 			}
@@ -57,9 +57,9 @@ public class HOGAppli {
 
 	public void LoadImage(File fileName) throws Exception {
 		try {
-			//System.out.println("Loading Image from : " + fileName.getAbsolutePath());
+			System.out.println("Loading Image from : " + fileName.getAbsolutePath());
 			BufferedImage originalImage = ImageIO.read(new File(fileName.getAbsolutePath()));
-			image = ImageUtils.resize(originalImage, hogParam.getWidth(), hogParam.getHeight());
+			image = ImageUtils.resize(originalImage, this.hogParam.getWidth(), this.hogParam.getHeight());
 			hog = new HOG(this.hogParam, image);
 			
 			getDataVector(hog);
@@ -71,7 +71,7 @@ public class HOGAppli {
 	}
 
 	public void getDataVector(HOG dataHog){
-	//	DataVector newVector = new DataVector(int cls, dataHog.getFeatureVect());
+		DataVector newVector = new DataVector(1, dataHog.getFeatureVect());
 		
 	}
 	
