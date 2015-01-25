@@ -50,8 +50,7 @@ public class TreeNodeTests {
     public void testSplitAttr() {
         if (-99 != parent.getSplitAttr()) {
             org.junit.Assert.assertTrue("current node should be a leaf", parent.isLeaf());
-        }
-        else {
+        } else {
             org.junit.Assert.assertFalse("current node should not be a leaf", parent.isLeaf());
         }
     }
@@ -61,8 +60,7 @@ public class TreeNodeTests {
     public void testSplitVar() {
         if (-99 != parent.getSplitVal()) {
             org.junit.Assert.assertTrue("current node should be a leaf", parent.isLeaf());
-        }
-        else {
+        } else {
             org.junit.Assert.assertFalse("current node should not be a leaf", parent.isLeaf());
         }
     }

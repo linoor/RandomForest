@@ -23,10 +23,10 @@ public class Helper {
         List<DataVector> data = new ArrayList<DataVector>();
 
         for (int i = 0; i < dataSize; i++) {
-            int cls = (int) Math.floor(Math.random()*classSize);
+            int cls = (int) Math.floor(Math.random() * classSize);
             double[] feature = new double[attrSize];
             for (int j = 0; j < attrSize; j++) {
-                feature[j] = (Math.floor(Math.random()*100));
+                feature[j] = (Math.floor(Math.random() * 100));
             }
             DataVector record = new DataVector(cls, feature);
             data.add(record);
@@ -57,7 +57,7 @@ public class Helper {
 
         Collections.sort(list);
 
-        int[] counter = new int[list.get(list.size()-1)+1];
+        int[] counter = new int[list.get(list.size() - 1) + 1];
         int maxCount = -1;
         int maxIdx = -1;
         for (int el : list) {

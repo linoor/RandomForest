@@ -3,8 +3,8 @@ package RandomForestHOG.RandomForest;
 import RandomForestHOG.DecisionTree.DecisionTree;
 import RandomForestHOG.NotifyingThread.NotifyingThread;
 import RandomForestHOG.NotifyingThread.ThreadCompleteListener;
+import Utils.DataVector;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import com.sun.tools.corba.se.idl.constExpr.Not;
 import fr.ensmp.caor.levis.classifier.Classifier;
 import fr.ensmp.caor.levis.learner.Learner;
 import fr.ensmp.caor.levis.sample.DataBase;
@@ -14,16 +14,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import Utils.DataVector;
-
-@objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
+@objid("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
 public class RandomForestLearner extends Learner implements ThreadCompleteListener {
 
-    private Classifier _model;
-
-    private static double bootstrapRate = 2.0/3;
+    private static double bootstrapRate = 2.0 / 3;
     private static double attrSampleRate = 1;
-
     private static int numOfClass;
     private static int numOfAttr;
     /* number of attributes to be bootstrapped when creating decision trees
@@ -32,7 +27,7 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
     private static int numOfAttrSample;
     private static int numOfTree;
     private static int depthOfTree;
-
+    private Classifier _model;
     private List<DataVector> data;
     private List<DataVector> testData;
 
@@ -41,7 +36,7 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
     private long startTime;
     private int finishedCount;
 
-    @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
+    @objid("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
     public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree) {
         super();
         if (0 >= data.size()) {
@@ -55,8 +50,8 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
         _model = new RandomForest(depthOfTree, numOfTree);
 
         this.numOfAttr = data.get(0).feature.length;
-        this.numOfAttrSample = (int)Math.round(Math.log(this.numOfAttr)/Math.log(2)+1);
-        this.attrSampleRate = ((double)this.numOfAttrSample) / this.numOfAttr;
+        this.numOfAttrSample = (int) Math.round(Math.log(this.numOfAttr) / Math.log(2) + 1);
+        this.attrSampleRate = ((double) this.numOfAttrSample) / this.numOfAttr;
     }
 
 
@@ -64,10 +59,9 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
         this(data, numOfTree, depthOfTree);
         if (1 < attrSampleRate) {
             System.out.println("RandomForestLearner: attribute sample rate > 1... using default setting");
-        }
-        else {
+        } else {
             this.attrSampleRate = attrSampleRate;
-            this.numOfAttrSample = (int)Math.round(numOfAttr * attrSampleRate);
+            this.numOfAttrSample = (int) Math.round(numOfAttr * attrSampleRate);
         }
     }
 
@@ -75,10 +69,18 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
         this(data, numOfTree, depthOfTree, attrSampleRate);
         if (1 < bootstrapRate) {
             System.out.println("RandomForestLearner: data bootstrap rate > 1... using default setting");
-        }
-        else {
+        } else {
             this.bootstrapRate = bootstrapRate;
         }
+    }
+
+    private static String TimeElapsed(long timeinms) {
+        double s = (double) (System.currentTimeMillis() - timeinms) / 1000;
+        int h = (int) Math.floor(s / ((double) 3600));
+        s -= (h * 3600);
+        int m = (int) Math.floor(s / ((double) 60));
+        s -= (m * 60);
+        return "" + h + "hr " + m + "m " + s + "sec";
     }
 
     public Classifier learn(boolean threadMode) {
@@ -96,24 +98,14 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
             }
             treePool.shutdown();
             try {
-                while(!treePool.awaitTermination(10, TimeUnit.SECONDS));
-//                if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-//                    treePool.shutdownNow();
-//                    if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-//                        System.err.println("tree pool did not terminate...");
-//                    }
-//                }
-            }
-            catch (InterruptedException ie) {
+                while (!treePool.awaitTermination(10, TimeUnit.SECONDS)) ;
+            } catch (InterruptedException ie) {
                 System.out.println("interrupted exception in RandomForestLearner...");
-//                treePool.shutdownNow();
-            }
-            finally {
+            } finally {
                 System.out.println("All threads finished...");
                 model.classify(testData, true);
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < numOfTree; i++) {
                 CreateTree create = new CreateTree(data, model, i);
                 create.run();
@@ -123,11 +115,6 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
         System.out.println("Learning done in " + TimeElapsed(startTime));
 
         return model;
-    }
-
-    @objid ("84799113-d630-4eef-bd4d-a074581d5b7f")
-    protected Classifier learn(DataBase p0) throws Exception {
-        return null;
     }
 
     public void setTestData(List<DataVector> testData) {
@@ -141,24 +128,6 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
         finishedCount++;
     }
 
-    private class CreateTree extends NotifyingThread {
-        private List<DataVector> data;
-        private RandomForest forest;
-        private int treeId;
-
-        public CreateTree(List<DataVector> data, RandomForest forest, int treeId) {
-            this.data = data;
-            this.forest = forest;
-            this.treeId = treeId;
-        }
-        @Override
-        public void doRun() {
-            DecisionTree tree = new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId);
-            tree.createTree();
-            forest.dTree.add(tree);
-        }
-    }
-
     @objid("eafec0c5-2d8e-48a2-b23c-cb59b300755a")
     public double getAttrSampleRate() {
         return attrSampleRate;
@@ -169,45 +138,53 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
         return bootstrapRate;
     }
 
-    @objid ("4aff82c9-54dd-4e50-960f-3fcb7c21264b")
-    protected Object getLearnerParameter(String p0) {
-        // TODO Auto-generated return
+    @objid("84799113-d630-4eef-bd4d-a074581d5b7f")
+    protected Classifier learn(DataBase p0) throws Exception {
         return null;
     }
 
-    @objid ("5f02503d-159a-4a86-beea-64e6de3555ee")
-    protected String getLearnerParameterDescription(String p0) {
-        // TODO Auto-generated return
-        return null;
-    }
-
-    @objid ("09f39372-e4c2-40ef-be1d-63f4a85ee741")
+    @Override
     protected String[] getLearnerParameters() {
         return new String[0];
     }
 
-    @objid ("ed4da577-e9c1-44db-b292-1ddb4aeab813")
-    protected Object[] getLearnerPossibleValues(String p0) {
+    @Override
+    protected Object getLearnerParameter(String s) {
+        return null;
+    }
+
+    @Override
+    protected String getLearnerParameterDescription(String s) {
+        return null;
+    }
+
+    @Override
+    protected void setLearnerParameter(String s, Object o) throws Exception {
+
+    }
+
+    @Override
+    protected Object[] getLearnerPossibleValues(String s) {
         return new Object[0];
     }
 
-    @objid ("9b2f1c61-6be7-4156-85db-15202c387c02")
-    protected void setLearnerParameter(String p0, Object p1) throws Exception {
-    }
+    private class CreateTree extends NotifyingThread {
+        private List<DataVector> data;
+        private RandomForest forest;
+        private int treeId;
 
-    @objid ("0b5c008f-76ac-4c0e-b2de-4a29ece8a2f6")
-    public Float testAccuracy(DataBase testData) {
-        // TODO Auto-generated return
-        return 0f;
-    }
+        public CreateTree(List<DataVector> data, RandomForest forest, int treeId) {
+            this.data = data;
+            this.forest = forest;
+            this.treeId = treeId;
+        }
 
-    private static String TimeElapsed(long timeinms){
-        double s=(double)(System.currentTimeMillis()-timeinms)/1000;
-        int h=(int)Math.floor(s/((double)3600));
-        s-=(h*3600);
-        int m=(int)Math.floor(s/((double)60));
-        s-=(m*60);
-        return ""+h+"hr "+m+"m "+s+"sec";
+        @Override
+        public void doRun() {
+            DecisionTree tree = new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId);
+            tree.createTree();
+            forest.dTree.add(tree);
+        }
     }
 
 }

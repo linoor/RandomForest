@@ -22,7 +22,7 @@ public class HOGTests {
 
     @Before
     public void setup() {
-        Path simpleImgPath = Paths.get(Helper.getAssetsFolderStr()+"/Test/vectorGradientTest.png");
+        Path simpleImgPath = Paths.get(Helper.getAssetsFolderStr() + "/Test/vectorGradientTest.png");
         System.out.println(simpleImgPath);
         simpleImg = simpleImgPath.toFile();
     }
@@ -76,9 +76,9 @@ public class HOGTests {
     public void testComputingGradientVector() {
         HOG hog;
         try {
-          hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
+            hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the middle vector should be equal to the expected value",
-                    new int[] {0, 68}, hog.getGradientVector(1, 1));
+                    new int[]{0, 68}, hog.getGradientVector(1, 1));
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -91,9 +91,9 @@ public class HOGTests {
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 1, 1, 1, 1, 1, 2, 3, 3), simpleImg);
             assertArrayEquals("the vector gradient for the upper left vector should be equal to the expected value",
-                    new int[] {148, 163}, hog.getGradientVector(0, 0));
+                    new int[]{148, 163}, hog.getGradientVector(0, 0));
             assertArrayEquals("the vector gradient for the lower right vector should be equal to the expected value",
-                    new int[] {0, 0}, hog.getGradientVector(2, 2));
+                    new int[]{0, 0}, hog.getGradientVector(2, 2));
             assertArrayEquals("the vector gradient for the upper right vector should be equal to the expected value",
                     new int[]{0, 30}, hog.getGradientVector(0, 2));
             assertArrayEquals("the vector gradient for the upper middle vector should be equal to the expected value",
@@ -157,7 +157,7 @@ public class HOGTests {
                     0.001);
             Assert.assertEquals("Histogram at zero degrees (30 degrees) should be equal expected value",
                     260.585,
-                    hog.getHistogram(0,0,3,3)[1],
+                    hog.getHistogram(0, 0, 3, 3)[1],
                     0.01);
             // TODO needs more tests probably, especially edge cases
         } catch (Exception e) {
@@ -168,27 +168,27 @@ public class HOGTests {
 
     @Test
     public void testVectorNormalization() {
-        assertArrayEquals(new double[] {0.801784, 0.534522, 0.267261}, HOG.normalizeVector(new double[] {3, 2, 1}), 0.001);
+        assertArrayEquals(new double[]{0.801784, 0.534522, 0.267261}, HOG.normalizeVector(new double[]{3, 2, 1}), 0.001);
     }
 
     @Test
     public void testBlockNormalization() {
-       HOG hog;
-       try {
-           hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
-           final double[] result = hog.getBlock(0,0);
-           assertEquals(36, result.length);
-           assertArrayEquals("first result of the normalized histogram should be equal to the expected value",
-                   HOG.normalizeVector(new double[] {
-                   0.0, 85.439, 134.727, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                   98.237, 175.149, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-                   0.0, 0.0, 85.582, 344.626, 0.0, 0.0, 0.0, 0.0, 0.0,
-                   68.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
-           }), result, 0.001);
-       } catch (Exception e) {
-           e.printStackTrace();
-           fail();
-       }
+        HOG hog;
+        try {
+            hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
+            final double[] result = hog.getBlock(0, 0);
+            assertEquals(36, result.length);
+            assertArrayEquals("first result of the normalized histogram should be equal to the expected value",
+                    HOG.normalizeVector(new double[]{
+                            0.0, 85.439, 134.727, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                            98.237, 175.149, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                            0.0, 0.0, 85.582, 344.626, 0.0, 0.0, 0.0, 0.0, 0.0,
+                            68.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0
+                    }), result, 0.001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @Test
@@ -196,7 +196,7 @@ public class HOGTests {
         HOG hog;
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
-            final double[] result = hog.getBlock(0,0);
+            final double[] result = hog.getBlock(0, 0);
             assertEquals("description size should be equal expected value", 144, hog.getFeatureVect().length);
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,11 +3,11 @@ package UtilsTests;
 import Utils.DataVector;
 import Utils.ExtDataParser;
 import Utils.Helper;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
 
 import java.util.List;
 

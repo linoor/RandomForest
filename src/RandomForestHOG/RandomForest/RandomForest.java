@@ -33,8 +33,8 @@ public class RandomForest extends Classifier {
     @objid ("a775e74a-83d3-42c8-b3d9-6336733ea164")
     public RandomForest(final int maxDepth, final int maxNumOfTrees) {
         this();
-        this.maxDepth = maxDepth;
-        this.maxNumOfTrees = maxNumOfTrees;
+        RandomForest.maxDepth = maxDepth;
+        RandomForest.maxNumOfTrees = maxNumOfTrees;
     }
 
     @objid ("825cee3b-bf63-4b2f-96a7-c6fe53cf1387")

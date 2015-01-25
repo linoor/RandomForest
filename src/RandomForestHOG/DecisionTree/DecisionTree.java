@@ -1,13 +1,12 @@
 package RandomForestHOG.DecisionTree;
 
+import Utils.DataVector;
+import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import Utils.DataVector;
-import Utils.Helper;
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid("61261918-d6ad-4d4d-a19f-e6c7088f5dd6")
 public class DecisionTree {
@@ -189,8 +188,7 @@ public class DecisionTree {
                 parent.setRightChild(new TreeNode(childData[1]));
                 recursiveSplit(parent.getRightChild(), attr);
             }
-        }
-        else {
+        } else {
             parent.setClassVal(curClass);
             return;
         }

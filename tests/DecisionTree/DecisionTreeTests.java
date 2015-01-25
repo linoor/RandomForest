@@ -2,15 +2,12 @@ package DecisionTree;
 
 import RandomForestHOG.DecisionTree.DecisionTree;
 import RandomForestHOG.DecisionTree.TreeNode;
-
 import Utils.DataVector;
 import Utils.Helper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -23,7 +20,7 @@ public class DecisionTreeTests {
     private int dataSize = 20;
     private int numOfAttr = 20;
     private int numOfClass = 10;
-    private double bootstrapRate = 2.0/3;
+    private double bootstrapRate = 2.0 / 3;
     private int numOfAttrSample;
 
     @Before
@@ -37,12 +34,6 @@ public class DecisionTreeTests {
 
     @Test
     public void testConstructor() {
-//        int dataSize = 20;
-//        int numOfAttr = 20;
-//        int numOfClass = 10;
-//        testingData = setupTestingData(dataSize, numOfAttr, numOfClass);
-//        int numOfAttrSample = getNumOfAttrSample(testingData);
-//        DecisionTree testTree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, 0);
         tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
 
         Assert.assertEquals(dataSize, tree.getDataN());
@@ -52,7 +43,7 @@ public class DecisionTreeTests {
         Assert.assertEquals(getNumOfAttrSample(testingData), tree.getAttrSampleN());
     }
 
-    
+
     @Test
     public void testClassify() {
         tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
@@ -69,7 +60,7 @@ public class DecisionTreeTests {
         tree.createTree();
 
         TreeNode root = tree.getRootNode();
-        System.out.println(root.getLevel()+":"+root.getSplitAttr()+"("+root.getSplitVal()+")");
+        System.out.println(root.getLevel() + ":" + root.getSplitAttr() + "(" + root.getSplitVal() + ")");
         final int PRINT_LVL_MAX = 5;
 
         Queue<TreeNode> q = new LinkedList<TreeNode>();
@@ -98,9 +89,8 @@ public class DecisionTreeTests {
     private int getNumOfAttrSample(List<DataVector> data) {
         try {
             int numOfAttr = data.get(0).feature.length;
-            return (int)Math.round(Math.log(numOfAttr)/Math.log(2)+1);
-        }
-        catch (Exception e) {
+            return (int) Math.round(Math.log(numOfAttr) / Math.log(2) + 1);
+        } catch (Exception e) {
             e.printStackTrace();
             return -1;
         }

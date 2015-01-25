@@ -1,8 +1,8 @@
 package UtilsTests;
 
 import Utils.DataVector;
-import org.junit.Test;
 import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Created by ericchiu on 1/24/15.

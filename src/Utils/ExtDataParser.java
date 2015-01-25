@@ -1,7 +1,8 @@
 package Utils;
 
-import java.io.*;
-import java.nio.channels.DatagramChannel;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -11,11 +12,9 @@ import java.util.Scanner;
  */
 public class ExtDataParser {
 
-//    private List<List<DataVector>> parseResults;
-
     /**
      * @param filePath path to the parsing file
-     * @param type 0: train 1: test
+     * @param type     0: train 1: test
      */
     public static List<DataVector> parsePendigits(String filePath, int type) {
         List<DataVector> dataset = new ArrayList<DataVector>();
@@ -31,16 +30,14 @@ public class ExtDataParser {
                     tokens[i] = tokens[i].trim();
                     if (len - 1 == i) {
                         cls = Integer.parseInt(tokens[i]);
-                    }
-                    else {
+                    } else {
                         feature[i] = Double.parseDouble(tokens[i]);
                     }
                 }
 
                 dataset.add(new DataVector(cls, feature));
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return dataset;

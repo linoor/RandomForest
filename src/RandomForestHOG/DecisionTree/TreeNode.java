@@ -7,7 +7,7 @@ import com.modeliosoft.modelio.javadesigner.annotations.objid;
 import java.util.ArrayList;
 import java.util.List;
 
-@objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
+@objid("67321fdf-07c5-4b25-973e-2c0c213fa851")
 public class TreeNode implements Cloneable {
     private int level;
     private TreeNode leftChild;
@@ -19,15 +19,15 @@ public class TreeNode implements Cloneable {
     private int classVal;
     private List<DataVector> data;
 
-    @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
+    @objid("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
         this(null, 0, -99, -99);
     }
-    
+
     public TreeNode(List<DataVector> data) {
         this(data, 0, -99, -99);
     }
-    
+
     public TreeNode(List<DataVector> data, int level, int splitAttr, double splitVal) {
         setData(data);
         setLevel(level);
@@ -49,11 +49,11 @@ public class TreeNode implements Cloneable {
         copy.setParent(this.getParent());
         return copy;
     }
-    
+
     @Override
     public String toString() {
-        return getLevel() + ": attr[" + getSplitAttr() + "," + getSplitVal() 
-                         + "] class["+ getClassVal() + "]";
+        return getLevel() + ": attr[" + getSplitAttr() + "," + getSplitVal()
+                + "] class[" + getClassVal() + "]";
     }
 
     public boolean isLeaf() {
@@ -62,6 +62,7 @@ public class TreeNode implements Cloneable {
 
     /**
      * Check if all record of data of this tree node have the same class value.
+     *
      * @return that class value, -1 if not
      */
     public int checkIfSameClass() {
@@ -79,6 +80,7 @@ public class TreeNode implements Cloneable {
     /**
      * Vote for the major class value among rest of the data.
      * Use after checkIfSameClass()
+     *
      * @return major class value
      */
     public int voteMajorClass() {
@@ -94,39 +96,13 @@ public class TreeNode implements Cloneable {
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @objid("d790bcf1-f79e-4f49-be58-cb0de2cd71fe")
     public TreeNode getLeftChild() {
         return leftChild;
-    }
-
-    @objid("f49884cb-a796-455c-89d2-3049637325cd")
-    public TreeNode getRightChild() {
-        return rightChild;
-    }
-
-    @objid("f30ffbce-5ef9-47c6-9c47-d8546919c4db")
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    public int getSplitAttr() {
-        return splitAttr;
-    }
-
-    public double getSplitVal() {
-        return splitVal;
-    }
-
-    public int getClassVal() {
-        return classVal;
-    }
-
-    public List<DataVector> getData() {
-        return data;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public void setLeftChild(TreeNode leftChild) {
@@ -134,25 +110,51 @@ public class TreeNode implements Cloneable {
         setupChild(leftChild);
     }
 
+    @objid("f49884cb-a796-455c-89d2-3049637325cd")
+    public TreeNode getRightChild() {
+        return rightChild;
+    }
+
     public void setRightChild(TreeNode rightChild) {
         this.rightChild = rightChild;
         setupChild(rightChild);
+    }
+
+    @objid("f30ffbce-5ef9-47c6-9c47-d8546919c4db")
+    public TreeNode getParent() {
+        return parent;
     }
 
     public void setParent(TreeNode parent) {
         this.parent = parent;
     }
 
+    public int getSplitAttr() {
+        return splitAttr;
+    }
+
     public void setSplitAttr(int splitAttr) {
         this.splitAttr = splitAttr;
+    }
+
+    public double getSplitVal() {
+        return splitVal;
     }
 
     public void setSplitVal(double splitVal) {
         this.splitVal = splitVal;
     }
 
+    public int getClassVal() {
+        return classVal;
+    }
+
     public void setClassVal(int classVal) {
         this.classVal = classVal;
+    }
+
+    public List<DataVector> getData() {
+        return data;
     }
 
     public void setData(List<DataVector> data) {

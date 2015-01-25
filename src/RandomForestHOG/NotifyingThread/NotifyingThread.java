@@ -14,14 +14,17 @@ public abstract class NotifyingThread implements Runnable {
     public final void addListener(final ThreadCompleteListener listener) {
         listeners.add(listener);
     }
+
     public final void removeListener(final ThreadCompleteListener listener) {
         listeners.remove(listener);
     }
-    public final void setThreadId(int id) {
-        threadId = id;
-    }
+
     public int getThreadId() {
         return threadId;
+    }
+
+    public final void setThreadId(int id) {
+        threadId = id;
     }
 
     private final void notifyListeners() {
@@ -38,5 +41,6 @@ public abstract class NotifyingThread implements Runnable {
             notifyListeners();
         }
     }
+
     public abstract void doRun();
 }
