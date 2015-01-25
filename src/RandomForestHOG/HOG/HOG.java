@@ -20,6 +20,7 @@ public class HOG extends Sample {
     private BufferedImage img;
     private int[][] pixelArray;
 
+/*    
     @objid ("bbea47d8-6f43-4ae3-b718-68a8765253c7")
     float[] _histogram() {
         return null;
@@ -34,7 +35,7 @@ public class HOG extends Sample {
     float[] _featureVector() {
         return null;
     }
-
+*/
     @objid ("bf993b00-b60a-4247-890d-9b63a2e630c9")
     HOGParam hogParam() {
         return hogParam;
@@ -265,8 +266,12 @@ public class HOG extends Sample {
     public double[] getFeatureVect() {
         int[][] pixels = getPixelArray();
         List<List<Double>> results = new ArrayList<>();
-        for (int i = 0; i < pixels.length; i += getBlockHeight()*getCellHeight()) {
-            for (int j = 0; j < pixels[0].length; j += getBlockWidth()*getCellWidth()) {
+//        for (int i = 0; i < pixels.length; i += getBlockHeight()*getCellHeight()) {
+//            for (int j = 0; j < pixels[0].length; j += getBlockWidth()*getCellWidth()) {        
+
+        //avoid edge!!
+        for (int i = 1; i < pixels.length-1; i += getBlockHeight()*getCellHeight()) {
+            for (int j = 1; j < pixels[0].length-1; j += getBlockWidth()*getCellWidth()) {
                 double[] block = getBlock(i,j);
                 results.add(Arrays.asList(toDoubleArray(block)));
             }

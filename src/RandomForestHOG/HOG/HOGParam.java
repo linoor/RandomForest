@@ -1,5 +1,7 @@
 package RandomForestHOG.HOG;
 
+import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 // TODO are parameters cellWidth, cellHeight needed?
@@ -19,7 +21,16 @@ public class HOGParam  {
 
     @objid ("42d1c597-8275-42c0-8496-5d17a36fd6a3")
     public HOGParam() {
-        // TODO empty constructor?
+        // default setting
+        this.blockType = RECTANGULAR;
+        this.binNumber = 9;
+        this.cellWidth = 6;
+        this.cellHeight = 6;
+        this.blockWidth = 3;
+        this.blockHeight = 3;
+        this.maskType = 1;
+        this.width = 20;
+        this.height = 20;
     }
 
     @objid ("d2e76ede-7957-415b-a548-bb88abaab29a")

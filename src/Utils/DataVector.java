@@ -1,7 +1,5 @@
 package Utils;
 
-import java.util.ArrayList;
-
 /**
  * Created by ericchiu on 1/23/15.
  */
