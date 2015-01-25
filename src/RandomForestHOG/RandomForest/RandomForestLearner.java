@@ -1,7 +1,10 @@
 package RandomForestHOG.RandomForest;
 
 import RandomForestHOG.DecisionTree.DecisionTree;
+import RandomForestHOG.NotifyingThread.NotifyingThread;
+import RandomForestHOG.NotifyingThread.ThreadCompleteListener;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+import com.sun.tools.corba.se.idl.constExpr.Not;
 import fr.ensmp.caor.levis.classifier.Classifier;
 import fr.ensmp.caor.levis.learner.Learner;
 import fr.ensmp.caor.levis.sample.DataBase;
@@ -14,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 import Utils.DataVector;
 
 @objid ("f13ea57b-2648-48bf-8e5e-b1319a05eaba")
-public class RandomForestLearner extends Learner {
+public class RandomForestLearner extends Learner implements ThreadCompleteListener {
 
     private Classifier _model;
 
@@ -36,6 +39,7 @@ public class RandomForestLearner extends Learner {
     /* the thread pool that generates decision tree concurrently */
     private ExecutorService treePool;
     private long startTime;
+    private int finishedCount;
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
     public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree) {
@@ -85,20 +89,28 @@ public class RandomForestLearner extends Learner {
         if (threadMode) {
             treePool = Executors.newFixedThreadPool(numOfTree);
             for (int i = 0; i < numOfTree; i++) {
-                treePool.execute(new CreateTree(data, model, i));
+                NotifyingThread createTree = new CreateTree(data, model, i);
+                createTree.addListener(this);
+                createTree.setThreadId(i);
+                treePool.execute(createTree);
             }
             treePool.shutdown();
             try {
-                treePool.awaitTermination(10, TimeUnit.SECONDS);
+                while(!treePool.awaitTermination(10, TimeUnit.SECONDS));
 //                if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
 //                    treePool.shutdownNow();
 //                    if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
 //                        System.err.println("tree pool did not terminate...");
 //                    }
 //                }
-            } catch (InterruptedException ie) {
+            }
+            catch (InterruptedException ie) {
                 System.out.println("interrupted exception in RandomForestLearner...");
 //                treePool.shutdownNow();
+            }
+            finally {
+                System.out.println("All threads finished...");
+                model.classify(testData, true);
             }
         }
         else {
@@ -122,7 +134,14 @@ public class RandomForestLearner extends Learner {
         this.testData = testData;
     }
 
-    private class CreateTree implements Runnable {
+    @Override
+    public void notifyOfThreadComplete(Runnable thread) {
+        NotifyingThread finished = (NotifyingThread) thread;
+        System.out.println("Thread " + finished.getThreadId() + " finished...");
+        finishedCount++;
+    }
+
+    private class CreateTree extends NotifyingThread {
         private List<DataVector> data;
         private RandomForest forest;
         private int treeId;
@@ -133,7 +152,7 @@ public class RandomForestLearner extends Learner {
             this.treeId = treeId;
         }
         @Override
-        public void run() {
+        public void doRun() {
             DecisionTree tree = new DecisionTree(data, bootstrapRate, numOfAttrSample, forest.getMaxDepth(), treeId);
             tree.createTree();
             forest.dTree.add(tree);

@@ -92,6 +92,7 @@ public class DecisionTree {
         rootNode = new TreeNode();
         rootNode.setData(train);
         recursiveSplit(rootNode, attrSample);
+        System.out.println("Tree " + treeId + " creation done...");
     }
 
     @objid("943639d0-f911-4e72-b5b3-3087f8f11863")
@@ -164,7 +165,8 @@ public class DecisionTree {
             assert (attrSampleN == attr.size());
             findSplitPosition(parent.getData(), attr, attrObj);
 
-            System.out.println("Min Attr: " + attrObj.attr + " Min Val: " + attrObj.val);
+//            System.out.println("Min Attr: " + attrObj.attr + " Min Val: " + attrObj.val);
+
             parent.setSplitAttr(attrObj.attr);
             parent.setSplitVal(attrObj.val);
 
