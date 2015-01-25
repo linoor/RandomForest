@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.image.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 
@@ -21,7 +22,7 @@ import fr.ensmp.caor.levis.ui.*;
 
 public class HOGAppli {
 
-	private ArrayList<DataVector> dataVectors = null;
+	private List<DataVector> dataVectors;
 	private int cls = 0;
 	private HOG hog;
 	private HOGParam hogParam;
@@ -30,10 +31,12 @@ public class HOGAppli {
 
 	public HOGAppli() {
 		this.hogParam = new HOGParam(RECTANGULAR,  9, 4, 4, 2, 2, 1, 10, 10);
+		dataVectors = new ArrayList<DataVector>();
 		// 10pixel x 10pixel => cell(4pixel x 4pixel) x block(2cell x 2cell)
 	}
 	
 	public HOGAppli(File[] files, HOGParam initHogParam) throws Exception {
+		this();
 		this.hogParam = initHogParam;
 		LoadFiles(files);
 	}
@@ -71,6 +74,7 @@ public class HOGAppli {
 		}
 	}
 
+	
 	
 	public void drawImage() {
 		Graphics g = image.getGraphics();
