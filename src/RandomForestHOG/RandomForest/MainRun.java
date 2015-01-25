@@ -48,14 +48,14 @@ public class MainRun {
 
     public static void runHOGDB_PAN() {
         HOGAppli hogAppli, hogAppliTest;
-        File[] files = new File(Helper.getAssetsFolderStr() + "/DB_panneaux").listFiles();
-        File[] testFiles = new File(Helper.getAssetsFolderStr() + "/Test/small_patch/train").listFiles();
+        File[] files = new File(Helper.getAssetsFolderStr() + "/DB").listFiles();
+        File[] testFiles = new File(Helper.getAssetsFolderStr() + "/Test/testset").listFiles();
 
         try {
             hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
             hogAppliTest = new HOGAppli(testFiles, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
 
-            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 10, 10);
+            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 100, 10);
             rfLearner.setTestData(hogAppliTest.getDataVectors());
             RandomForest rfModel = (RandomForest) rfLearner.learn(true);
 
