@@ -246,9 +246,11 @@ public class HOG extends Sample {
     public double[] getFeatureVect() {
         int[][] pixels = getPixelArray();
         List<List<Double>> results = new ArrayList<>();
-        for (int i = 0; i < pixels.length; i += getBlockHeight() * getCellHeight()) {
-            for (int j = 0; j < pixels[0].length; j += getBlockWidth() * getCellWidth()) {
-                double[] block = getBlock(i, j);
+
+        //avoid edge!!
+        for (int i = 1; i < pixels.length-1; i += getBlockHeight()*getCellHeight()) {
+            for (int j = 1; j < pixels[0].length-1; j += getBlockWidth()*getCellWidth()) {
+                double[] block = getBlock(i,j);
                 results.add(Arrays.asList(toDoubleArray(block)));
             }
         }

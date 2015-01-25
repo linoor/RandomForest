@@ -197,7 +197,7 @@ public class HOGTests {
         try {
             hog = new HOG(new HOGParam(RECTANGULAR, 9, 1, 1, 2, 2, 1, 3, 3), simpleImg);
             final double[] result = hog.getBlock(0, 0);
-            assertEquals("description size should be equal expected value", 144, hog.getFeatureVect().length);
+            assertEquals("description size should be equal expected value", 36, hog.getFeatureVect().length);
         } catch (Exception e) {
             e.printStackTrace();
             fail();

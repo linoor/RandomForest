@@ -5,6 +5,8 @@ import RandomForestHOG.HOG.HOGParam;
 import Utils.Helper;
 import org.junit.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -18,11 +20,24 @@ public class HOGAppliTests {
     private final File[] files = new File(Helper.getAssetsFolderStr() + "/DB_panneaux").listFiles();
 
     @Test
+    public void testDrawImage() {
+        try {
+            HOGAppli hogAppli = new HOGAppli();
+            BufferedImage Im = ImageIO.read(file);
+            hogAppli.drawImage(Im);
+        } catch (Exception e) {
+            System.out.print("\n\tError in testDrawImage()\n");
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Test
     public void testLoadImage() {
         try {
             HOGAppli hogAppli = new HOGAppli();
             hogAppli.LoadImage(file);
-            hogAppli.drawImage();
+//            hogAppli.drawImage();
         } catch (Exception e) {
             System.out.print("\n\tError in testLoadImage()\n");
             e.printStackTrace();
@@ -50,12 +65,11 @@ public class HOGAppliTests {
             assertNotNull(hogAppli);
             assertEquals(hogAppli.getImageHeight(), 10);
             assertEquals(hogAppli.getImageWidth(), 10);
-            hogAppli.drawImage();
+//            hogAppli.drawImage();
         } catch (Exception e) {
             System.err.print("\n\tError in testCreation()\n");
             e.printStackTrace();
             fail();
         }
     }
-
 }

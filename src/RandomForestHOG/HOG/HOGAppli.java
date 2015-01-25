@@ -4,6 +4,7 @@ import Utils.DataVector;
 import fr.ensmp.caor.levis.sample.ImageUtils;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -66,9 +67,16 @@ public class HOGAppli {
         }
     }
 
-    public void drawImage() {
-        Graphics g = image.getGraphics();
-        g.drawImage(image, 0, 0, null);
+    public void drawImage(BufferedImage im) {
+        JFrame frame = new JFrame();
+        frame.setVisible(true);
+        frame.setAlwaysOnTop(true);
+        frame.setLayout(new BorderLayout());
+        frame.add(new ImagePane(im));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        frame.pack();
+        frame.setLocationRelativeTo(null);
     }
 
     public List<DataVector> getDataVectors() {
@@ -83,4 +91,11 @@ public class HOGAppli {
         return image.getWidth();
     }
 
+    public class ImagePane extends JPanel {
+        public ImagePane(BufferedImage image) {
+            setLayout(new BorderLayout());
+            ImageIcon icon = new ImageIcon(image);
+            add(new JLabel(icon));
+        }
+    }
 }

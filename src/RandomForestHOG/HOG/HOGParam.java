@@ -1,5 +1,7 @@
 package RandomForestHOG.HOG;
 
+import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
+
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
 
 @objid("b30f2d3b-3dd3-4928-8c2e-210cde6bac4c")
@@ -15,7 +17,21 @@ public class HOGParam {
     private int width;
     private int height;
 
-    @objid("d2e76ede-7957-415b-a548-bb88abaab29a")
+    @objid ("42d1c597-8275-42c0-8496-5d17a36fd6a3")
+    public HOGParam() {
+        // default setting
+        this.blockType = RECTANGULAR;
+        this.binNumber = 9;
+        this.cellWidth = 6;
+        this.cellHeight = 6;
+        this.blockWidth = 3;
+        this.blockHeight = 3;
+        this.maskType = 1;
+        this.width = 20;
+        this.height = 20;
+    }
+
+    @objid ("d2e76ede-7957-415b-a548-bb88abaab29a")
     public HOGParam(final BlockType blockType, final int binNumber, final int cellWidth, final int cellHeight, final int blockWidth, final int blockHeight, final int maskType,
                     int width,
                     int height) {
