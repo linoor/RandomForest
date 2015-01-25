@@ -18,12 +18,14 @@ public class MainRun {
         File[] files = new File(Helper.getAssetsFolderStr() + "/Test/small_patch").listFiles();
         try {
             hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
+
+            Helper.printData(hogAppli.getDataVectors());
+            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 100, 2);
+//            rfLearner.learn();
+
         } catch (Exception e) {
             System.err.print("\n\tError in testCreation()\n");
             e.printStackTrace();
         }
-
-        RandomForestLearner rfLearner = new RandomForestLearner()
-
     }
 }
