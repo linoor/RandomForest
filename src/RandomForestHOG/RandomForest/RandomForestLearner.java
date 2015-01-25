@@ -31,11 +31,11 @@ public class RandomForestLearner extends Learner {
     private static int depthOfTree;
 
     private List<DataVector> data;
-
     private List<DataVector> testData;
 
     /* the thread pool that generates decision tree concurrently */
     private ExecutorService treePool;
+    private long startTime;
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
     public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree) {
@@ -78,6 +78,9 @@ public class RandomForestLearner extends Learner {
     }
 
     public Classifier learn(boolean threadMode) {
+        System.out.println("Start learning...");
+        startTime = System.currentTimeMillis();
+
         RandomForest model = (RandomForest) _model;
         if (threadMode) {
             treePool = Executors.newFixedThreadPool(numOfTree);
@@ -86,15 +89,16 @@ public class RandomForestLearner extends Learner {
             }
             treePool.shutdown();
             try {
-                if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-                    treePool.shutdownNow();
-                    if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
-                        System.err.println("tree pool did not terminate...");
-                    }
-                }
+                treePool.awaitTermination(10, TimeUnit.SECONDS);
+//                if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
+//                    treePool.shutdownNow();
+//                    if (!treePool.awaitTermination(10, TimeUnit.SECONDS)) {
+//                        System.err.println("tree pool did not terminate...");
+//                    }
+//                }
             } catch (InterruptedException ie) {
                 System.out.println("interrupted exception in RandomForestLearner...");
-                treePool.shutdownNow();
+//                treePool.shutdownNow();
             }
         }
         else {
@@ -103,6 +107,8 @@ public class RandomForestLearner extends Learner {
                 create.run();
             }
         }
+
+        System.out.println("Learning done in " + TimeElapsed(startTime));
 
         return model;
     }
@@ -174,6 +180,15 @@ public class RandomForestLearner extends Learner {
     public Float testAccuracy(DataBase testData) {
         // TODO Auto-generated return
         return 0f;
+    }
+
+    private static String TimeElapsed(long timeinms){
+        double s=(double)(System.currentTimeMillis()-timeinms)/1000;
+        int h=(int)Math.floor(s/((double)3600));
+        s-=(h*3600);
+        int m=(int)Math.floor(s/((double)60));
+        s-=(m*60);
+        return ""+h+"hr "+m+"m "+s+"sec";
     }
 
 }
