@@ -144,7 +144,7 @@ public class DecisionTree {
     }
 
     @objid("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
-    private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
+    private void recursiveSplit(TreeNode parent, List<Integer> attr) {
 //        System.out.println(parent.getLevel());
         int curClass = parent.checkIfSameClass();
         if (-1 == curClass) {

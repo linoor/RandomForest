@@ -51,6 +51,10 @@ public class Helper {
     }
 
     public static int getModeInt(List<Integer> list) {
+        if (0 >= list.size()) {
+            return Integer.MIN_VALUE;
+        }
+
         Collections.sort(list);
 
         int[] counter = new int[list.get(list.size()-1)+1];

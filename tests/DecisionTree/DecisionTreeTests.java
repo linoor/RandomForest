@@ -20,20 +20,18 @@ public class DecisionTreeTests {
     private DecisionTree tree;
     private List<DataVector> testingData;
 
-    int dataSize = 20;
-    int numOfAttr = 20;
-    int numOfClass = 10;
+    private int dataSize = 20;
+    private int numOfAttr = 20;
+    private int numOfClass = 10;
     private double bootstrapRate = 2.0/3;
+    private int numOfAttrSample;
 
     @Before
     public void setup() {
         testingData = Helper.setupTestingData(dataSize, numOfAttr, numOfClass);
-        int numOfAttrSample = getNumOfAttrSample(testingData);
+        numOfAttrSample = getNumOfAttrSample(testingData);
         if (0 > numOfAttrSample) {
             Assert.fail();
-        }
-        else {
-            tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
         }
     }
 
@@ -45,6 +43,7 @@ public class DecisionTreeTests {
 //        testingData = setupTestingData(dataSize, numOfAttr, numOfClass);
 //        int numOfAttrSample = getNumOfAttrSample(testingData);
 //        DecisionTree testTree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, 0);
+        tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
 
         Assert.assertEquals(dataSize, tree.getDataN());
         Assert.assertEquals((int) Math.round(dataSize * bootstrapRate), tree.getTrainN());
@@ -56,6 +55,9 @@ public class DecisionTreeTests {
     
     @Test
     public void testClassify() {
+        tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
+        tree.createTree();
+
         DataVector testRecord = Helper.setupTestingData(1, numOfAttr, numOfClass).get(0);
         double result = tree.classify(testRecord);
         System.out.println("Test Result: " + result);
@@ -63,6 +65,9 @@ public class DecisionTreeTests {
 
     @Test
     public void printCreatedTree() {
+        tree = new DecisionTree(testingData, bootstrapRate, numOfAttrSample, -1, 0);
+        tree.createTree();
+
         TreeNode root = tree.getRootNode();
         System.out.println(root.getLevel()+":"+root.getSplitAttr()+"("+root.getSplitVal()+")");
         final int PRINT_LVL_MAX = 5;
