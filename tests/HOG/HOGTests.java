@@ -22,7 +22,8 @@ public class HOGTests {
 
     @Before
     public void setup() {
-        Path simpleImgPath = Paths.get(Helper.getAssetsFolder().toString()+"\\Test\\vectorGradientTest.png");
+        Path simpleImgPath = Paths.get(Helper.getAssetsFolder().toAbsolutePath().toString()+"/Test/vectorGradientTest.png");
+        System.out.println(simpleImgPath);
         simpleImg = simpleImgPath.toFile();
     }
 
