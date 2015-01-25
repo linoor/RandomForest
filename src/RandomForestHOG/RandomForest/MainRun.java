@@ -69,8 +69,8 @@ public class MainRun {
     }
 
     private static void runRandomForest(List<DataVector> trainSet, List<DataVector> testSet) {
-        RandomForestLearner rfLearner = new RandomForestLearner(trainSet, 100, 10);
+        RandomForestLearner rfLearner = new RandomForestLearner(trainSet, numOfTree, depthOfTree);
         rfLearner.setTestData(testSet);
-        RandomForest rfModel = (RandomForest) rfLearner.learn(true);
+        RandomForest rfModel = (RandomForest) rfLearner.learn(runWithThread);
     }
 }
