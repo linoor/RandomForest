@@ -3,7 +3,7 @@ RandomForest
 
 An implementation of the Random Forest algorithm on HOG images
 
-### Set Up
+## Set Up
 Java 8 required.
 #### Eclipse LUNA
 1. Import project
@@ -12,7 +12,7 @@ Java 8 required.
 2. Add JARs and libraries
   1. Right-click project *> Properties > Java Build Path*
   2. Select *Libraries > Add External JARs*, add `javadesigner.jar` (package from **Modelio**) and `Levis.jar` from file system (or `libs`)
-  3. Add [hamcrest](http://search.maven.org/#search|ga|1|g%3Aorg.hamcrest)) JAR as well
+  3. Add [hamcrest](http://search.maven.org/#search|ga|1|g%3Aorg.hamcrest) JAR as well
   3. Select *Libraries > Add Library*, add `JUnit 4` library
   4. Check all added libraries in *Order and Export*
 3. Configure source folders
@@ -29,8 +29,8 @@ Java 8 required.
   1. Right-click folder `src` *> Mark Directory As > Sources Root*
   2. Right-click folder `tests` *> Mark Directory As > Test Sources Root*
 
-### Usage
-* Choose the test method of interest from `MainRun.java`
+## Usage
+* Choose the test method of interest from `MainRun.java`  
   *default setting: Train - digit images from DB; Test - selected 10, 20, 30 images from DB*
 * Or
   1. Add custom data sets to `assets` folder
@@ -38,18 +38,19 @@ Java 8 required.
   3. `runRandomForest`
 * Tune parameters
   1. `numOfTree` - number of tree in forest
-  2. `depthOfTree` - maximum depth of each tree
-  To set the bootstrap rate of training/testing data or attributes, add parameters when calling the constructor of `RandomForestLearner`.
+  2. `depthOfTree` - maximum depth of each tree  
 
-### Unit Test
-Uses JUnit and hamcrest.
+> To set the bootstrap rate of training/testing data or attributes, add parameters when calling the constructor of `RandomForestLearner`.
+
+## Unit Test
+Uses **JUnit** and **hamcrest**.
 #### Eclipse
 * Right-click folder `tests` *> Run As > 3. JUnit Test*
 
 #### IntelliJ
 * Right-click folder `tests` *> Run 'All Tests'*
 
-### General Test
+## General Test
 1. Test on small patch of DB images
   * Run `runHOGSmallPatch` in `main`
   * Train random forest model via a small subset of data: 10, 20, 30
@@ -60,7 +61,7 @@ Uses JUnit and hamcrest.
   * Run `runTestPendigits` in `main`
   * Train random forest model with handwritten digits
 
-### Reference
+## Reference
 Random Forest
 * [Random-Forest](https://github.com/ironmanMA/Random-Forest) (Java)
 
