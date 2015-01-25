@@ -17,18 +17,49 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
  */
 public class MainRun {
     public static void main(String[] args) {
-        runTestPendigits();
+        runHOGSmallPatch();
+//        runTestPendigits();
     }
 
-    public static void runHOG() {
-        HOGAppli hogAppli;
-        File[] files = new File(Helper.getAssetsFolderStr() + "/Test/small_patch").listFiles();
+    public static void runHOGSmallPatch() {
+        HOGAppli hogAppli, hogAppliTest;
+        File[] files = new File(Helper.getAssetsFolderStr() + "/Test/small_patch/train").listFiles();
+        File[] testFiles = new File(Helper.getAssetsFolderStr() + "/Test/small_patch/test").listFiles();
+        for (File f : testFiles) {
+            System.out.println(f.getName());
+        }
         try {
             hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
+            hogAppliTest = new HOGAppli(testFiles, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
+
+//            Helper.printData(hogAppli.getDataVectors());
+//            Helper.printData(hogAppliTest.getDataVectors());
+
+            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 10, 10);
+            rfLearner.setTestData(hogAppliTest.getDataVectors());
+            RandomForest rfModel = (RandomForest) rfLearner.learn(true);
+
+        } catch (Exception e) {
+            System.err.print("\n\tError in testCreation()\n");
+            e.printStackTrace();
+        }
+    }
+
+    public static void runHOGDB_PAN() {
+        HOGAppli hogAppli, hogAppliTest;
+        File[] files = new File(Helper.getAssetsFolderStr() + "/DB_panneaux").listFiles();
+
+        File[] testFiles = new File(Helper.getAssetsFolderStr() + "/DB_panneaux").listFiles();
+        try {
+            hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
+            hogAppliTest = new HOGAppli(testFiles, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
 
             Helper.printData(hogAppli.getDataVectors());
-            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 100, 2);
-//            rfLearner.learn();
+            Helper.printData(hogAppliTest.getDataVectors());
+
+            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 10, 10);
+            rfLearner.setTestData(hogAppliTest.getDataVectors());
+            RandomForest rfModel = (RandomForest) rfLearner.learn(true);
 
         } catch (Exception e) {
             System.err.print("\n\tError in testCreation()\n");
@@ -45,7 +76,7 @@ public class MainRun {
 
         RandomForestLearner rfLearner = new RandomForestLearner(train, 10, 10);
         rfLearner.setTestData(test);
-        RandomForest rfMode = (RandomForest) rfLearner.learn(true);
+        RandomForest rfModel = (RandomForest) rfLearner.learn(true);
 
 //        List<Integer> predictions = rfMode.classify(test, true);
 //        System.out.println(predictions);
