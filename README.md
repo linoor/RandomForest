@@ -29,7 +29,7 @@ Java 8 required.
   2. Right-click folders `tests` *> Mark Directory As > Test Sources Root*
 
 ### Usage
-* Choose the test method of interest from `MainRun.java`
+* Choose the test method of interest from `MainRun.java`  
   *default setting: Train - digit images from DB; Test - selected 10, 20, 30 images from DB*
 * Or  
   1. Add custom data sets to `assets` folder
