@@ -28,7 +28,6 @@ public class HOGAppli {
 	private HOGParam hogParam;
 	private BufferedImage image;
 
-
 	public HOGAppli() {
 		this.hogParam = new HOGParam(RECTANGULAR,  9, 4, 4, 2, 2, 1, 10, 10);
 		dataVectors = new ArrayList<DataVector>();
@@ -57,7 +56,6 @@ public class HOGAppli {
 			e.printStackTrace();
 			fail();
 		}
-
 	}
 
 	public void LoadImage(File fileName) throws Exception {

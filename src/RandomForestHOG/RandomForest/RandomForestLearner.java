@@ -77,7 +77,6 @@ public class RandomForestLearner extends Learner {
         }
     }
 
-
     protected Classifier learn() {
         RandomForest model = (RandomForest) _model;
         treePool = Executors.newFixedThreadPool(numOfThread);

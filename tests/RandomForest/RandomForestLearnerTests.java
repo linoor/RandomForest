@@ -34,8 +34,5 @@ public class RandomForestLearnerTests {
 //        assertEquals(randomForestLearner.getAttributesSize(), 5);
 
         rfLearner = new RandomForestLearner(testingData, 100, 10);
-
     }
-
-
 }
