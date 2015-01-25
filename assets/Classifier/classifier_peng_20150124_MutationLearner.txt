@@ -1,0 +1,18 @@
+model width = 20
+model height = 20
+model preprocessing = None
+model isColor = false
+model channel = All
+model negative class id = -1
+
+ControlPoints
+resolution = 1
+threshold = 25
+symetry = false
+size = 6
+P0 = 4 8 true
+P1 = 6 8 true
+P2 = 9 4 false
+P3 = 2 4 false
+P4 = 7 6 false
+P5 = 0 9 false

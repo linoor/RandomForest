@@ -57,6 +57,12 @@ public class HOG extends Sample {
         }
         this.hogParam = initHogParam;
     }
+    
+    public HOG(final HOGParam initHogParam, BufferedImage initImg ) throws Exception {
+        super(initHogParam.getWidth(), initHogParam.getHeight(), "pre", "C", false, 0);
+        this.img = initImg;
+        this.hogParam = initHogParam;
+    }
 
     @objid ("03255d6c-46ed-478f-b835-efa132d60bac")
     public double[] getHistogram(int i_start, int j_start, int end_i, int end_j) {

@@ -7,3 +7,6 @@ data/
 .project
 project.conf
 *.class
+.DS_Store
+Thumbs.db
+

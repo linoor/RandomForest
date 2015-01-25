@@ -1,6 +1,10 @@
 package RandomForestHOG.DecisionTree;
 
+import Utils.DataVector;
+import Utils.Helper;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @objid ("67321fdf-07c5-4b25-973e-2c0c213fa851")
@@ -12,24 +16,26 @@ public class TreeNode implements Cloneable {
 
     private int splitAttr;
     private double splitVal;
-    private double classVal;
-    private List<List<Double>> data;
+    private int classVal;
+    private List<DataVector> data;
 
     @objid ("51f070ca-6fe8-4d4e-868c-c62c2b31c082")
     public TreeNode() {
         this(null, 0, -99, -99);
     }
     
-    public TreeNode(List<List<Double>> data) {
+    public TreeNode(List<DataVector> data) {
         this(data, 0, -99, -99);
     }
     
-    public TreeNode(List<List<Double>> data, int level, int splitAttr, double splitVal) {
+    public TreeNode(List<DataVector> data, int level, int splitAttr, double splitVal) {
         setData(data);
         setLevel(level);
         setSplitAttr(splitAttr);
         setSplitVal(splitVal);
         setClassVal(-1);
+        setLeftChild(null);
+        setRightChild(null);
     }
 
     public TreeNode clone() {
@@ -50,19 +56,6 @@ public class TreeNode implements Cloneable {
                          + "] class["+ getClassVal() + "]";
     }
 
-    private void incrementLevel() {
-        level++;
-    }
-
-    private void setupChild(TreeNode child) {
-        if (null == child) {
-            return;
-        }
-        child.setParent(this);
-        child.setLevel(getLevel());
-        child.incrementLevel();
-    }
-
     public boolean isLeaf() {
         return getLeftChild() == null && getRightChild() == null;
     }
@@ -71,16 +64,29 @@ public class TreeNode implements Cloneable {
      * Check if all record of data of this tree node have the same class value.
      * @return that class value, -1 if not
      */
-    public double checkIfSameClass() {
+    public int checkIfSameClass() {
         // get class of the first record of data
         // (suppose class is the first element of that record)
-        double curClass = data.get(0).get(0);
-        for (List<Double> record : data) {
-            if (curClass != record.get(0)) {
+        int curClass = data.get(0).cls;
+        for (DataVector record : data) {
+            if (curClass != record.cls) {
                 return -1;
             }
         }
         return curClass;
+    }
+
+    /**
+     * Vote for the major class value among rest of the data.
+     * Use after checkIfSameClass()
+     * @return major class value
+     */
+    public int voteMajorClass() {
+        List<Integer> classes = new ArrayList<Integer>();
+        for (DataVector record : data) {
+            classes.add(record.cls);
+        }
+        return Helper.getModeInt(classes);
     }
 
     @objid("eba4fa88-e515-4ffe-92c8-c4719ccedcf3")
@@ -111,11 +117,11 @@ public class TreeNode implements Cloneable {
         return splitVal;
     }
 
-    public double getClassVal() {
+    public int getClassVal() {
         return classVal;
     }
 
-    public List<List<Double>> getData() {
+    public List<DataVector> getData() {
         return data;
     }
 
@@ -145,11 +151,24 @@ public class TreeNode implements Cloneable {
         this.splitVal = splitVal;
     }
 
-    public void setClassVal(double classVal) {
+    public void setClassVal(int classVal) {
         this.classVal = classVal;
     }
 
-    public void setData(List<List<Double>> data) {
+    public void setData(List<DataVector> data) {
         this.data = data;
+    }
+
+    private void incrementLevel() {
+        level++;
+    }
+
+    private void setupChild(TreeNode child) {
+        if (null == child) {
+            return;
+        }
+        child.setParent(this);
+        child.setLevel(getLevel());
+        child.incrementLevel();
     }
 }

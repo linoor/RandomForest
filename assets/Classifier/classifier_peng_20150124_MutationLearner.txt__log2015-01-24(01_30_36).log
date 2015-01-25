@@ -1,0 +1,10 @@
+// MutationLearner
+// max Iteration : 100
+// classifier : ControlPoints
+// number selected : 40
+// number thread : 4
+// number random : 30
+// number of mutations for each : 30
+// minimum number of iterations : 100
+// number of generations without improvement : 20
+// Iter LearnError TestError
