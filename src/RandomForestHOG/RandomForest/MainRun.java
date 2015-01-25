@@ -16,8 +16,8 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
  */
 public class MainRun {
     public static void main(String[] args) {
-//        runHOGDB();
-        runHOGSmallPatch();
+        runHOGDB();
+//        runHOGSmallPatch();
 //        runTestPendigits();
     }
 
@@ -25,16 +25,12 @@ public class MainRun {
         HOGAppli hogAppli, hogAppliTest;
         File[] files = new File(Helper.getAssetsFolderStr() + "/Test/small_patch/train").listFiles();
         File[] testFiles = new File(Helper.getAssetsFolderStr() + "/Test/small_patch/test").listFiles();
-        for (File f : testFiles) {
-            System.out.println(f.getName());
-        }
+
         try {
             hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
             hogAppliTest = new HOGAppli(testFiles, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
 
-            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 10, 10);
-            rfLearner.setTestData(hogAppliTest.getDataVectors());
-            RandomForest rfModel = (RandomForest) rfLearner.learn(true);
+            runRandomForest(hogAppli.getDataVectors(), hogAppliTest.getDataVectors());
 
         } catch (Exception e) {
             System.err.print("\n\tError in testCreation()\n");
@@ -51,9 +47,7 @@ public class MainRun {
             hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
             hogAppliTest = new HOGAppli(testFiles, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
 
-            RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 100, 10);
-            rfLearner.setTestData(hogAppliTest.getDataVectors());
-            RandomForest rfModel = (RandomForest) rfLearner.learn(true);
+            runRandomForest(hogAppli.getDataVectors(), hogAppliTest.getDataVectors());
 
         } catch (Exception e) {
             System.err.print("\n\tError in testCreation()\n");
@@ -66,8 +60,12 @@ public class MainRun {
         List<DataVector> train = ExtDataParser.parsePendigits(folderPath + "pendigits.tra", 0);
         List<DataVector> test = ExtDataParser.parsePendigits(folderPath + "pendigits.tes", 1);
 
-        RandomForestLearner rfLearner = new RandomForestLearner(train, 10, 10);
-        rfLearner.setTestData(test);
+        runRandomForest(train, test);
+    }
+
+    private static void runRandomForest(List<DataVector> trainSet, List<DataVector> testSet) {
+        RandomForestLearner rfLearner = new RandomForestLearner(trainSet, 100, 10);
+        rfLearner.setTestData(testSet);
         RandomForest rfModel = (RandomForest) rfLearner.learn(true);
     }
 }
