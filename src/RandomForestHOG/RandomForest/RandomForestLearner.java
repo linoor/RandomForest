@@ -31,11 +31,11 @@ public class RandomForestLearner extends Learner {
     private static int depthOfTree;
 
     private List<DataVector> data;
-//    private List<DataVector> testData;
+
+    private List<DataVector> testData;
 
     /* the thread pool that generates decision tree concurrently */
     private ExecutorService treePool;
-
 
     @objid ("1eaa0854-8e11-4e6b-8a90-5a8d3e57821e")
     public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree) {
@@ -54,6 +54,7 @@ public class RandomForestLearner extends Learner {
         this.numOfAttrSample = (int)Math.round(Math.log(this.numOfAttr)/Math.log(2)+1);
         this.attrSampleRate = ((double)this.numOfAttrSample) / this.numOfAttr;
     }
+
 
     public RandomForestLearner(List<DataVector> data, int numOfTree, int depthOfTree, double attrSampleRate) {
         this(data, numOfTree, depthOfTree);
@@ -102,6 +103,10 @@ public class RandomForestLearner extends Learner {
     @objid ("84799113-d630-4eef-bd4d-a074581d5b7f")
     protected Classifier learn(DataBase p0) throws Exception {
         return null;
+    }
+
+    public void setTestData(List<DataVector> testData) {
+        this.testData = testData;
     }
 
     private class CreateTree implements Runnable {

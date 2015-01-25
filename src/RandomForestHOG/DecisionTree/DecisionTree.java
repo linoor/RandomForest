@@ -20,6 +20,10 @@ public class DecisionTree {
     private int maxDepth;
     private TreeNode rootNode;
 
+    private List<DataVector> train;
+    private List<DataVector> test;
+    private List<Integer> attrSample;
+
     private double logOfTwo = Math.log(2);
 
     @objid("95f01270-0b39-4c6b-bbf3-fb177f21545e")
@@ -35,16 +39,12 @@ public class DecisionTree {
         this.attrSampleN = attrSampleN;
         this.maxDepth = maxDepth;
 
-        /* Initialize training, testing data set */
-        List<DataVector> train, test;
-        train = new ArrayList<DataVector>(trainN);
-        test = new ArrayList<DataVector>(testN);
-        bootstrapSample(data, train, test);
-
-        List<Integer> attr = new ArrayList<Integer>();
-        attr = bootstrapAttr(attr);
-
-        rootNode = createTree(train, attr, treeNum);
+        /* Initialize training, testing data set, attribute samples */
+        train = new ArrayList<DataVector>(this.trainN);
+        test = new ArrayList<DataVector>(this.testN);
+        attrSample = new ArrayList<Integer>(this.attrSampleN);
+        bootstrapSample(data);
+        bootstrapAttr();
     }
 
     public TreeNode getRootNode() {
@@ -82,6 +82,13 @@ public class DecisionTree {
         // TODO
     }
 
+    @objid("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
+    public void createTree(final List<DataVector> train, List<Integer> attr, final int nTree) {
+        rootNode = new TreeNode();
+        rootNode.setData(train);
+        recursiveSplit(rootNode, attr);
+    }
+
     @objid("943639d0-f911-4e72-b5b3-3087f8f11863")
     public int classify(final DataVector testData) {
         if (null == rootNode) {
@@ -106,7 +113,7 @@ public class DecisionTree {
     }
 
     @objid("bd35c418-14d7-4599-891b-34837487a39c")
-    private void bootstrapSample(final List<DataVector> data, List<DataVector> train, List<DataVector> test) {
+    private void bootstrapSample(final List<DataVector> data) {
         ArrayList<Integer> rand = new ArrayList<Integer>(dataN);
         for (int i = 0; i < dataN; i++) {
             rand.add(i);
@@ -121,35 +128,25 @@ public class DecisionTree {
     }
 
     @objid("22963c8e-9140-49f2-beb7-3b2458a06c51")
-    private List<Integer> bootstrapAttr(List<Integer> attr) {
+    private void bootstrapAttr() {
         ArrayList<Integer> rand = new ArrayList<Integer>(attrN);
 
         for (int i = 0; i < attrN; i++) {
             rand.add(i);
         }
         Collections.shuffle(rand);
-        attr = rand.subList(0, attrSampleN);
-        return attr;
-    }
-
-    @objid("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
-    private TreeNode createTree(final List<DataVector> train, List<Integer> attr, final int nTree) {
-        TreeNode root = new TreeNode();
-        root.setData(train);
-        recursiveSplit(root, attr);
-        return root;
+        attrSample = rand.subList(0, attrSampleN);
     }
 
     @objid("008d3f40-e60d-4c6e-9eb2-7018b83bf180")
     private void recursiveSplit(final TreeNode parent, List<Integer> attr) {
-        System.out.println(parent.getLevel());
+//        System.out.println(parent.getLevel());
         int curClass = parent.checkIfSameClass();
         if (-1 == curClass) {
 
             if (-1 != maxDepth && parent.getLevel() >= maxDepth) {
                 parent.setClassVal(parent.voteMajorClass());
-                parent.setLeftChild(null);
-                parent.setRightChild(null);
+                return;
             }
 
             // Step A
@@ -161,9 +158,11 @@ public class DecisionTree {
             assert (0 < attr.size());
             assert (attrSampleN == attr.size());
             findSplitPosition(parent.getData(), attr, attrObj);
-            System.out.println("Min Attr: " + attrObj.attr + " Min Val: " + attrObj.val);
-            parent.setSplitAttr(attrObj.attr);
-            parent.setSplitVal(attrObj.val);
+
+//
+//            System.out.println("Min Attr: " + attrObj.attr + " Min Val: " + attrObj.val);
+//            parent.setSplitAttr(attrObj.attr);
+//            parent.setSplitVal(attrObj.val);
 
             // Step B
             // Split data of parent for its two children
@@ -180,21 +179,14 @@ public class DecisionTree {
                 parent.setLeftChild(new TreeNode(childData[0]));
                 recursiveSplit(parent.getLeftChild(), attr);
             }
-            else {
-                parent.setLeftChild(null);
-            }
             if (0 != childData[1].size()) {
                 parent.setRightChild(new TreeNode(childData[1]));
                 recursiveSplit(parent.getRightChild(), attr);
             }
-            else {
-                parent.setRightChild(null);
-            }
         }
         else {
             parent.setClassVal(curClass);
-            parent.setLeftChild(null);
-            parent.setRightChild(null);
+            return;
         }
     }
 

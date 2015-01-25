@@ -34,6 +34,8 @@ public class TreeNode implements Cloneable {
         setSplitAttr(splitAttr);
         setSplitVal(splitVal);
         setClassVal(-1);
+        setLeftChild(null);
+        setRightChild(null);
     }
 
     public TreeNode clone() {
