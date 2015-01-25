@@ -15,16 +15,28 @@ public class HOGAppliTests {
 	
 	private final File pngfile = Paths.get("C:\\git\\RandomForest\\assets\\Test\\vectorGradientTest.png").toFile();
 	private final File file = Paths.get("C:\\git\\RandomForest\\assets\\Test\\square_n11013278.bmp").toFile();
+	private final File[] files = new File("C:\\git\\RandomForest\\assets\\DB_panneaux").listFiles();
 
-	//File[] files = new File("C:/git/RandomForest/assets/DB_panneaux").listFiles();
-	File[] files = new File("C:\\git\\RandomForest\\assets\\Test").listFiles();
 	@Test
 	public void testLoadImage() {
 		try {
             HOGAppli hogAppli = new HOGAppli();			
-			hogAppli.LoadImage(file.toString());
+			hogAppli.LoadImage(file);
 			hogAppli.drawImage();
 		} catch (Exception e) {
+			System.out.print("\n\tError in testLoadImage()\n");
+			e.printStackTrace();
+			fail();
+		}
+	}
+	
+	@Test
+	public void testLoadFile() {
+		try {
+            HOGAppli hogAppli = new HOGAppli();			
+			hogAppli.LoadFiles(files);
+		} catch (Exception e) {
+			System.out.print("\n\tError in testLoadFile()\n");
 			e.printStackTrace();
 			fail();
 		}
@@ -41,24 +53,10 @@ public class HOGAppliTests {
 			hogAppli.drawImage();
 
 		} catch (Exception e) {
+			System.out.print("\n\tError in testCreation()\n");
 			e.printStackTrace();
 			fail();
 		}
-	}
-	
-	@Test
-	public void testsetIMG() {
-		HOGAppli hogAppli = null;
-		try {
-			hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR,  9, 4, 4, 2, 2, 1, 10, 10));
-
-			assertEquals(hogAppli.getImageHeight(), 20);
-			assertEquals(hogAppli.getImageWidth(), 20);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				fail();
-			}
 	}
 
 }
