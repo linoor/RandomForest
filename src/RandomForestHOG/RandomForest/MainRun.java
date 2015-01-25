@@ -16,6 +16,11 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
  * Created by ericchiu on 1/24/15.
  */
 public class MainRun {
+
+    private static boolean runWithThread = true;
+    private static int numOfTree = 100;
+    private static int depthOfTree = 10;
+
     public static void main(String[] args) {
         runHOGDB();
 //        runHOGSmallPatch();
