@@ -43,10 +43,10 @@ public class MainRun {
 //        Helper.printData(train);
 //        Helper.printData(test);
 
-        RandomForestLearner rfLearner = new RandomForestLearner(train, 10, 20);
+        RandomForestLearner rfLearner = new RandomForestLearner(train, 10, 10);
         rfLearner.setTestData(test);
         RandomForest rfMode = (RandomForest) rfLearner.learn(false);
-        List<Integer> predictions = rfMode.classify(test, false);
+        List<Integer> predictions = rfMode.classify(test, true);
         System.out.println(predictions);
     }
 }

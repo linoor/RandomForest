@@ -164,10 +164,9 @@ public class DecisionTree {
             assert (attrSampleN == attr.size());
             findSplitPosition(parent.getData(), attr, attrObj);
 
-//
-//            System.out.println("Min Attr: " + attrObj.attr + " Min Val: " + attrObj.val);
-//            parent.setSplitAttr(attrObj.attr);
-//            parent.setSplitVal(attrObj.val);
+            System.out.println("Min Attr: " + attrObj.attr + " Min Val: " + attrObj.val);
+            parent.setSplitAttr(attrObj.attr);
+            parent.setSplitVal(attrObj.val);
 
             // Step B
             // Split data of parent for its two children

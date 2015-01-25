@@ -1,8 +1,10 @@
 package RandomForest;
 
+import RandomForestHOG.RandomForest.RandomForest;
 import RandomForestHOG.RandomForest.RandomForestLearner;
 import Utils.DataVector;
 import Utils.Helper;
+import fr.ensmp.caor.levis.classifier.Classifier;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,5 +36,56 @@ public class RandomForestLearnerTests {
 //        assertEquals(randomForestLearner.getAttributesSize(), 5);
 
         rfLearner = new RandomForestLearner(testingData, 100, 10);
+    }
+
+    @Test
+    public void testLearn() throws Exception {
+        rfLearner = new RandomForestLearner(testingData, 10, 10);
+        Classifier model = rfLearner.learn(false);
+    }
+
+    @Test
+    public void testSetTestData() throws Exception {
+
+    }
+
+    @Test
+    public void testGetAttrSampleRate() throws Exception {
+
+    }
+
+    @Test
+    public void testGetBootstrapRate() throws Exception {
+
+    }
+
+    @Test
+    public void testGetLearnerParameter() throws Exception {
+
+    }
+
+    @Test
+    public void testGetLearnerParameterDescription() throws Exception {
+
+    }
+
+    @Test
+    public void testGetLearnerParameters() throws Exception {
+
+    }
+
+    @Test
+    public void testGetLearnerPossibleValues() throws Exception {
+
+    }
+
+    @Test
+    public void testSetLearnerParameter() throws Exception {
+
+    }
+
+    @Test
+    public void testTestAccuracy() throws Exception {
+
     }
 }
