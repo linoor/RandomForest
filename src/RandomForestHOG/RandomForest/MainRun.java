@@ -17,7 +17,8 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
  */
 public class MainRun {
     public static void main(String[] args) {
-        runHOGSmallPatch();
+        runHOGDB_PAN();
+//        runHOGSmallPatch();
 //        runTestPendigits();
     }
 
@@ -48,14 +49,11 @@ public class MainRun {
     public static void runHOGDB_PAN() {
         HOGAppli hogAppli, hogAppliTest;
         File[] files = new File(Helper.getAssetsFolderStr() + "/DB_panneaux").listFiles();
+        File[] testFiles = new File(Helper.getAssetsFolderStr() + "/Test/small_patch/train").listFiles();
 
-        File[] testFiles = new File(Helper.getAssetsFolderStr() + "/DB_panneaux").listFiles();
         try {
             hogAppli = new HOGAppli(files, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
             hogAppliTest = new HOGAppli(testFiles, new HOGParam(RECTANGULAR, 9, 4, 4, 2, 2, 1, 10, 10));
-
-            Helper.printData(hogAppli.getDataVectors());
-            Helper.printData(hogAppliTest.getDataVectors());
 
             RandomForestLearner rfLearner = new RandomForestLearner(hogAppli.getDataVectors(), 10, 10);
             rfLearner.setTestData(hogAppliTest.getDataVectors());
