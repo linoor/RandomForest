@@ -95,18 +95,6 @@ public class RandomForest extends Classifier {
     public void read(BufferedReader p0) throws Exception {
     }
 
-    @objid ("4e02065e-bd36-4784-a14a-e65f379b4cbd")
-    public void save() {
-    }
-
-    @objid ("f6bfeaa8-ce9f-4055-85d5-142cad082fa0")
-    public void load(final String filename) {
-    }
-
-    @objid ("b9f976bc-034c-42e9-84d5-f7e6eba0502a")
-    public void createForest(final List<Float> data) {
-    }
-
     @objid("8883cce6-777e-4b9c-8805-76062396071d")
     public int getMaxDepth() {
         return maxDepth;
@@ -115,11 +103,6 @@ public class RandomForest extends Classifier {
     @objid("cef76905-bdae-42d0-827b-37e6adbe4154")
     public int getMaxNumOfTrees() {
         return maxNumOfTrees;
-    }
-
-    @objid("b5a6a8ac-1ab9-4f93-b678-95119fd19ca6")
-    public double getForestError() {
-        return 0;
     }
 
     @objid("28c4ffde-4f11-49c5-804f-9a61039cded6")

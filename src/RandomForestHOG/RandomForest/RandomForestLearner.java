@@ -19,7 +19,6 @@ public class RandomForestLearner extends Learner implements ThreadCompleteListen
 
     private static double bootstrapRate = 2.0 / 3;
     private static double attrSampleRate = 1;
-    private static int numOfClass;
     private static int numOfAttr;
     /* number of attributes to be bootstrapped when creating decision trees
      * suggested by Breiman: = (int)Math.round(Math.log([# of attr])/Math.log(2)+1)

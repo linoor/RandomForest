@@ -75,17 +75,6 @@ public class DecisionTree {
         return treeId;
     }
 
-    @objid("76d43c96-c471-4b7d-a417-d0a16d9c295c")
-    public String saveToString() {
-        // TODO Auto-generated return
-        return null;
-    }
-
-    @objid("359fef83-1f91-4226-b4e6-33118900cb50")
-    public void loadFromString(final String tree) {
-        // TODO
-    }
-
     @objid("11f42db2-137b-4fd3-8d5c-065ee3ecdf65")
     public void createTree() {
         rootNode = new TreeNode();
