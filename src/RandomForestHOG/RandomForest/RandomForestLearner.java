@@ -4,7 +4,6 @@ import RandomForestHOG.DecisionTree.DecisionTree;
 import RandomForestHOG.NotifyingThread.NotifyingThread;
 import RandomForestHOG.NotifyingThread.ThreadCompleteListener;
 import com.modeliosoft.modelio.javadesigner.annotations.objid;
-import com.sun.tools.corba.se.idl.constExpr.Not;
 import fr.ensmp.caor.levis.classifier.Classifier;
 import fr.ensmp.caor.levis.learner.Learner;
 import fr.ensmp.caor.levis.sample.DataBase;
