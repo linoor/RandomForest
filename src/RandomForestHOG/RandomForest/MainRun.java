@@ -21,9 +21,9 @@ public class MainRun {
     private static int depthOfTree = 100;
 
     public static void main(String[] args) {
-        runHOGDB();
+//        runHOGDB();
 //        runHOGSmallPatch();
-//        runTestPendigits();
+        runTestPendigits();
     }
 
     public static void runHOGSmallPatch() {
