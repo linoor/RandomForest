@@ -17,8 +17,8 @@ import static RandomForestHOG.HOG.HOGParam.BlockType.RECTANGULAR;
 public class MainRun {
 
     private static boolean runWithThread = true;
-    private static int numOfTree = 50;
-    private static int depthOfTree = 20;
+    private static int numOfTree = 100;
+    private static int depthOfTree = 100;
 
     public static void main(String[] args) {
 //        runHOGDB();
