@@ -47,5 +47,5 @@ Histogram of Oriented Gradients
 * [HOG tutorial] (https://chrisjmccormick.wordpress.com/2013/05/09/hog-person-detector-tutorial/)
 * [Gradient Vector tutorial] (https://chrisjmccormick.wordpress.com/2013/05/07/gradient-vectors/)
 
-Datase
+Dataset
 * [Handwritten Digits](http://archive.ics.uci.edu/ml/datasets/Pen-Based+Recognition+of+Handwritten+Digits)
